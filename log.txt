@@ -1,0 +1,380 @@
+DOCTYPE html>
+<html lang="en" class="aws-ember">
+ 
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="Content-Security-Policy: default-src 'self'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Bad Request</title>
+    <link rel="stylesheet" href="/static/styles/ep-style/style.css" />
+</head>
+ 
+<body class="awsm">
+    <header id="aws-page-header" class="awsm m-page-header" role="banner">
+        <div id="m-nav" class="m-nav" role="navigation">
+            <div class="m-nav-header lb-clearfix" data-menu-url="https://s0.awsstatic.com/en_US/nav/v3/panel-content/desktop/index.html">
+                <div class="m-nav-logo">
+                    <div class="lb-bg-logo aws-amazon_web_services_smile-header-desktop-en">
+                        <a href="https://aws.amazon.com/?nc2=h_lg"><span>Click here to return to Amazon Web Services homepage</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="content">
+        <main role="main">
+            <div data-mbox="en_400_content">
+                <div class="lb-row lb-snap lb-row-max-large">
+                    <div class="lb-tiny-24 lb-col error">
+                        <h1 class="error-code">400</h1>
+                        <h1>Bad Request</h1>
+ 
+                        <p>
+                            You may have typed the address incorrectly or you may have used
+                            an outdated link.
+                            <br />
+                            Please clear your cookies and try the request again. If the problem persists, please contact <a href="https://aws.amazon.com/support" target="_blank">Support</a>.
+                            We apologize for the inconvenience.<br />
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer id="aws-page-footer" class="m-page-footer" role="contentinfo">
+        <div data-lb-comp="google-rlsa-pixel"></div>
+        <div class="data-attr-wrapper lb-none-v-margin lb-xb-grid-wrap" data-da-type="so" data-da-so-type="viewport" data-da-so-language="en" data-da-so-category="monitoring" data-da-so-name="footer" data-da-so-version="a">
+            <div class="lb-xb-grid lb-row-max-large lb-snap lb-tiny-xb-1 lb-small-xb-3 lb-large-xb-5">
+                <div class="lb-xbcol">
+                    <div class="data-attr-wrapper lb-small-hide lb-btn" data-da-type="so" data-da-so-type="viewport" data-da-so-language="en" data-da-so-category="monitoring" data-da-so-name="footer_buttons" data-da-so-url="all" data-da-so-version="footer_signin-mobile-default">
+                        <a class="lb-btn-p-primary" href="https://console.aws.amazon.com/console/home?nc1=f_ct&src=footer-signin-mobile" role="button">
+                            <span> Sign In to the Console</span> </a>
+                    </div>
+                    <h3 id="Learn_About_AWS" class="lb-txt-none lb-txt-p-chromium lb-tiny-v-margin lb-h3 lb-title"> Learn About
+                        AWS</h3>
+                    <ul class="lb-txt-p-chromium lb-ul lb-list-style-none lb-li-micro-v-margin lb-tiny-ul-block">
+                        <li><a href="https://aws.amazon.com/what-is-aws/?nc1=f_cc" target="_blank">What Is AWS?</a></li>
+                        <li><a href="https://aws.amazon.com/what-is-cloud-computing/?nc1=f_cc" target="_blank">What Is Cloud
+                                Computing?</a></li>
+                        <li><a href="https://aws.amazon.com/devops/what-is-devops/?nc1=f_cc" target="_blank">What Is DevOps?</a></li>
+                        <li><a href="https://aws.amazon.com/containers/?nc1=f_cc" target="_blank">What Is a Container?</a></li>
+                        <li><a href="https://aws.amazon.com/big-data/datalakes-and-analytics/what-is-a-data-lake/?nc1=f_cc" target="_blank">What Is a Data Lake?</a></li>
+                        <li><a href="https://aws.amazon.com/security/?nc1=f_cc" target="_blank">AWS Cloud Security</a></li>
+                        <li><a href="https://aws.amazon.com/new/?nc1=f_cc" target="_blank">What's New</a></li>
+                        <li><a href="https://aws.amazon.com/blogs/?nc1=f_cc" target="_blank">Blogs</a></li>
+                        <li><a href="https://press.aboutamazon.com/press-releases/aws" target="_blank" rel="noopener noreferrer" title="Press Releases">Press
+                                Releases</a></li>
+                    </ul>
+                </div>
+                <div class="lb-xbcol">
+                    <h3 id="Resources_for_AWS" class="lb-txt-none lb-txt-p-chromium lb-tiny-v-margin lb-h3 lb-title"> Resources for
+                        AWS</h3>
+                    <ul class="lb-txt-p-chromium lb-ul lb-list-style-none lb-li-micro-v-margin lb-tiny-ul-block">
+                        <li><a href="https://aws.amazon.com/getting-started/?nc1=f_cc" target="_blank">Getting Started</a></li>
+                        <li><a href="https://aws.amazon.com/training/?nc1=f_cc" target="_blank">Training and Certification</a></li>
+                        <li><a href="https://aws.amazon.com/solutions/?nc1=f_cc" target="_blank">AWS Solutions Portfolio</a></li>
+                        <li><a href="https://aws.amazon.com/architecture/?nc1=f_cc" target="_blank">Architecture Center</a></li>
+                        <li><a href="https://aws.amazon.com/faqs/?nc1=f_dr" target="_blank">Product and Technical FAQs</a></li>
+                        <li><a href="https://aws.amazon.com/resources/analyst-reports/?nc1=f_cc" target="_blank">Analyst Reports</a>
+                        </li>
+                        <li><a href="https://aws.amazon.com/partners/?nc1=f_dr" target="_blank">AWS Partner Network</a></li>
+                    </ul>
+                </div>
+                <div class="lb-xbcol">
+                    <h3 id="Developers_on_AWS" class="lb-txt-none lb-txt-p-chromium lb-tiny-v-margin lb-h3 lb-title"> Developers on
+                        AWS</h3>
+                    <ul class="lb-txt-p-chromium lb-ul lb-list-style-none lb-li-micro-v-margin lb-tiny-ul-block">
+                        <li><a href="https://aws.amazon.com/developer/?nc1=f_dr" target="_blank">Developer Center</a></li>
+                        <li><a href="https://aws.amazon.com/developer/tools/?nc1=f_dr" target="_blank">SDKs & Tools</a></li>
+                        <li><a href="https://aws.amazon.com/developer/language/net/?nc1=f_dr" target="_blank">.NET on AWS</a></li>
+                        <li><a href="https://aws.amazon.com/developer/language/python/?nc1=f_dr" target="_blank">Python on AWS</a>
+                        </li>
+                        <li><a href="https://aws.amazon.com/developer/language/java/?nc1=f_dr" target="_blank">Java on AWS</a></li>
+                        <li><a href="https://aws.amazon.com/developer/language/php/?nc1=f_cc" target="_blank">PHP on AWS</a></li>
+                        <li><a href="https://aws.amazon.com/developer/language/javascript/?nc1=f_dr" target="_blank">Javascript on
+                                AWS</a></li>
+                    </ul>
+                </div>
+                <div class="lb-xbcol">
+                    <h3 id="Help" class="lb-txt-none lb-txt-p-chromium lb-tiny-v-margin lb-h3 lb-title"> Help</h3>
+                    <ul class="lb-txt-p-chromium lb-ul lb-list-style-none lb-li-micro-v-margin lb-tiny-ul-block">
+                        <li><a href="https://aws.amazon.com/contact-us/?nc1=f_m" target="_blank">Contact Us</a></li>
+                        <li><a href="https://www.amazon.jobs/aws" target="_blank" rel="noopener noreferrer">AWS Careers</a></li>
+                        <li><a href="https://console.aws.amazon.com/support/home/?nc1=f_dr" target="_blank">File a Support Ticket</a>
+                        </li>
+                        <li><a href="https://aws.amazon.com/premiumsupport/knowledge-center/?nc1=f_dr" target="_blank">Knowledge
+                                Center</a></li>
+                        <li><a href="https://aws.amazon.com/premiumsupport/?nc1=f_dr" target="_blank">AWS Support Overview</a></li>
+                        <li><a href="https://aws.amazon.com/legal/?nc1=f_cc" target="_blank">Legal</a></li>
+                    </ul>
+                    <div class="lb-mbox js-mbox" data-lb-comp="mbox" data-mbox="en_footer-v3_addl-help" data-lb-comp-ignore="true">
+                    </div>
+                </div>
+                <div class="lb-xbcol">
+                    <div class="lb-mbox" data-lb-comp="mbox" data-mbox="en_footer-v3_cta" data-lb-comp-ignore="true">
+                        <div class="data-attr-wrapper lb-tiny-hide lb-small-show lb-btn" data-da-type="so" data-da-so-type="viewport" data-da-so-language="en" data-da-so-category="monitoring" data-da-so-name="footer_buttons" data-da-so-url="all" data-da-so-version="footer_signup-default">
+                            <a class="lb-btn-p-primary" href="https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc1=f_ct&src=default" role="button"> <span> Create an AWS Account</span> </a>
+                        </div>
+                    </div>
+                    <div class="lb-xb-grid-wrap">
+                        <div class="lb-xb-grid lb-row-max-large lb-xb-equal-height lb-snap lb-gutter-collapse lb-vgutter-collapse lb-tiny-xb-auto">
+                            <div class="lb-xbcol">
+                                <a class="lb-txt-none lb-txt-p-chromium lb-none-pad lb-txt" href="https://twitter.com/awscloud" target="_blank" rel="noopener noreferrer" title="Twitter"> <i class="icon-twitter"></i></a>
+                            </div>
+                            <div class="lb-xbcol">
+                                <a class="lb-txt-none lb-txt-p-chromium lb-none-pad lb-none-v-margin lb-txt" href="https://www.facebook.com/amazonwebservices" target="_blank" rel="noopener noreferrer" title="Facebook"> <i class="icon-facebook"></i></a>
+                            </div>
+                            <div class="lb-xbcol">
+                                <a class="lb-txt-none lb-txt-p-chromium lb-none-pad lb-txt" href="https://www.twitch.tv/aws" target="_blank" rel="noopener noreferrer" title="Twitch"> <i class="icon-twitch"></i></a>
+                            </div>
+                            <div class="lb-xbcol">
+                                <a class="lb-txt-none lb-txt-p-chromium lb-none-pad lb-txt" href="https://aws.amazon.com/podcasts/aws-podcast/" target="_blank" rel="noopener noreferrer" title="Podcast"> <i class="icon-podcast"></i></a>
+                            </div>
+                            <div class="lb-xbcol">
+                                <a class="lb-txt-none lb-txt-p-chromium lb-none-pad lb-txt" href="https://pages.awscloud.com/communication-preferences?trk=homepage" target="_blank" title="Email">
+                                    <i class="icon-envelope-o"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lb-txt-normal lb-txt-white lb-txt-14 lb-rtxt">
+                        <div>
+                            Amazon is an Equal Opportunity Employer:
+                            <i> Minority / Women / Disability / Veteran / Gender Identity / Sexual Orientation / Age.</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="lb-none-pad lb-none-v-margin lb-xb-grid-wrap">
+            <div class="lb-xb-grid lb-row-max-large lb-snap lb-tiny-xb-1">
+                <div class="lb-xbcol">
+                    <ul class="lb-txt-p-chromium lb-tiny-iblock lb-none-v-margin lb-ul lb-list-style-none lb-li-micro-v-margin lb-tiny-ul-iblock">
+                        <li class="lb-txt-bold">Language</li>
+                        <li data-language="ar"><a href="https://aws.amazon.com/ar/?nc1=h_ls">عربي</a></li>
+                        <li data-language="id"><a href="https://aws.amazon.com/id/?nc1=h_ls">Bahasa Indonesia</a></li>
+                        <li data-language="de"><a href="https://aws.amazon.com/de/?nc1=h_ls">Deutsch</a></li>
+                        <li data-language="en"><a href="https://aws.amazon.com/?nc1=h_ls">English</a></li>
+                        <li data-language="es"><a href="https://aws.amazon.com/es/?nc1=h_ls">Español</a></li>
+                        <li data-language="fr"><a href="https://aws.amazon.com/fr/?nc1=h_ls">Français</a></li>
+                        <li data-language="it"><a href="https://aws.amazon.com/it/?nc1=h_ls">Italiano</a></li>
+                        <li data-language="pt"><a href="https://aws.amazon.com/pt/?nc1=h_ls">Português</a></li>
+                        <li data-language="vi"><a href="https://aws.amazon.com/vi/?nc1=f_ls">Tiếng Việt</a></li>
+                        <li data-language="tr"><a href="https://aws.amazon.com/tr/?nc1=h_ls">Türkçe</a></li>
+                        <li data-language="ru"><a href="https://aws.amazon.com/ru/?nc1=h_ls">Ρусский</a></li>
+                        <li data-language="th"><a href="https://aws.amazon.com/th/?nc1=f_ls">ไทย</a></li>
+                        <li data-language="jp"><a href="https://aws.amazon.com/jp/?nc1=h_ls">日本語</a></li>
+                        <li data-language="ko"><a href="https://aws.amazon.com/ko/?nc1=h_ls">한국어</a></li>
+                        <li data-language="cn"><a href="https://aws.amazon.com/cn/?nc1=h_ls">中文 (简体)</a></li>
+                        <li data-language="tw"><a href="https://aws.amazon.com/tw/?nc1=h_ls">中文 (繁體)</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="lb-none-pad lb-none-v-margin lb-xb-grid-wrap lb-tos">
+            <div class="lb-xb-grid lb-row-max-large lb-snap lb-tiny-xb-1">
+                <div class="lb-xbcol">
+                    <ul class="lb-txt-p-squid-ink lb-none-v-margin lb-ul lb-list-style-none lb-li-none-v-margin lb-tiny-ul-iblock">
+                        <li><a href="https://aws.amazon.com/privacy/?nc1=f_pr">Privacy</a></li>
+                        <li>|</li>
+                        <li><a href="https://aws.amazon.com/terms/?nc1=f_pr">Site Terms</a></li>
+                        <li>|</li>
+                        <li>© 2020, Amazon Web Services, Inc. or its affiliates. All rights reserved.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+
+
+second
+
+TYPE html>
+<html lang="en" class="aws-ember">
+ 
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="Content-Security-Policy: default-src 'self'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Bad Request</title>
+    <link rel="stylesheet" href="/static/styles/ep-style/style.css" />
+</head>
+ 
+<body class="awsm">
+    <header id="aws-page-header" class="awsm m-page-header" role="banner">
+        <div id="m-nav" class="m-nav" role="navigation">
+            <div class="m-nav-header lb-clearfix" data-menu-url="https://s0.awsstatic.com/en_US/nav/v3/panel-content/desktop/index.html">
+                <div class="m-nav-logo">
+                    <div class="lb-bg-logo aws-amazon_web_services_smile-header-desktop-en">
+                        <a href="https://aws.amazon.com/?nc2=h_lg"><span>Click here to return to Amazon Web Services homepage</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="content">
+        <main role="main">
+            <div data-mbox="en_400_content">
+                <div class="lb-row lb-snap lb-row-max-large">
+                    <div class="lb-tiny-24 lb-col error">
+                        <h1 class="error-code">400</h1>
+                        <h1>Bad Request</h1>
+ 
+                        <p>
+                            You may have typed the address incorrectly or you may have used
+                            an outdated link.
+                            <br />
+                            Please clear your cookies and try the request again. If the problem persists, please contact <a href="https://aws.amazon.com/support" target="_blank">Support</a>.
+                            We apologize for the inconvenience.<br />
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer id="aws-page-footer" class="m-page-footer" role="contentinfo">
+        <div data-lb-comp="google-rlsa-pixel"></div>
+        <div class="data-attr-wrapper lb-none-v-margin lb-xb-grid-wrap" data-da-type="so" data-da-so-type="viewport" data-da-so-language="en" data-da-so-category="monitoring" data-da-so-name="footer" data-da-so-version="a">
+            <div class="lb-xb-grid lb-row-max-large lb-snap lb-tiny-xb-1 lb-small-xb-3 lb-large-xb-5">
+                <div class="lb-xbcol">
+                    <div class="data-attr-wrapper lb-small-hide lb-btn" data-da-type="so" data-da-so-type="viewport" data-da-so-language="en" data-da-so-category="monitoring" data-da-so-name="footer_buttons" data-da-so-url="all" data-da-so-version="footer_signin-mobile-default">
+                        <a class="lb-btn-p-primary" href="https://console.aws.amazon.com/console/home?nc1=f_ct&src=footer-signin-mobile" role="button">
+                            <span> Sign In to the Console</span> </a>
+                    </div>
+                    <h3 id="Learn_About_AWS" class="lb-txt-none lb-txt-p-chromium lb-tiny-v-margin lb-h3 lb-title"> Learn About
+                        AWS</h3>
+                    <ul class="lb-txt-p-chromium lb-ul lb-list-style-none lb-li-micro-v-margin lb-tiny-ul-block">
+                        <li><a href="https://aws.amazon.com/what-is-aws/?nc1=f_cc" target="_blank">What Is AWS?</a></li>
+                        <li><a href="https://aws.amazon.com/what-is-cloud-computing/?nc1=f_cc" target="_blank">What Is Cloud
+                                Computing?</a></li>
+                        <li><a href="https://aws.amazon.com/devops/what-is-devops/?nc1=f_cc" target="_blank">What Is DevOps?</a></li>
+                        <li><a href="https://aws.amazon.com/containers/?nc1=f_cc" target="_blank">What Is a Container?</a></li>
+                        <li><a href="https://aws.amazon.com/big-data/datalakes-and-analytics/what-is-a-data-lake/?nc1=f_cc" target="_blank">What Is a Data Lake?</a></li>
+                        <li><a href="https://aws.amazon.com/security/?nc1=f_cc" target="_blank">AWS Cloud Security</a></li>
+                        <li><a href="https://aws.amazon.com/new/?nc1=f_cc" target="_blank">What's New</a></li>
+                        <li><a href="https://aws.amazon.com/blogs/?nc1=f_cc" target="_blank">Blogs</a></li>
+                        <li><a href="https://press.aboutamazon.com/press-releases/aws" target="_blank" rel="noopener noreferrer" title="Press Releases">Press
+                                Releases</a></li>
+                    </ul>
+                </div>
+                <div class="lb-xbcol">
+                    <h3 id="Resources_for_AWS" class="lb-txt-none lb-txt-p-chromium lb-tiny-v-margin lb-h3 lb-title"> Resources for
+                        AWS</h3>
+                    <ul class="lb-txt-p-chromium lb-ul lb-list-style-none lb-li-micro-v-margin lb-tiny-ul-block">
+                        <li><a href="https://aws.amazon.com/getting-started/?nc1=f_cc" target="_blank">Getting Started</a></li>
+                        <li><a href="https://aws.amazon.com/training/?nc1=f_cc" target="_blank">Training and Certification</a></li>
+                        <li><a href="https://aws.amazon.com/solutions/?nc1=f_cc" target="_blank">AWS Solutions Portfolio</a></li>
+                        <li><a href="https://aws.amazon.com/architecture/?nc1=f_cc" target="_blank">Architecture Center</a></li>
+                        <li><a href="https://aws.amazon.com/faqs/?nc1=f_dr" target="_blank">Product and Technical FAQs</a></li>
+                        <li><a href="https://aws.amazon.com/resources/analyst-reports/?nc1=f_cc" target="_blank">Analyst Reports</a>
+                        </li>
+                        <li><a href="https://aws.amazon.com/partners/?nc1=f_dr" target="_blank">AWS Partner Network</a></li>
+                    </ul>
+                </div>
+                <div class="lb-xbcol">
+                    <h3 id="Developers_on_AWS" class="lb-txt-none lb-txt-p-chromium lb-tiny-v-margin lb-h3 lb-title"> Developers on
+                        AWS</h3>
+                    <ul class="lb-txt-p-chromium lb-ul lb-list-style-none lb-li-micro-v-margin lb-tiny-ul-block">
+                        <li><a href="https://aws.amazon.com/developer/?nc1=f_dr" target="_blank">Developer Center</a></li>
+                        <li><a href="https://aws.amazon.com/developer/tools/?nc1=f_dr" target="_blank">SDKs & Tools</a></li>
+                        <li><a href="https://aws.amazon.com/developer/language/net/?nc1=f_dr" target="_blank">.NET on AWS</a></li>
+                        <li><a href="https://aws.amazon.com/developer/language/python/?nc1=f_dr" target="_blank">Python on AWS</a>
+                        </li>
+                        <li><a href="https://aws.amazon.com/developer/language/java/?nc1=f_dr" target="_blank">Java on AWS</a></li>
+                        <li><a href="https://aws.amazon.com/developer/language/php/?nc1=f_cc" target="_blank">PHP on AWS</a></li>
+                        <li><a href="https://aws.amazon.com/developer/language/javascript/?nc1=f_dr" target="_blank">Javascript on
+                                AWS</a></li>
+                    </ul>
+                </div>
+                <div class="lb-xbcol">
+                    <h3 id="Help" class="lb-txt-none lb-txt-p-chromium lb-tiny-v-margin lb-h3 lb-title"> Help</h3>
+                    <ul class="lb-txt-p-chromium lb-ul lb-list-style-none lb-li-micro-v-margin lb-tiny-ul-block">
+                        <li><a href="https://aws.amazon.com/contact-us/?nc1=f_m" target="_blank">Contact Us</a></li>
+                        <li><a href="https://www.amazon.jobs/aws" target="_blank" rel="noopener noreferrer">AWS Careers</a></li>
+                        <li><a href="https://console.aws.amazon.com/support/home/?nc1=f_dr" target="_blank">File a Support Ticket</a>
+                        </li>
+                        <li><a href="https://aws.amazon.com/premiumsupport/knowledge-center/?nc1=f_dr" target="_blank">Knowledge
+                                Center</a></li>
+                        <li><a href="https://aws.amazon.com/premiumsupport/?nc1=f_dr" target="_blank">AWS Support Overview</a></li>
+                        <li><a href="https://aws.amazon.com/legal/?nc1=f_cc" target="_blank">Legal</a></li>
+                    </ul>
+                    <div class="lb-mbox js-mbox" data-lb-comp="mbox" data-mbox="en_footer-v3_addl-help" data-lb-comp-ignore="true">
+                    </div>
+                </div>
+                <div class="lb-xbcol">
+                    <div class="lb-mbox" data-lb-comp="mbox" data-mbox="en_footer-v3_cta" data-lb-comp-ignore="true">
+                        <div class="data-attr-wrapper lb-tiny-hide lb-small-show lb-btn" data-da-type="so" data-da-so-type="viewport" data-da-so-language="en" data-da-so-category="monitoring" data-da-so-name="footer_buttons" data-da-so-url="all" data-da-so-version="footer_signup-default">
+                            <a class="lb-btn-p-primary" href="https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc1=f_ct&src=default" role="button"> <span> Create an AWS Account</span> </a>
+                        </div>
+                    </div>
+                    <div class="lb-xb-grid-wrap">
+                        <div class="lb-xb-grid lb-row-max-large lb-xb-equal-height lb-snap lb-gutter-collapse lb-vgutter-collapse lb-tiny-xb-auto">
+                            <div class="lb-xbcol">
+                                <a class="lb-txt-none lb-txt-p-chromium lb-none-pad lb-txt" href="https://twitter.com/awscloud" target="_blank" rel="noopener noreferrer" title="Twitter"> <i class="icon-twitter"></i></a>
+                            </div>
+                            <div class="lb-xbcol">
+                                <a class="lb-txt-none lb-txt-p-chromium lb-none-pad lb-none-v-margin lb-txt" href="https://www.facebook.com/amazonwebservices" target="_blank" rel="noopener noreferrer" title="Facebook"> <i class="icon-facebook"></i></a>
+                            </div>
+                            <div class="lb-xbcol">
+                                <a class="lb-txt-none lb-txt-p-chromium lb-none-pad lb-txt" href="https://www.twitch.tv/aws" target="_blank" rel="noopener noreferrer" title="Twitch"> <i class="icon-twitch"></i></a>
+                            </div>
+                            <div class="lb-xbcol">
+                                <a class="lb-txt-none lb-txt-p-chromium lb-none-pad lb-txt" href="https://aws.amazon.com/podcasts/aws-podcast/" target="_blank" rel="noopener noreferrer" title="Podcast"> <i class="icon-podcast"></i></a>
+                            </div>
+                            <div class="lb-xbcol">
+                                <a class="lb-txt-none lb-txt-p-chromium lb-none-pad lb-txt" href="https://pages.awscloud.com/communication-preferences?trk=homepage" target="_blank" title="Email">
+                                    <i class="icon-envelope-o"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lb-txt-normal lb-txt-white lb-txt-14 lb-rtxt">
+                        <div>
+                            Amazon is an Equal Opportunity Employer:
+                            <i> Minority / Women / Disability / Veteran / Gender Identity / Sexual Orientation / Age.</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="lb-none-pad lb-none-v-margin lb-xb-grid-wrap">
+            <div class="lb-xb-grid lb-row-max-large lb-snap lb-tiny-xb-1">
+                <div class="lb-xbcol">
+                    <ul class="lb-txt-p-chromium lb-tiny-iblock lb-none-v-margin lb-ul lb-list-style-none lb-li-micro-v-margin lb-tiny-ul-iblock">
+                        <li class="lb-txt-bold">Language</li>
+                        <li data-language="ar"><a href="https://aws.amazon.com/ar/?nc1=h_ls">عربي</a></li>
+                        <li data-language="id"><a href="https://aws.amazon.com/id/?nc1=h_ls">Bahasa Indonesia</a></li>
+                        <li data-language="de"><a href="https://aws.amazon.com/de/?nc1=h_ls">Deutsch</a></li>
+                        <li data-language="en"><a href="https://aws.amazon.com/?nc1=h_ls">English</a></li>
+                        <li data-language="es"><a href="https://aws.amazon.com/es/?nc1=h_ls">Español</a></li>
+                        <li data-language="fr"><a href="https://aws.amazon.com/fr/?nc1=h_ls">Français</a></li>
+                        <li data-language="it"><a href="https://aws.amazon.com/it/?nc1=h_ls">Italiano</a></li>
+                        <li data-language="pt"><a href="https://aws.amazon.com/pt/?nc1=h_ls">Português</a></li>
+                        <li data-language="vi"><a href="https://aws.amazon.com/vi/?nc1=f_ls">Tiếng Việt</a></li>
+                        <li data-language="tr"><a href="https://aws.amazon.com/tr/?nc1=h_ls">Türkçe</a></li>
+                        <li data-language="ru"><a href="https://aws.amazon.com/ru/?nc1=h_ls">Ρусский</a></li>
+                        <li data-language="th"><a href="https://aws.amazon.com/th/?nc1=f_ls">ไทย</a></li>
+                        <li data-language="jp"><a href="https://aws.amazon.com/jp/?nc1=h_ls">日本語</a></li>
+                        <li data-language="ko"><a href="https://aws.amazon.com/ko/?nc1=h_ls">한국어</a></li>
+                        <li data-language="cn"><a href="https://aws.amazon.com/cn/?nc1=h_ls">中文 (简体)</a></li>
+                        <li data-language="tw"><a href="https://aws.amazon.com/tw/?nc1=h_ls">中文 (繁體)</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="lb-none-pad lb-none-v-margin lb-xb-grid-wrap lb-tos">
+            <div class="lb-xb-grid lb-row-max-large lb-snap lb-tiny-xb-1">
+                <div class="lb-xbcol">
+                    <ul class="lb-txt-p-squid-ink lb-none-v-margin lb-ul lb-list-style-none lb-li-none-v-margin lb-tiny-ul-iblock">
+                        <li><a href="https://aws.amazon.com/privacy/?nc1=f_pr">Privacy</a></li>
+                        <li>|</li>
+                        <li><a href="https://aws.amazon.com/terms/?nc1=f_pr">Site Terms</a></li>
+                        <li>|</li>
+                        <li>© 2020, Amazon Web Services, Inc. or its affiliates. All rights reserved.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer

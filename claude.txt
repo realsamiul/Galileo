@@ -1,0 +1,1416 @@
+User: fileNode Telemetry.txt
+User: The attached was your own plan. I've gone as far as creating the app sending the initial message using the test WhatsApp number. I'm at the creating webhook and token stage. A lot of your assumptions were actually a bit outdated as Facebook develop apps have undergone an overhaul with use cases and such. Please instruct how to wrap up the app dashboard end and confirm the Aws side setup - as fast as possible using agents or cloud shell or whatever is easiest 
+Model: # Let's Get This Live — Fast
+
+You've got the Meta app created, test message sent, and you can reply to it. Good. Here's exactly what to do now, stripped of outdated assumptions.
+
+---
+
+## Part 1: Meta Webhook Configuration (5 minutes)
+
+Since Meta's developer dashboard has changed, here's the current path:
+
+**Find your webhook configuration:**
+
+1. Go to your app in `developers.facebook.com/apps`
+2. Left sidebar → **WhatsApp** → **Configuration** (or it might be under **API Setup** depending on the new layout)
+3. Look for the **Webhook** section — there should be a "Callback URL" field and a "Verify token" field
+4. **Don't fill these in yet** — you need the AWS URL first. Leave this tab open.
+
+Also grab these if you haven't already (should be visible in the API Setup area):
+- **Phone Number ID** (the test number)
+- **WhatsApp Business Account ID**
+- **Temporary Access Token** (the one that lasts 24h)
+
+Write these down / copy to a note. You'll need them in 3 minutes.
+
+---
+
+## Part 2: AWS Setup via CloudShell (10-15 minutes)
+
+Open AWS Console → click the **CloudShell** icon (terminal icon, top navigation bar). Everything below runs there. No local setup needed.
+
+### Step 1: Create the Secret
+
+```bash
+aws secretsmanager create-secret \
+  --name proofsheet/whatsapp \
+  --secret-string '{
+    "access_token": "YOUR_META_TEMPORARY_TOKEN_HERE",
+    "phone_number_id": "YOUR_PHONE_NUMBER_ID_HERE",
+    "verify_token": "proofsheet-verify-2024"
+  }' \
+  --region us-east-1
+```
+
+Replace the two `YOUR_` values. The `verify_token` can be any string you choose — you'll paste this same string into Meta's dashboard later.
+
+### Step 2: Create DynamoDB Table
+
+```bash
+aws dynamodb create-table \
+  --table-name proofsheet_conversations \
+  --attribute-definitions \
+    AttributeName=phone_number,AttributeType=S \
+    AttributeName=timestamp,AttributeType=S \
+  --key-schema \
+    AttributeName=phone_number,KeyType=HASH \
+    AttributeName=timestamp,KeyType=RANGE \
+  --billing-mode PAY_PER_REQUEST \
+  --region us-east-1
+```
+
+### Step 3: Create S3 Bucket
+
+```bash
+ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+aws s3 mb s3://proofsheet-docs-${ACCOUNT_ID} --region us-east-1
+```
+
+### Step 4: Create the Lambda IAM Role
+
+```bash
+# Create the role
+aws iam create-role \
+  --role-name proofsheet-lambda-role \
+  --assume-role-policy-document '{
+    "Version": "2012-10-17",
+    "Statement": [{
+      "Effect": "Allow",
+      "Principal": {"Service": "lambda.amazonaws.com"},
+      "Action": "sts:AssumeRole"
+    }]
+  }'
+
+# Attach basic Lambda execution
+aws iam attach-role-policy \
+  --role-name proofsheet-lambda-role \
+  --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+# Create and attach custom policy
+aws iam put-role-policy \
+  --role-name proofsheet-lambda-role \
+  --policy-name proofsheet-permissions \
+  --policy-document '{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": ["bedrock:InvokeModel"],
+        "Resource": "*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": ["secretsmanager:GetSecretValue"],
+        "Resource": "*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": ["dynamodb:GetItem","dynamodb:PutItem","dynamodb:UpdateItem","dynamodb:Query"],
+        "Resource": "arn:aws:dynamodb:us-east-1:*:table/proofsheet_*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": ["s3:PutObject","s3:GetObject"],
+        "Resource": "arn:aws:s3:::proofsheet-docs-*/*"
+      }
+    ]
+  }'
+```
+
+### Step 5: Create the Lambda Function
+
+```bash
+# Write the function code
+cat > /tmp/lambda_function.py << 'EOF'
+import json
+import boto3
+import urllib3
+from datetime import datetime, timezone
+
+bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
+dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+secrets_client = boto3.client('secretsmanager', region_name='us-east-1')
+CONVERSATION_TABLE = dynamodb.Table('proofsheet_conversations')
+http = urllib3.PoolManager()
+
+_secrets_cache = None
+
+def get_secrets():
+    global _secrets_cache
+    if _secrets_cache is None:
+        resp = secrets_client.get_secret_value(SecretId='proofsheet/whatsapp')
+        _secrets_cache = json.loads(resp['SecretString'])
+    return _secrets_cache
+
+
+def lambda_handler(event, context):
+    method = event.get('requestContext', {}).get('http', {}).get('method', 'POST')
+    
+    if method == 'GET':
+        return handle_verification(event)
+    
+    try:
+        body = json.loads(event.get('body', '{}'))
+    except json.JSONDecodeError:
+        return {'statusCode': 200}
+    
+    if body.get('object') != 'whatsapp_business_account':
+        return {'statusCode': 200}
+    
+    for entry in body.get('entry', []):
+        for change in entry.get('changes', []):
+            value = change.get('value', {})
+            if 'messages' not in value:
+                continue
+            for message in value['messages']:
+                process_message(message)
+    
+    return {'statusCode': 200}
+
+
+def handle_verification(event):
+    params = event.get('queryStringParameters', {}) or {}
+    mode = params.get('hub.mode', '')
+    token = params.get('hub.verify_token', '')
+    challenge = params.get('hub.challenge', '')
+    
+    secrets = get_secrets()
+    
+    if mode == 'subscribe' and token == secrets['verify_token']:
+        return {
+            'statusCode': 200,
+            'headers': {'Content-Type': 'text/plain'},
+            'body': challenge
+        }
+    return {'statusCode': 403, 'body': 'Forbidden'}
+
+
+def process_message(message):
+    sender = message['from']
+    msg_type = message['type']
+    timestamp = datetime.now(timezone.utc).isoformat()
+    
+    if msg_type == 'text':
+        user_text = message['text']['body']
+    elif msg_type == 'interactive':
+        interactive = message.get('interactive', {})
+        if 'button_reply' in interactive:
+            user_text = interactive['button_reply']['title']
+        elif 'list_reply' in interactive:
+            user_text = interactive['list_reply']['title']
+        else:
+            user_text = '[interactive]'
+    else:
+        send_reply(sender, "এখন শুধু text message support করি। Voice ও image support শীঘ্রই আসছে! 🙏")
+        return
+    
+    history = get_conversation_history(sender)
+    assistant_response = call_bedrock(user_text, history)
+    send_reply(sender, assistant_response)
+    save_message(sender, timestamp, 'user', user_text)
+    save_message(sender, timestamp + '_r', 'assistant', assistant_response)
+
+
+SYSTEM_PROMPT = """You are ProofSheet, a document assistant on WhatsApp for users in Bangladesh. You help create professional documents (invoices, letters, leave applications, certificates) from conversational input.
+
+RULES:
+- Reply in whatever language the user writes in (Bangla, English, or mixed)
+- Be conversational and efficient - ask max 2-3 questions
+- When you have enough info, say you're generating the document
+- For now, describe what the document would contain (PDF generation coming soon)
+- Be friendly but respect the user's time
+- Use emoji sparingly
+
+CAPABILITIES: invoices, receipts, business letters, leave applications, experience certificates, formal applications, agreements."""
+
+
+def call_bedrock(user_text, history):
+    messages = []
+    for msg in history[-10:]:
+        messages.append({"role": msg['role'], "content": msg['content']})
+    messages.append({"role": "user", "content": user_text})
+    
+    try:
+        response = bedrock.invoke_model(
+            modelId='anthropic.claude-sonnet-4-20250514',
+            body=json.dumps({
+                "anthropic_version": "bedrock-2023-05-31",
+                "max_tokens": 1024,
+                "system": SYSTEM_PROMPT,
+                "messages": messages
+            })
+        )
+        result = json.loads(response['body'].read())
+        return result['content'][0]['text']
+    except Exception as e:
+        print(f"Bedrock error: {e}")
+        return "দুঃখিত, একটু সমস্যা হচ্ছে। আবার চেষ্টা করুন। 🙏"
+
+
+def get_conversation_history(phone_number):
+    try:
+        from boto3.dynamodb.conditions import Key
+        response = CONVERSATION_TABLE.query(
+            KeyConditionExpression=Key('phone_number').eq(phone_number),
+            ScanIndexForward=False,
+            Limit=20
+        )
+        items = response.get('Items', [])
+        items.reverse()
+        return [{'role': item['role'], 'content': item['content']} for item in items]
+    except Exception:
+        return []
+
+
+def save_message(phone_number, timestamp, role, content):
+    try:
+        CONVERSATION_TABLE.put_item(Item={
+            'phone_number': phone_number,
+            'timestamp': timestamp,
+            'role': role,
+            'content': content[:5000]
+        })
+    except Exception:
+        pass
+
+
+def send_reply(to, text):
+    secrets = get_secrets()
+    url = f"https://graph.facebook.com/v21.0/{secrets['phone_number_id']}/messages"
+    
+    if len(text) > 4000:
+        chunks = [text[i:i+4000] for i in range(0, len(text), 4000)]
+        for chunk in chunks:
+            _send_text(url, secrets['access_token'], to, chunk)
+    else:
+        _send_text(url, secrets['access_token'], to, text)
+
+
+def _send_text(url, token, to, text):
+    payload = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": to,
+        "type": "text",
+        "text": {"preview_url": False, "body": text}
+    }
+    resp = http.request(
+        'POST', url,
+        body=json.dumps(payload),
+        headers={
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {token}'
+        }
+    )
+    print(f"WhatsApp API response: {resp.status} {resp.data.decode()}")
+EOF
+
+# Package it
+cd /tmp && zip lambda_function.zip lambda_function.py
+
+# Wait for role to propagate (important!)
+echo "Waiting 10 seconds for IAM role propagation..."
+sleep 10
+
+# Get role ARN
+ROLE_ARN=$(aws iam get-role --role-name proofsheet-lambda-role --query Role.Arn --output text)
+
+# Create the function
+aws lambda create-function \
+  --function-name proofsheet-webhook \
+  --runtime python3.12 \
+  --handler lambda_function.lambda_handler \
+  --role $ROLE_ARN \
+  --zip-file fileb:///tmp/lambda_function.zip \
+  --timeout 30 \
+  --memory-size 512 \
+  --architectures arm64 \
+  --region us-east-1
+```
+
+### Step 6: Create API Gateway + Wire to Lambda
+
+```bash
+# Create the HTTP API
+API_ID=$(aws apigatewayv2 create-api \
+  --name proofsheet-webhook \
+  --protocol-type HTTP \
+  --region us-east-1 \
+  --query ApiId --output text)
+
+echo "API ID: $API_ID"
+
+# Get Lambda ARN
+LAMBDA_ARN=$(aws lambda get-function \
+  --function-name proofsheet-webhook \
+  --region us-east-1 \
+  --query Configuration.FunctionArn --output text)
+
+# Create integration
+INTEGRATION_ID=$(aws apigatewayv2 create-integration \
+  --api-id $API_ID \
+  --integration-type AWS_PROXY \
+  --integration-uri $LAMBDA_ARN \
+  --payload-format-version 2.0 \
+  --region us-east-1 \
+  --query IntegrationId --output text)
+
+# Create routes
+aws apigatewayv2 create-route \
+  --api-id $API_ID \
+  --route-key "GET /webhook" \
+  --target "integrations/$INTEGRATION_ID" \
+  --region us-east-1
+
+aws apigatewayv2 create-route \
+  --api-id $API_ID \
+  --route-key "POST /webhook" \
+  --target "integrations/$INTEGRATION_ID" \
+  --region us-east-1
+
+# Create stage (auto-deploy)
+aws apigatewayv2 create-stage \
+  --api-id $API_ID \
+  --stage-name '$default' \
+  --auto-deploy \
+  --region us-east-1
+
+# Grant API Gateway permission to invoke Lambda
+ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+aws lambda add-permission \
+  --function-name proofsheet-webhook \
+  --statement-id apigateway-invoke \
+  --action lambda:InvokeFunction \
+  --principal apigateway.amazonaws.com \
+  --source-arn "arn:aws:execute-api:us-east-1:${ACCOUNT_ID}:${API_ID}/*" \
+  --region us-east-1
+
+# Print your webhook URL
+echo ""
+echo "=========================================="
+echo "YOUR WEBHOOK URL:"
+echo "https://${API_ID}.execute-api.us-east-1.amazonaws.com/webhook"
+echo "=========================================="
+echo ""
+echo "YOUR VERIFY TOKEN: proofsheet-verify-2024"
+echo ""
+```
+
+**Copy that webhook URL.** You need it for the next step.
+
+---
+
+## Part 3: Back to Meta — Register the Webhook (2 minutes)
+
+1. Go back to your Meta Developer Dashboard tab
+2. Find the webhook configuration section (WhatsApp → Configuration, or it might be in API Setup → Configure Webhooks)
+3. Enter:
+   - **Callback URL:** `https://YOUR_API_ID.execute-api.us-east-1.amazonaws.com/webhook`
+   - **Verify token:** `proofsheet-verify-2024`
+4. Click **Verify and Save**
+5. After verification succeeds, **subscribe to the `messages` field** (there should be a list of webhook fields — check the box next to `messages`)
+
+If you don't see a separate webhook configuration area, look for:
+- A "Webhooks" card in the app dashboard
+- Or go to WhatsApp → API Setup and scroll down past the test message section
+- The new dashboard might put it under "Quickstart" → step about webhooks
+
+---
+
+## Part 4: Test It
+
+1. Open WhatsApp on your phone
+2. Go to the conversation with the test number (where you got the hello_world template)
+3. Reply with: **"hi"**
+4. You should get a response from Claude within 2-5 seconds
+
+If it works, try: **"ekta invoice banao"**
+
+---
+
+## Troubleshooting If It Doesn't Work
+
+**Check CloudWatch Logs immediately:**
+
+```bash
+# In CloudShell:
+aws logs tail /aws/lambda/proofsheet-webhook --since 5m --region us-east-1
+```
+
+**Common issues:**
+
+| Symptom | Fix |
+|---|---|
+| Webhook verify fails | Check the verify token matches exactly. Check the Lambda logs for what it received. |
+| Verify works but no messages arrive | You didn't subscribe to the `messages` webhook field. Go back and check the subscription. |
+| Lambda fires but no reply | Check CloudWatch logs — likely a Bedrock permission issue or token issue. |
+| Bedrock access denied | You may need to enable Claude model access. Go to Bedrock console → Model access → Request access to Anthropic Claude. |
+| WhatsApp API returns 401 | Token expired (24h tokens). Generate a new one in Meta dashboard and update Secrets Manager. |
+
+**To update the secret if token expired:**
+```bash
+aws secretsmanager update-secret \
+  --secret-id proofsheet/whatsapp \
+  --secret-string '{"access_token":"NEW_TOKEN","phone_number_id":"SAME_ID","verify_token":"proofsheet-verify-2024"}' \
+  --region us-east-1
+```
+
+**Important — clear the Lambda's cached secret after updating:**
+```bash
+# Just redeploy the function (forces cold start)
+aws lambda update-function-configuration \
+  --function-name proofsheet-webhook \
+  --environment "Variables={CACHE_BUST=$(date +%s)}" \
+  --region us-east-1
+```
+
+---
+
+## Quick Check: Bedrock Model Access
+
+If you haven't already enabled Claude in Bedrock:
+
+1. AWS Console → Amazon Bedrock → **Model access** (left sidebar)
+2. Click **Manage model access**
+3. Check **Anthropic → Claude 3.5 Sonnet** (or Claude Sonnet — whatever's available)
+4. Submit — approval is usually instant
+
+If Claude Sonnet 4 isn't available yet in your region, change the model ID in the Lambda code to:
+```
+anthropic.claude-3-5-sonnet-20241022-v2:0
+```
+
+Update with:
+```bash
+# Edit the model ID in the code, re-zip, and update:
+cd /tmp
+sed -i 's/anthropic.claude-sonnet-4-20250514/anthropic.claude-3-5-sonnet-20241022-v2:0/' lambda_function.py
+zip lambda_function.zip lambda_function.py
+aws lambda update-function-code \
+  --function-name proofsheet-webhook \
+  --zip-file fileb:///tmp/lambda_function.zip \
+  --region us-east-1
+```
+
+---
+
+## You're Done
+
+That's the entire working loop: WhatsApp message → API Gateway → Lambda → Bedrock → WhatsApp reply. 
+
+Tell me what happens when you send "hi" and I'll help you debug whatever comes back (or celebrate if it works).
+User: Is this the same as the plan outlined in the document? Also I am using my iPhone at the moment so is it possible to upload an sh file to cloud shell and call it? Makes it easier to me
+Model: ## Answering Your Questions
+
+### 1. Is this the same as the plan?
+
+Yes, it's the same architecture — **Option B (self-managed webhook)** from the document:
+
+```
+Meta WhatsApp Cloud API → API Gateway → Lambda → Bedrock → Reply via WhatsApp API
+```
+
+The only differences from the original document:
+
+| Original Plan | What I Gave You Now |
+|---|---|
+| Full document generation with templates + PDF | Simplified — text conversation only for now (PDF rendering stripped out to get the loop working first) |
+| Claude Sonnet 4 model ID | Same, with fallback instructions if unavailable |
+| Detailed HTML templates for invoices etc. | Removed for now — add back once the basic loop works |
+| WeasyPrint / wkhtmltopdf layer | Not included yet — Phase 2 |
+
+The skeleton is identical. Once "hi" gets a reply, we layer back the document generation.
+
+---
+
+### 2. Running a .sh file from iPhone → CloudShell
+
+**Yes, but with a caveat.** CloudShell doesn't have a file upload button on mobile browsers reliably. Here's what actually works:
+
+#### Option A: Paste a one-liner that creates the script
+
+I'll give you a single command that writes the entire .sh file using `cat << 'EOF'`. You just paste it into CloudShell, hit enter, then run it. One paste, one enter, done.
+
+#### Option B: Upload via S3
+
+```bash
+# From CloudShell, pull a script from a public URL:
+curl -O https://some-url/setup.sh && chmod +x setup.sh && ./setup.sh
+```
+
+You could put the script in a GitHub Gist (public), then curl it from CloudShell.
+
+#### Option C: CloudShell does support file upload on desktop
+
+If you switch to desktop/laptop briefly, there's an Actions → Upload File button.
+
+---
+
+### My Recommendation
+
+**Let me give you the whole thing as a single paste-able block.** You open CloudShell on your iPhone, tap into the terminal, paste it, and it runs end-to-end — creates everything, prints your webhook URL at the end.
+
+Want me to generate that single block? I just need you to confirm:
+
+1. **Your Phone Number ID** (from Meta dashboard)
+2. **Your temporary access token** (from Meta dashboard)
+3. **Your AWS region preference** — us-east-1 fine?
+
+Give me those two Meta values and I'll hand you one paste that builds everything.
+User: I'm using us west 2 (Oregon).  Test number  +1 (555) 202-1961 Phone Number ID: 1213332605203066 WhatsApp Business Account ID: 1756201745793198 The access token im generated  EAAfsLZAnDzj4BRqZAag5FkZAy98KKEZC8HD8IA0PGrwcG1kCys0gGCFXXFin0lUtzvPJQU1Lka5oYzuM2wLroZCleK9c5LSp5ZAp3gGNvj5Y0du9ZAd1zQyDqAKQMp6UDkvmRbQZB8ccuT9DFNbYbkelAZACZAa9CfQTY1mfJvuGqZBjXl7Rxh9Lle6cBaONdijEZCsUHzAFqHz5Dg3EKzNlkMPUNwPJPL92JTUCbSFKoWqU4pG08LdfiCxMeQZDZD
+Model: Here's your single paste block. Copy everything below, paste into CloudShell, hit enter.
+
+**But first — important:** Your access token is now visible in this conversation. After you get this working, you should generate a new one. Tokens posted anywhere (even in a private chat) should be rotated. Not urgent, but do it today.
+
+---
+
+## The Single Paste Block
+
+```bash
+cat << 'SCRIPT' > /tmp/setup_proofsheet.sh
+#!/bin/bash
+set -e
+
+REGION="us-west-2"
+PHONE_NUMBER_ID="1213332605203066"
+WABA_ID="1756201745793198"
+ACCESS_TOKEN="EAAfsLZAnDzj4BRqZAag5FkZAy98KKEZC8HD8IA0PGrwcG1kCys0gGCFXXFin0lUtzvPJQU1Lka5oYzuM2wLroZCleK9c5LSp5ZAp3gGNvj5Y0du9ZAd1zQyDqAKQMp6UDkvmRbQZB8ccuT9DFNbYbkelAZACZAa9CfQTY1mfJvuGqZBjXl7Rxh9Lle6cBaONdijEZCsUHzAFqHz5Dg3EKzNlkMPUNwPJPL92JTUCbSFKoWqU4pG08LdfiCxMeQZDZD"
+VERIFY_TOKEN="proofsheet-verify-2024"
+ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+
+echo "=========================================="
+echo "ProofSheet Setup Starting"
+echo "Account: $ACCOUNT_ID"
+echo "Region: $REGION"
+echo "=========================================="
+
+# 1. Secrets Manager
+echo "[1/7] Creating secret..."
+aws secretsmanager create-secret \
+  --name proofsheet/whatsapp \
+  --secret-string "{\"access_token\":\"${ACCESS_TOKEN}\",\"phone_number_id\":\"${PHONE_NUMBER_ID}\",\"verify_token\":\"${VERIFY_TOKEN}\"}" \
+  --region $REGION 2>/dev/null || \
+aws secretsmanager update-secret \
+  --secret-id proofsheet/whatsapp \
+  --secret-string "{\"access_token\":\"${ACCESS_TOKEN}\",\"phone_number_id\":\"${PHONE_NUMBER_ID}\",\"verify_token\":\"${VERIFY_TOKEN}\"}" \
+  --region $REGION
+echo "  ✓ Secret created/updated"
+
+# 2. DynamoDB
+echo "[2/7] Creating DynamoDB table..."
+aws dynamodb create-table \
+  --table-name proofsheet_conversations \
+  --attribute-definitions \
+    AttributeName=phone_number,AttributeType=S \
+    AttributeName=timestamp,AttributeType=S \
+  --key-schema \
+    AttributeName=phone_number,KeyType=HASH \
+    AttributeName=timestamp,KeyType=RANGE \
+  --billing-mode PAY_PER_REQUEST \
+  --region $REGION 2>/dev/null && echo "  ✓ Table created" || echo "  ✓ Table already exists"
+
+# 3. S3
+echo "[3/7] Creating S3 bucket..."
+aws s3 mb s3://proofsheet-docs-${ACCOUNT_ID} --region $REGION 2>/dev/null && echo "  ✓ Bucket created" || echo "  ✓ Bucket already exists"
+
+# 4. IAM Role
+echo "[4/7] Creating IAM role..."
+aws iam create-role \
+  --role-name proofsheet-lambda-role \
+  --assume-role-policy-document '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"lambda.amazonaws.com"},"Action":"sts:AssumeRole"}]}' 2>/dev/null || true
+
+aws iam attach-role-policy \
+  --role-name proofsheet-lambda-role \
+  --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole 2>/dev/null || true
+
+aws iam put-role-policy \
+  --role-name proofsheet-lambda-role \
+  --policy-name proofsheet-permissions \
+  --policy-document "{
+    \"Version\":\"2012-10-17\",
+    \"Statement\":[
+      {\"Effect\":\"Allow\",\"Action\":[\"bedrock:InvokeModel\"],\"Resource\":\"*\"},
+      {\"Effect\":\"Allow\",\"Action\":[\"secretsmanager:GetSecretValue\"],\"Resource\":\"*\"},
+      {\"Effect\":\"Allow\",\"Action\":[\"dynamodb:GetItem\",\"dynamodb:PutItem\",\"dynamodb:UpdateItem\",\"dynamodb:Query\"],\"Resource\":\"arn:aws:dynamodb:${REGION}:${ACCOUNT_ID}:table/proofsheet_*\"},
+      {\"Effect\":\"Allow\",\"Action\":[\"s3:PutObject\",\"s3:GetObject\"],\"Resource\":\"arn:aws:s3:::proofsheet-docs-${ACCOUNT_ID}/*\"}
+    ]
+  }"
+echo "  ✓ IAM role ready"
+
+# 5. Lambda Function
+echo "[5/7] Creating Lambda function..."
+cat > /tmp/lambda_function.py << 'LAMBDA'
+import json
+import boto3
+import urllib3
+from datetime import datetime, timezone
+
+REGION = 'us-west-2'
+bedrock = boto3.client('bedrock-runtime', region_name=REGION)
+dynamodb = boto3.resource('dynamodb', region_name=REGION)
+secrets_client = boto3.client('secretsmanager', region_name=REGION)
+CONVERSATION_TABLE = dynamodb.Table('proofsheet_conversations')
+http = urllib3.PoolManager()
+
+_secrets_cache = None
+
+def get_secrets():
+    global _secrets_cache
+    if _secrets_cache is None:
+        resp = secrets_client.get_secret_value(SecretId='proofsheet/whatsapp')
+        _secrets_cache = json.loads(resp['SecretString'])
+    return _secrets_cache
+
+
+def lambda_handler(event, context):
+    print(f"Event received: {json.dumps(event)}")
+    method = event.get('requestContext', {}).get('http', {}).get('method', 'POST')
+    
+    if method == 'GET':
+        return handle_verification(event)
+    
+    try:
+        body = json.loads(event.get('body', '{}'))
+    except json.JSONDecodeError:
+        return {'statusCode': 200}
+    
+    if body.get('object') != 'whatsapp_business_account':
+        return {'statusCode': 200}
+    
+    for entry in body.get('entry', []):
+        for change in entry.get('changes', []):
+            value = change.get('value', {})
+            if 'messages' not in value:
+                continue
+            for message in value['messages']:
+                process_message(message)
+    
+    return {'statusCode': 200}
+
+
+def handle_verification(event):
+    params = event.get('queryStringParameters', {}) or {}
+    mode = params.get('hub.mode', '')
+    token = params.get('hub.verify_token', '')
+    challenge = params.get('hub.challenge', '')
+    
+    print(f"Verification attempt: mode={mode}, token={token}, challenge={challenge}")
+    
+    secrets = get_secrets()
+    
+    if mode == 'subscribe' and token == secrets['verify_token']:
+        print("Verification SUCCESS")
+        return {
+            'statusCode': 200,
+            'headers': {'Content-Type': 'text/plain'},
+            'body': challenge
+        }
+    print(f"Verification FAILED. Expected token: {secrets['verify_token']}, got: {token}")
+    return {'statusCode': 403, 'body': 'Forbidden'}
+
+
+def process_message(message):
+    sender = message['from']
+    msg_type = message['type']
+    timestamp = datetime.now(timezone.utc).isoformat()
+    
+    print(f"Processing message from {sender}, type={msg_type}")
+    
+    if msg_type == 'text':
+        user_text = message['text']['body']
+    elif msg_type == 'interactive':
+        interactive = message.get('interactive', {})
+        if 'button_reply' in interactive:
+            user_text = interactive['button_reply']['title']
+        elif 'list_reply' in interactive:
+            user_text = interactive['list_reply']['title']
+        else:
+            user_text = '[interactive]'
+    else:
+        send_reply(sender, "এখন শুধু text message support করি। Voice ও image support শীঘ্রই আসছে! 🙏")
+        return
+    
+    print(f"User text: {user_text}")
+    
+    history = get_conversation_history(sender)
+    assistant_response = call_bedrock(user_text, history)
+    
+    print(f"Assistant response: {assistant_response[:200]}")
+    
+    send_reply(sender, assistant_response)
+    save_message(sender, timestamp, 'user', user_text)
+    save_message(sender, timestamp + '_r', 'assistant', assistant_response)
+
+
+SYSTEM_PROMPT = """You are ProofSheet, a document assistant on WhatsApp for users in Bangladesh. You help create professional documents (invoices, letters, leave applications, certificates) from conversational input.
+
+RULES:
+- Reply in whatever language the user writes in (Bangla, English, or mixed)
+- Be conversational and efficient - ask max 2-3 questions
+- When you have enough info, confirm what you'll generate
+- Be friendly but respect the user's time
+- Use emoji sparingly
+
+CAPABILITIES: invoices, receipts, business letters, leave applications, experience certificates, formal applications, agreements.
+
+If someone just says hi, introduce yourself briefly and ask how you can help."""
+
+
+def call_bedrock(user_text, history):
+    messages = []
+    for msg in history[-10:]:
+        messages.append({"role": msg['role'], "content": msg['content']})
+    messages.append({"role": "user", "content": user_text})
+    
+    try:
+        response = bedrock.invoke_model(
+            modelId='anthropic.claude-sonnet-4-20250514',
+            body=json.dumps({
+                "anthropic_version": "bedrock-2023-05-31",
+                "max_tokens": 1024,
+                "system": SYSTEM_PROMPT,
+                "messages": messages
+            })
+        )
+        result = json.loads(response['body'].read())
+        return result['content'][0]['text']
+    except Exception as e:
+        print(f"Bedrock error: {e}")
+        return "দুঃখিত, একটু সমস্যা হচ্ছে। আবার চেষ্টা করুন। 🙏"
+
+
+def get_conversation_history(phone_number):
+    try:
+        from boto3.dynamodb.conditions import Key
+        response = CONVERSATION_TABLE.query(
+            KeyConditionExpression=Key('phone_number').eq(phone_number),
+            ScanIndexForward=False,
+            Limit=20
+        )
+        items = response.get('Items', [])
+        items.reverse()
+        return [{'role': item['role'], 'content': item['content']} for item in items]
+    except Exception as e:
+        print(f"DynamoDB read error: {e}")
+        return []
+
+
+def save_message(phone_number, timestamp, role, content):
+    try:
+        CONVERSATION_TABLE.put_item(Item={
+            'phone_number': phone_number,
+            'timestamp': timestamp,
+            'role': role,
+            'content': content[:5000]
+        })
+    except Exception as e:
+        print(f"DynamoDB write error: {e}")
+
+
+def send_reply(to, text):
+    secrets = get_secrets()
+    url = f"https://graph.facebook.com/v21.0/{secrets['phone_number_id']}/messages"
+    
+    if len(text) > 4000:
+        chunks = [text[i:i+4000] for i in range(0, len(text), 4000)]
+        for chunk in chunks:
+            _send_text(url, secrets['access_token'], to, chunk)
+    else:
+        _send_text(url, secrets['access_token'], to, text)
+
+
+def _send_text(url, token, to, text):
+    payload = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": to,
+        "type": "text",
+        "text": {"preview_url": False, "body": text}
+    }
+    resp = http.request(
+        'POST', url,
+        body=json.dumps(payload),
+        headers={
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {token}'
+        }
+    )
+    print(f"WhatsApp send response: {resp.status} {resp.data.decode()}")
+LAMBDA
+
+cd /tmp && zip -j lambda_function.zip lambda_function.py
+
+# Wait for IAM propagation
+echo "  Waiting 10s for IAM role propagation..."
+sleep 10
+
+ROLE_ARN=$(aws iam get-role --role-name proofsheet-lambda-role --query Role.Arn --output text)
+
+aws lambda create-function \
+  --function-name proofsheet-webhook \
+  --runtime python3.12 \
+  --handler lambda_function.lambda_handler \
+  --role $ROLE_ARN \
+  --zip-file fileb:///tmp/lambda_function.zip \
+  --timeout 30 \
+  --memory-size 512 \
+  --architectures arm64 \
+  --region $REGION 2>/dev/null && echo "  ✓ Lambda created" || \
+(aws lambda update-function-code \
+  --function-name proofsheet-webhook \
+  --zip-file fileb:///tmp/lambda_function.zip \
+  --region $REGION > /dev/null && echo "  ✓ Lambda updated")
+
+# 6. API Gateway
+echo "[6/7] Creating API Gateway..."
+API_ID=$(aws apigatewayv2 create-api \
+  --name proofsheet-webhook \
+  --protocol-type HTTP \
+  --region $REGION \
+  --query ApiId --output text)
+
+LAMBDA_ARN=$(aws lambda get-function \
+  --function-name proofsheet-webhook \
+  --region $REGION \
+  --query Configuration.FunctionArn --output text)
+
+INTEGRATION_ID=$(aws apigatewayv2 create-integration \
+  --api-id $API_ID \
+  --integration-type AWS_PROXY \
+  --integration-uri $LAMBDA_ARN \
+  --payload-format-version 2.0 \
+  --region $REGION \
+  --query IntegrationId --output text)
+
+aws apigatewayv2 create-route \
+  --api-id $API_ID \
+  --route-key "GET /webhook" \
+  --target "integrations/$INTEGRATION_ID" \
+  --region $REGION > /dev/null
+
+aws apigatewayv2 create-route \
+  --api-id $API_ID \
+  --route-key "POST /webhook" \
+  --target "integrations/$INTEGRATION_ID" \
+  --region $REGION > /dev/null
+
+aws apigatewayv2 create-stage \
+  --api-id $API_ID \
+  --stage-name '$default' \
+  --auto-deploy \
+  --region $REGION > /dev/null
+
+echo "  ✓ API Gateway created"
+
+# 7. Lambda permission for API Gateway
+echo "[7/7] Connecting API Gateway to Lambda..."
+aws lambda add-permission \
+  --function-name proofsheet-webhook \
+  --statement-id apigateway-invoke \
+  --action lambda:InvokeFunction \
+  --principal apigateway.amazonaws.com \
+  --source-arn "arn:aws:execute-api:${REGION}:${ACCOUNT_ID}:${API_ID}/*" \
+  --region $REGION 2>/dev/null || true
+
+echo "  ✓ Permission granted"
+
+echo ""
+echo "=========================================="
+echo "✅ SETUP COMPLETE"
+echo "=========================================="
+echo ""
+echo "YOUR WEBHOOK URL (paste this into Meta):"
+echo ""
+echo "  https://${API_ID}.execute-api.${REGION}.amazonaws.com/webhook"
+echo ""
+echo "YOUR VERIFY TOKEN (paste this into Meta):"
+echo ""
+echo "  ${VERIFY_TOKEN}"
+echo ""
+echo "=========================================="
+echo "NEXT STEPS:"
+echo "1. Copy the webhook URL above"
+echo "2. Go to Meta Developer Dashboard → WhatsApp → Configuration"
+echo "3. Paste webhook URL as Callback URL"
+echo "4. Paste verify token"
+echo "5. Click Verify and Save"
+echo "6. Subscribe to 'messages' webhook field"
+echo "7. Send 'hi' to the test number from WhatsApp"
+echo "=========================================="
+echo ""
+echo "To check logs later:"
+echo "  aws logs tail /aws/lambda/proofsheet-webhook --since 5m --region $REGION"
+echo ""
+SCRIPT
+
+chmod +x /tmp/setup_proofsheet.sh
+bash /tmp/setup_proofsheet.sh
+```
+
+---
+
+## What to Do
+
+1. Open **AWS CloudShell** (console.aws.amazon.com → terminal icon top-right, make sure you're in us-west-2/Oregon)
+2. Tap into the terminal
+3. Paste the entire block above
+4. Hit enter
+5. Wait ~20 seconds
+6. It prints your webhook URL and verify token at the end
+7. Go to Meta Developer Dashboard → configure the webhook with those values
+8. Send "hi" from your WhatsApp
+
+---
+
+## One Thing to Check First
+
+**Bedrock model access in us-west-2:** Make sure Claude is enabled. In AWS Console → Amazon Bedrock → Model access → check that Anthropic Claude models are enabled. If Claude Sonnet 4 isn't available in us-west-2 yet, tell me and I'll give you a one-liner to swap to Claude 3.5 Sonnet which definitely is.
+User: Are there any permissions I need to set up in the app dashboard? How long is the access token valid for? And pasting long commands are tricky I can in fact upload and command a script even on phone in Aws 
+Model: ## Quick Answers
+
+### App Dashboard Permissions
+
+In the new Meta developer dashboard, you need to make sure:
+
+1. **Webhook fields subscribed:** After you verify the webhook, you must subscribe to the **`messages`** field. There should be a list of webhook fields (messages, message_deliveries, message_reads, etc.) — toggle on **messages** at minimum.
+
+2. **No special app permissions needed for test mode.** The temporary token you generated already has `whatsapp_business_messaging` permission baked in. You're sending to your own number as a test recipient — no app review required.
+
+3. **Your number is added as a test recipient.** You said you already sent the initial template message to yourself — so this is done. The number you received that hello_world message on is now your authorized test recipient.
+
+That's it for the dashboard. Nothing else blocks you.
+
+---
+
+### Access Token Validity
+
+**24 hours.** That temporary token from the API Setup page expires in 24 hours from when you generated it.
+
+For longer-lived access:
+- Go to **Business Settings** → **Users** → **System Users**
+- Create a system user (Admin type)
+- Assign it to your app
+- Generate a token with `whatsapp_business_messaging` permission
+- That token **never expires**
+
+But don't worry about this now — get the loop working today with the 24h token, create the permanent one tomorrow.
+
+---
+
+### CloudShell File Upload on iPhone
+
+You're right — here's the exact flow:
+
+1. Open CloudShell
+2. Tap **Actions** (top-right of the CloudShell pane)
+3. Tap **Upload file**
+4. Select your .sh file
+
+Then run:
+```bash
+chmod +x setup_proofsheet.sh && bash setup_proofsheet.sh
+```
+
+---
+
+So here's your file. Save this as `setup_proofsheet.sh` on your iPhone (easiest: paste into the Notes app → Share → Save to Files → then upload from Files to CloudShell):
+
+```bash
+#!/bin/bash
+set -e
+
+REGION="us-west-2"
+PHONE_NUMBER_ID="1213332605203066"
+WABA_ID="1756201745793198"
+ACCESS_TOKEN="EAAfsLZAnDzj4BRqZAag5FkZAy98KKEZC8HD8IA0PGrwcG1kCys0gGCFXXFin0lUtzvPJQU1Lka5oYzuM2wLroZCleK9c5LSp5ZAp3gGNvj5Y0du9ZAd1zQyDqAKQMp6UDkvmRbQZB8ccuT9DFNbYbkelAZACZAa9CfQTY1mfJvuGqZBjXl7Rxh9Lle6cBaONdijEZCsUHzAFqHz5Dg3EKzNlkMPUNwPJPL92JTUCbSFKoWqU4pG08LdfiCxMeQZDZD"
+VERIFY_TOKEN="proofsheet-verify-2024"
+ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+
+echo "=========================================="
+echo "ProofSheet Setup Starting"
+echo "Account: $ACCOUNT_ID"
+echo "Region: $REGION"
+echo "=========================================="
+
+# 1. Secrets Manager
+echo "[1/7] Creating secret..."
+aws secretsmanager create-secret \
+  --name proofsheet/whatsapp \
+  --secret-string "{\"access_token\":\"${ACCESS_TOKEN}\",\"phone_number_id\":\"${PHONE_NUMBER_ID}\",\"verify_token\":\"${VERIFY_TOKEN}\"}" \
+  --region $REGION 2>/dev/null || \
+aws secretsmanager update-secret \
+  --secret-id proofsheet/whatsapp \
+  --secret-string "{\"access_token\":\"${ACCESS_TOKEN}\",\"phone_number_id\":\"${PHONE_NUMBER_ID}\",\"verify_token\":\"${VERIFY_TOKEN}\"}" \
+  --region $REGION
+echo "  Done"
+
+# 2. DynamoDB
+echo "[2/7] Creating DynamoDB table..."
+aws dynamodb create-table \
+  --table-name proofsheet_conversations \
+  --attribute-definitions \
+    AttributeName=phone_number,AttributeType=S \
+    AttributeName=timestamp,AttributeType=S \
+  --key-schema \
+    AttributeName=phone_number,KeyType=HASH \
+    AttributeName=timestamp,KeyType=RANGE \
+  --billing-mode PAY_PER_REQUEST \
+  --region $REGION 2>/dev/null && echo "  Table created" || echo "  Table already exists"
+
+# 3. S3
+echo "[3/7] Creating S3 bucket..."
+aws s3 mb s3://proofsheet-docs-${ACCOUNT_ID} --region $REGION 2>/dev/null && echo "  Bucket created" || echo "  Bucket already exists"
+
+# 4. IAM Role
+echo "[4/7] Creating IAM role..."
+aws iam create-role \
+  --role-name proofsheet-lambda-role \
+  --assume-role-policy-document '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"lambda.amazonaws.com"},"Action":"sts:AssumeRole"}]}' 2>/dev/null || true
+
+aws iam attach-role-policy \
+  --role-name proofsheet-lambda-role \
+  --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole 2>/dev/null || true
+
+aws iam put-role-policy \
+  --role-name proofsheet-lambda-role \
+  --policy-name proofsheet-permissions \
+  --policy-document "{
+    \"Version\":\"2012-10-17\",
+    \"Statement\":[
+      {\"Effect\":\"Allow\",\"Action\":[\"bedrock:InvokeModel\"],\"Resource\":\"*\"},
+      {\"Effect\":\"Allow\",\"Action\":[\"secretsmanager:GetSecretValue\"],\"Resource\":\"*\"},
+      {\"Effect\":\"Allow\",\"Action\":[\"dynamodb:GetItem\",\"dynamodb:PutItem\",\"dynamodb:UpdateItem\",\"dynamodb:Query\"],\"Resource\":\"arn:aws:dynamodb:${REGION}:${ACCOUNT_ID}:table/proofsheet_*\"},
+      {\"Effect\":\"Allow\",\"Action\":[\"s3:PutObject\",\"s3:GetObject\"],\"Resource\":\"arn:aws:s3:::proofsheet-docs-${ACCOUNT_ID}/*\"}
+    ]
+  }"
+echo "  IAM role ready"
+
+# 5. Lambda Function
+echo "[5/7] Creating Lambda function..."
+cat > /tmp/lambda_function.py << 'LAMBDA'
+import json
+import boto3
+import urllib3
+from datetime import datetime, timezone
+
+REGION = 'us-west-2'
+bedrock = boto3.client('bedrock-runtime', region_name=REGION)
+dynamodb = boto3.resource('dynamodb', region_name=REGION)
+secrets_client = boto3.client('secretsmanager', region_name=REGION)
+CONVERSATION_TABLE = dynamodb.Table('proofsheet_conversations')
+http = urllib3.PoolManager()
+
+_secrets_cache = None
+
+def get_secrets():
+    global _secrets_cache
+    if _secrets_cache is None:
+        resp = secrets_client.get_secret_value(SecretId='proofsheet/whatsapp')
+        _secrets_cache = json.loads(resp['SecretString'])
+    return _secrets_cache
+
+
+def lambda_handler(event, context):
+    print(f"Event: {json.dumps(event)}")
+    method = event.get('requestContext', {}).get('http', {}).get('method', 'POST')
+
+    if method == 'GET':
+        return handle_verification(event)
+
+    try:
+        body = json.loads(event.get('body', '{}'))
+    except json.JSONDecodeError:
+        return {'statusCode': 200}
+
+    if body.get('object') != 'whatsapp_business_account':
+        return {'statusCode': 200}
+
+    for entry in body.get('entry', []):
+        for change in entry.get('changes', []):
+            value = change.get('value', {})
+            if 'messages' not in value:
+                continue
+            for message in value['messages']:
+                process_message(message)
+
+    return {'statusCode': 200}
+
+
+def handle_verification(event):
+    params = event.get('queryStringParameters', {}) or {}
+    mode = params.get('hub.mode', '')
+    token = params.get('hub.verify_token', '')
+    challenge = params.get('hub.challenge', '')
+
+    print(f"Verify: mode={mode} token={token} challenge={challenge}")
+
+    secrets = get_secrets()
+
+    if mode == 'subscribe' and token == secrets['verify_token']:
+        print("Verification SUCCESS")
+        return {
+            'statusCode': 200,
+            'headers': {'Content-Type': 'text/plain'},
+            'body': challenge
+        }
+    print(f"Verification FAILED expected={secrets['verify_token']} got={token}")
+    return {'statusCode': 403, 'body': 'Forbidden'}
+
+
+def process_message(message):
+    sender = message['from']
+    msg_type = message['type']
+    timestamp = datetime.now(timezone.utc).isoformat()
+
+    print(f"Message from {sender} type={msg_type}")
+
+    if msg_type == 'text':
+        user_text = message['text']['body']
+    elif msg_type == 'interactive':
+        interactive = message.get('interactive', {})
+        if 'button_reply' in interactive:
+            user_text = interactive['button_reply']['title']
+        elif 'list_reply' in interactive:
+            user_text = interactive['list_reply']['title']
+        else:
+            user_text = '[interactive]'
+    else:
+        send_reply(sender, "Right now I only support text messages. Voice and image support coming soon!")
+        return
+
+    print(f"User text: {user_text}")
+
+    history = get_conversation_history(sender)
+    assistant_response = call_bedrock(user_text, history)
+
+    print(f"Response: {assistant_response[:200]}")
+
+    send_reply(sender, assistant_response)
+    save_message(sender, timestamp, 'user', user_text)
+    save_message(sender, timestamp + '_r', 'assistant', assistant_response)
+
+
+SYSTEM_PROMPT = """You are ProofSheet, a document assistant on WhatsApp for users in Bangladesh. You help create professional documents (invoices, letters, leave applications, certificates) from conversational input.
+
+RULES:
+- Reply in whatever language the user writes in (Bangla, English, or mixed)
+- Be conversational and efficient - ask max 2-3 questions
+- When you have enough info, confirm what you will generate
+- Be friendly but respect the user's time
+- Use emoji sparingly
+
+CAPABILITIES: invoices, receipts, business letters, leave applications, experience certificates, formal applications, agreements.
+
+If someone just says hi, introduce yourself briefly and ask how you can help."""
+
+
+def call_bedrock(user_text, history):
+    messages = []
+    for msg in history[-10:]:
+        messages.append({"role": msg['role'], "content": msg['content']})
+    messages.append({"role": "user", "content": user_text})
+
+    try:
+        response = bedrock.invoke_model(
+            modelId='anthropic.claude-sonnet-4-20250514',
+            body=json.dumps({
+                "anthropic_version": "bedrock-2023-05-31",
+                "max_tokens": 1024,
+                "system": SYSTEM_PROMPT,
+                "messages": messages
+            })
+        )
+        result = json.loads(response['body'].read())
+        return result['content'][0]['text']
+    except Exception as e:
+        print(f"Bedrock error: {e}")
+        return "Sorry, something went wrong. Please try again."
+
+
+def get_conversation_history(phone_number):
+    try:
+        from boto3.dynamodb.conditions import Key
+        response = CONVERSATION_TABLE.query(
+            KeyConditionExpression=Key('phone_number').eq(phone_number),
+            ScanIndexForward=False,
+            Limit=20
+        )
+        items = response.get('Items', [])
+        items.reverse()
+        return [{'role': item['role'], 'content': item['content']} for item in items]
+    except Exception as e:
+        print(f"DynamoDB read error: {e}")
+        return []
+
+
+def save_message(phone_number, timestamp, role, content):
+    try:
+        CONVERSATION_TABLE.put_item(Item={
+            'phone_number': phone_number,
+            'timestamp': timestamp,
+            'role': role,
+            'content': content[:5000]
+        })
+    except Exception as e:
+        print(f"DynamoDB write error: {e}")
+
+
+def send_reply(to, text):
+    secrets = get_secrets()
+    url = f"https://graph.facebook.com/v21.0/{secrets['phone_number_id']}/messages"
+
+    if len(text) > 4000:
+        chunks = [text[i:i+4000] for i in range(0, len(text), 4000)]
+        for chunk in chunks:
+            _send_text(url, secrets['access_token'], to, chunk)
+    else:
+        _send_text(url, secrets['access_token'], to, text)
+
+
+def _send_text(url, token, to, text):
+    payload = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": to,
+        "type": "text",
+        "text": {"preview_url": False, "body": text}
+    }
+    resp = http.request(
+        'POST', url,
+        body=json.dumps(payload),
+        headers={
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {token}'
+        }
+    )
+    print(f"WhatsApp API: {resp.status} {resp.data.decode()}")
+LAMBDA
+
+cd /tmp && zip -j lambda_function.zip lambda_function.py
+
+echo "  Waiting 10s for IAM propagation..."
+sleep 10
+
+ROLE_ARN=$(aws iam get-role --role-name proofsheet-lambda-role --query Role.Arn --output text)
+
+aws lambda create-function \
+  --function-name proofsheet-webhook \
+  --runtime python3.12 \
+  --handler lambda_function.lambda_handler \
+  --role $ROLE_ARN \
+  --zip-file fileb:///tmp/lambda_function.zip \
+  --timeout 30 \
+  --memory-size 512 \
+  --architectures arm64 \
+  --region $REGION 2>/dev/null && echo "  Lambda created" || \
+(aws lambda update-function-code \
+  --function-name proofsheet-webhook \
+  --zip-file fileb:///tmp/lambda_function.zip \
+  --region $REGION > /dev/null && echo "  Lambda updated")
+
+# 6. API Gateway
+echo "[6/7] Creating API Gateway..."
+API_ID=$(aws apigatewayv2 create-api \
+  --name proofsheet-webhook \
+  --protocol-type HTTP \
+  --region $REGION \
+  --query ApiId --output text)
+
+LAMBDA_ARN=$(aws lambda get-function \
+  --function-name proofsheet-webhook \
+  --region $REGION \
+  --query Configuration.FunctionArn --output text)
+
+INTEGRATION_ID=$(aws apigatewayv2 create-integration \
+  --api-id $API_ID \
+  --integration-type AWS_PROXY \
+  --integration-uri $LAMBDA_ARN \
+  --payload-format-version 2.0 \
+  --region $REGION \
+  --query IntegrationId --output text)
+
+aws apigatewayv2 create-route \
+  --api-id $API_ID \
+  --route-key "GET /webhook" \
+  --target "integrations/$INTEGRATION_ID" \
+  --region $REGION > /dev/null
+
+aws apigatewayv2 create-route \
+  --api-id $API_ID \
+  --route-key "POST /webhook" \
+  --target "integrations/$INTEGRATION_ID" \
+  --region $REGION > /dev/null
+
+aws apigatewayv2 create-stage \
+  --api-id $API_ID \
+  --stage-name '$default' \
+  --auto-deploy \
+  --region $REGION > /dev/null
+
+echo "  API Gateway created"
+
+# 7. Permission
+echo "[7/7] Setting permissions..."
+aws lambda add-permission \
+  --function-name proofsheet-webhook \
+  --statement-id apigateway-invoke \
+  --action lambda:InvokeFunction \
+  --principal apigateway.amazonaws.com \
+  --source-arn "arn:aws:execute-api:${REGION}:${ACCOUNT_ID}:${API_ID}/*" \
+  --region $REGION 2>/dev/null || true
+
+echo "  Done"
+
+echo ""
+echo "=========================================="
+echo "SETUP COMPLETE"
+echo "=========================================="
+echo ""
+echo "WEBHOOK URL (paste into Meta dashboard):"
+echo "https://${API_ID}.execute-api.${REGION}.amazonaws.com/webhook"
+echo ""
+echo "VERIFY TOKEN (paste into Meta dashboard):"
+echo "${VERIFY_TOKEN}"
+echo ""
+echo "=========================================="
+echo "NEXT STEPS:"
+echo "1. Go to Meta Developer Dashboard"
+echo "2. WhatsApp > Configuration > Webhook"
+echo "3. Callback URL = the webhook URL above"
+echo "4. Verify Token = ${VERIFY_TOKEN}"
+echo "5. Click Verify and Save"
+echo "6. Subscribe to messages webhook field"
+echo "7. Reply hi to the test number on WhatsApp"
+echo "=========================================="
+echo ""
+echo "To check logs:"
+echo "aws logs tail /aws/lambda/proofsheet-webhook --since 5m --region $REGION"
+```
+
+---
+
+## Summary of Steps
+
+1. **Save the script above** as `setup_proofsheet.sh` on your iPhone (Notes → paste → Share → Save to Files as `.sh`)
+2. **Open AWS CloudShell** (make sure region is set to **us-west-2** in the top bar)
+3. **Actions → Upload file** → select the .sh file
+4. Run: `chmod +x setup_proofsheet.sh && bash setup_proofsheet.sh`
+5. Copy the webhook URL it prints
+6. **Meta dashboard** → WhatsApp → Configuration → paste URL + verify token → Verify and Save → subscribe to `messages`
+7. Reply **"hi"** to the test number on WhatsApp
+
+**Also check:** Bedrock console (us-west-2) → Model access → make sure Claude is enabled. If not, request access — it's instant for most Anthropic models.
+User: Just clarifying the number provided was the test number Facebook gave me. The recipient was my own WhatsApp number: +880 1798344063
+Model: Got it — that's exactly right. Just to confirm the setup is correct:
+
+- **Test number (the bot):** +1 555 202-1961 → Phone Number ID: `1213332605203066` — this is what sends replies
+- **Your WhatsApp (the recipient/tester):** +880 1798344063 — this is where you receive messages and reply from
+
+The script uses the **Phone Number ID** (which maps to the test bot number) to send replies. Your personal number doesn't go in the code anywhere — Meta's webhook automatically includes your number in the `from` field when you send a message to the bot.
+
+**Everything in the script is correct as-is.** No changes needed.
+
+Go ahead and upload + run it. When you reply "hi" to that +1 555 202-1961 conversation in WhatsApp, the webhook fires, Lambda processes it, and replies back to your +880 number automatically.
+
+One thing to remember: since you already received the hello_world template message from that test number, your **24-hour conversation window is open**. If more than 24 hours have passed since that template message, you'll need to re-send it from the Meta API Setup page (the "Send Message" button) before your replies will trigger webhooks. Just re-click that button if it's been a while.
