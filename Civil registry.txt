@@ -1,0 +1,770 @@
+# Expert-Level Knowledge Base: Civil Registry and Personal Identity Documents of Bangladesh
+## Document 1: Birth Registration Certificate (জন্ম নিবন্ধন সনদ)
+### 1. Legal Basis
+The primary statutory framework governing birth registration in Bangladesh is the Birth and Death Registration Act, 2004. This legislation mandates the registration of all births occurring within the territory of Bangladesh, establishing it as both a fundamental civil right and a legal obligation for every citizen. Under this Act, administrative authority is vested in the Office of the Registrar General, Birth and Death Registration, which operates under the Local Government Division of the Ministry of Local Government, Rural Development and Co-operatives.
+The regulatory framework has undergone critical structural updates. The Birth and Death Registration Rules, 2018, modernized procedural workflows by integrating the Birth and Death Registration Information System (BDRIS), a unified digital portal. In 2021, the government implemented a strict policy requiring parents to possess digital 17-digit birth certificates before their child's birth could be registered. However, this led to significant registration deficits for children of underage parents, as the software blocked submissions if the system detected that the mother was under 18 or the father was under 21, in alignment with the Child Marriage Restraint Act, 2017. To prevent exclusion from healthcare services, particularly during national immunization campaigns such as the typhoid vaccine drive, the government temporarily relaxed these strict parental age restrictions in late 2023 and 2024. This adjustment permitted the registration of children whose mothers were at least 16 years of age.
+### 2. Issuing Authority Matrix
+The administrative structure for birth certificate issuance is geographically decentralized and varies based on the applicant's residency:
+| Administrative Division | Local Authority Office | Approving Officer |
+|---|---|---|
+| **Rural Areas (Unions)** | Union Parishad (ইউনিয়ন পরিষদ) Office | Union Parishad Chairman |
+| **Urban Municipalities** | Pourashava (পৌরসভা) Office | Pourashava Mayor / Designated Officer |
+| **Metropolitan Cities** | City Corporation (সিটি কর্পোরেশন) Ward Office | Ward Councilor / Assistant Health Officer |
+| **Military Areas** | Cantonment Board (সেনানিবাস বোর্ড) | Cantonment Executive Officer |
+| **Expatriates (Abroad)** | Bangladesh High Commission / Embassy | Consular Officer / Head of Mission |
+In rural jurisdictions, the Union Parishad secretary processes applications for the Chairman's approval. In urban settings, particularly within major metropolitan divisions like Dhaka North or Dhaka South, the process is routed through the specific Ward Councilor's office and finalized by the City Corporation's health department. Expatriates must submit applications to the diplomatic mission in their country of residence, where consular staff verify the details before transmitting them via the BDRIS portal.
+### 3. Eligibility & Timing
+Any Bangladeshi citizen, or their parents, legal guardians, or authorized representatives, can apply for birth registration. The legal timeline for birth registration is highly structured:
+ * **Standard Window (0 to 45 Days):** Registration is free if completed within 45 days of the child's birth.
+ * **Late Registration (46 Days to 5 Years):** Subject to a nominal fee of BDT 25.
+ * **Delayed Registration (Over 5 Years):** Subject to a fee of BDT 50 and requires extensive age verification and local inquiry.
+The consequences of late registration include prolonged administrative delays, mandatory medical boards for age verification, and the requirement to submit certified secondary evidence (such as school certificates) rather than standard clinical discharge documents.
+### 4. Complete Document Checklist
+Requirements differ based on the age of the applicant at the time of registration:
+#### Standard Application (Within 45 Days)
+ * **EPI Immunization Card or Hospital Discharge Certificate:** Serves as clinical proof of the date, time, and location of birth. *Alternative if missing:* An affidavit from a certified birth attendant or a local counter-signed declaration.
+ * **Holding Tax Receipt or Utility Bill:** Required to establish the residency of the parents within the local registry's jurisdiction.
+ * **Parents' 17-digit Digital Birth Certificates & NIDs:** Necessary to verify the child's lineage and citizenship status.
+#### Delayed Application (Over 5 Years Old)
+ * **BMDC-Registered MBBS Doctor's Age Verification Certificate:** Required if no formal clinical birth record exists.
+ * **Primary School Certificate (PSC) or Junior School Certificate (JSC):** To verify the official educational record of the applicant's age.
+ * **Holding Tax Receipt/Utility Bill:** Proof of local address.
+ * **Parents' NIDs/Birth Certificates:** To verify lineage.
+#### Expatriate Application
+ * **Local Foreign Birth Certificate (English or Translated):** E.g., UK or US Birth Certificate.
+ * **Parents' Bangladeshi Passports or NIDs:** Proof of parent's citizenship.
+ * **Proof of Foreign Residency Status:** E.g., Green Card, valid visa, or foreign passport.
+### 5. Form Field Annotation
+The official birth registration application is processed digitally via BDRIS Form-3. The online portal is accessed at bdris.gov.bd/br/applic[span_78](start_span)[span_78](end_span)ation.
+ * **১. নিবন্ধিত ব্যক্তির নাম (বাংলা ও ইংরেজি) (Name of Registered Person):** Must match the spelling on the hospital discharge or school certificate exactly. *Common Mistake:* Mixing Bengali spelling conventions with English transliteration, leading to mismatch errors.
+ * **২. জন্ম তারিখ (Date of Birth):** Must be formatted as YYYY-MM-DD. *Common Mistake:* Using DD-MM-YYYY, which is rejected by the system database.
+ * **৩. লিঙ্গ (Gender):** Options include Male (পুরুষ), Female (নারী), or Other (অন্যান্য).
+ * **৪. জন্মস্থান (Place of Birth):** Details of the hospital, clinic, or home address where the birth occurred.
+ * **৫. পিতার নাম ও জন্ম নিবন্ধন নম্বর (Father's Name & BRN):** The 17-digit digital birth registration number of the father.
+ * **৬. মাতার নাম ও জন্ম নিবন্ধন নম্বর (Mother's Name & BRN):** The 17-digit digital birth registration number of the mother.
+ * **৭. স্থায়ী ঠিকানা (Permanent Address):** The ancestral home address, verified via land deed or holding tax receipt.
+ * **৮. বর্তমান ঠিকানা (Present Address):** The current residence, verified via utility bills.
+ * **৯. আবেদনকারীর তথ্য ও মোবাইল নম্বর (Applicant Info & Mobile Number):** Active mobile number for receiving OTP and SMS updates.
+### 6. Process Flowchart
+```
+[Decision to Register] 
+       │
+       ▼
+[Fill Online Application at bdris.gov.bd]
+       │
+       ▼
+[Upload Required Documents (EPI Card, Tax Receipt, Parents' IDs)]
+       │
+       ▼
+[Print Online Appli[span_86](start_span)[span_86](end_span)cation Form & Sign Summary Page][span_173](start_span)[span_173](end_span)[span_174](start_span)[span_174](end_span)
+       │
+       ▼
+[Submit Printed Form & Original Documents to Local UP/Pourashava[span_87](start_span)[span_87](end_span)/City Corp Office][span_175](start_span)[span_175](end_span)[span_176](start_span)[span_176](end_span)
+       │
+       ▼
+[Pay Fee at Office Counter or Online via epay.b[span_88](start_span)[span_88](end_span)dris.gov.bd (Get Receipt)][span_177](start_span)[span_177](end_span)
+       │
+       ▼
+[Local Authority Verifies Documents & Approves System Record]
+       │
+       ▼
+[Receive SMS Notification of Approval]
+       │
+       ▼
+[Collect Physical Signed/Sealed Certificate from Local Office][span_184](start_span)[span_184](end_span)[span_186](start_span)[span_186](end_span)
+
+```
+The average processing timeline is 7 to 15 working days. Fees are paid directly at the local government office counter or via the official epay.bdris.gov.bd system. Application tracking is available on the BDRIS portal using the unique Application ID.
+### 7. Online vs. Offline Process
+Applications must be initiated online via bdris.gov.bd/br/application. Fully offline manual processing has been phased out, and all certificates are recorded digitally. However, a physical visit to the local administrative office is required to submit physical copies of uploaded documents, complete payment (if not paid online), and collect the final embossed birth certificate. No dedicated official mobile app exists; citizens are advised to use standard mobile browsers to access the responsive web portal.
+### 8. Fees
+ * **0 to 45 Days:** BDT 0 (Free).
+ * **46 Days to 5 Years:** BDT 25.
+ * **Above 5 Years:** BDT 50.
+ * **Information Correction / Translation:** BDT 50 to BDT 100.
+ * *Verification Source:* Office of the Registrar General, LGD circulars.
+### 9. Correction & Amendment Process
+If errors exist, citizens must navigate the online correction portal at bdris.gov.bd. A birth certificate can be corrected a maximum of seven times.
+ * **Name Corrections:** Requires uploading the applicant’s SSC/HSC certificates, NID, or passport.
+ * **Date of Birth Corrections:** Extremely restricted. Requires a certified medical board age certificate or SSC certificate.
+ * **Procedure:** Submit the "Apply for Birth Record Correction" form online, select the fields requiring change, upload supporting documents, pay BDT 50/100 fee, and present the printed application to the local registrar office for verification and system updates. The timeline is usually 10 to 20 working days.
+### 10. Common Problems & Failure Points
+ * **Non-Digital Parental Certificates:** Parents born after 2001 must have a 17-digit digital birth certificate before registering their child, which causes significant delays.
+ * **System Server Downtime:** The BDRIS central server often experiences high traffic or maintenance downtime, resulting in submission errors.
+ * **Spelling Discrepancies:** Name mismatches between Bengali and English profiles. If the names do not match parent NIDs exactly, the application is systematically rejected.
+### 11. Fraud & Scam Warnings
+ * **Middlemen (Dalals):** Touts operating near local offices often promise expedited services for fees ranging from BDT 500 to BDT 2,000. They often provide forged, offline, or un-digitized certificates.
+ * **Verification:** Citizens should never pay for third-party verification apps. Legitimate verification is free and can be completed by entering the 17-digit number and DOB at everify.bdris.gov.bd.
+### 12. Interconnections with Other Documents
+```
+[Hospital/Medical Discharge Record] ──> [Birth Certificate (17-Digit)]
+                 [span_152](start_span)[span_152](end_span)                              │
+               ┌───────────────────────────────┴───────────────────────────────┐
+       [span_153](start_span)[span_153](end_span)        ▼                                                               ▼
+[National Identity Card (NID)][span_213](start_span)[span_213](end_span)                             [Machine Readable Passport][span_217](start_span)[span_217](end_span)
+
+```
+### 13. Sample LLM Conversations
+ * **ব্যবহারকারী:** আমার বাচ্চার বয়স ৩ মাস, ওর জন্ম নিবন্ধন কীভাবে করাবো?
+   **সহায়ক:** কোনো চিন্তা করবেন না! আপনার বাচ্চার বয়স যেহেতু ৪৫ দিনের বেশি কিন্তু ৫ বছরের কম, তাই সরকারি নিয়ম অনুযায়ী ২৫ টাকা ফি দিয়ে আপনি সহজেই আবেদন করতে পারবেন। প্রথমে সরকারি ওয়েবসাইট bdris.gov.bd/br/application এ গিয়ে অনলাইন ফর্মটি পূরণ করুন। আবেদনের সময় বাচ্চার টিকা দেওয়ার কার্ড (EPI কার্ড) বা হাসপাতালের ছাড়পত্রের স্ক্যান কপি এবং আপনাদের হোল্ডিং ট্যাক্স বা বিদ্যুৎ বিলের কপি আপলোড করতে হবে। ফর্ম পূরণ শেষে প্রিন্ট করে আপনার স্থানীয় ইউনিয়ন পরিষদ বা পৌরসভা কার্যালয়ে প্রয়োজনীয় মূল কাগজপত্রসহ জমা দিন।
+ * **ব্যবহারকারী:** আমার জন্ম নিবন্ধনটি আসল নাকি নকল কীভাবে বুঝবো?
+   **সহায়ক:** এটি যাচাই করা খুবই সহজ এবং সম্পূর্ণ ফ্রি! আপনার জন্ম নিবন্ধনটি ১৭ ডিজিটের হতে হবে। আপনি আপনার ফোন বা কম্পিউটারের ব্রাউজার থেকে everify.bdris.gov.bd ওয়েবসাইটে যান। সেখানে প্রথম ঘরে আপনার ১৭ ডিজিটের নম্বরটি লিখুন এবং দ্বিতীয় ঘরে জন্মতারিখটি বছর-মাস-দিন (YYYY-MM-DD) ফরম্যাটে দিন। এরপর স্ক্রিনে আসা সহজ অঙ্কের সমাধান করে 'Search' বাটনে ক্লিক করলেই যদি আপনার নাম ও তথ্য চলে আসে, তাহলে বুঝবেন আপনার সার্টিফিকেটটি ডিজিটাল ডাটাবেজে সংরক্ষিত এবং আসল!
+ * **ব্যবহারকারী:** আমার জন্ম নিবন্ধনে নামের বানান ভুল এসেছে, এটি কীভাবে ঠিক করবো?
+   **সহায়ক:** জন্ম নিবন্ধনের তথ্য সংশোধনের জন্য আপনাকে অনলাইনে আবেদন করতে হবে। প্রথমে bdris.gov.bd ওয়েবসাইটে গিয়ে 'জন্ম তথ্য সংশোধনের জন্য আবেদন' অপশনটি বেছে নিন। সেখানে আপনার জন্ম নিবন্ধন নম্বর ও জন্মতারিখ দিয়ে প্রবেশ করুন। যে তথ্যটি ভুল এসেছে (যেমন নামের বানান), সেটি সঠিক প্রমাণ করার জন্য আপনার এসএসসি সার্টিফিকেট, পিএসসি সার্টিফিকেট বা এনআইডি কার্ডের স্ক্যান কপি আপলোড করতে হবে। আবেদন সাবমিট করে প্রিন্ট কপিটি নিয়ে ৫০ টাকা ফিসহ আপনার স্থানীয় সিটি কর্পোরেশন, পৌরসভা বা ইউনিয়ন পরিষদ অফিসে যোগাযোগ করুন।
+ * **ব্যবহারকারী:** আমার বাচ্চার বয়স ৬ বছর, স্কুল ভর্তির জন্য জন্ম নিবন্ধন লাগবে। কী কী কাগজ লাগবে?
+   **সহায়ক:** ৬ বছর বয়সের বাচ্চার ক্ষেত্রে বিলম্বিত জন্ম নিবন্ধন করতে হবে, যার সরকারি ফি ৫০ টাকা। আপনার বাচ্চার জন্য প্রয়োজনীয় কাগজপত্রগুলো হলো: বাচ্চার প্রাথমিক বিদ্যালয়ের প্রধান শিক্ষকের প্রত্যয়নপত্র বা স্কুল আইডি কার্ডের কপি, বয়স প্রমাণের জন্য সরকারি হাসপাতালের ডাক্তার কর্তৃক প্রত্যয়নপত্র, আপনাদের (পিতা ও মাতার) ডিজিটাল ১৭ ডিজিটের জন্ম নিবন্ধন এবং এনআইডি কার্ডের কপি, এবং আপনাদের বর্তমান বা স্থায়ী ঠিকানার হোল্ডিং ট্যাক্স বা ইউটিলিটি বিলের রসিদ। এগুলো নিয়ে অনলাইনে আবেদন করে মূল কপিসহ স্থানীয় পৌরসভা বা ইউনিয়ন পরিষদে জমা দিতে হবে।
+ * **ব্যবহারকারী:** আমার নিজের ডিজিটাল জন্ম নিবন্ধন নেই, কিন্তু আমার বাচ্চার জন্ম নিবন্ধন করতে চাচ্ছি। এটা কি সম্ভব?
+   **সহায়ক:** সাধারণত ২০০১ সালের পর জন্ম নেওয়া সন্তানদের জন্ম নিবন্ধনের জন্য পিতা-মাতার ডিজিটাল জন্ম নিবন্ধন নম্বর থাকা বাধ্যতামূলক। তবে আপনি যদি আপনার বাচ্চার জন্ম নিবন্ধন করতে চান, তাহলে প্রথমে আপনাকে এবং আপনার স্ত্রীকে নিজেদের পুরানো বা কাগজের জন্ম নিবন্ধন থাকলে তা ডিজিটাল করিয়ে নিতে হবে অথবা নতুন করে ১৭ ডিজিটের ডিজিটাল জন্ম নিবন্ধন করিয়ে নিতে হবে। এরপর আপনাদের জন্ম নিবন্ধন নম্বর ব্যবহার করে বাচ্চার আবেদনটি করতে পারবেন। তবে বিশেষ কিছু ক্ষেত্রে (যেমন শিশুদের টিকার উদ্দেশ্যে) সরকার মাঝে মাঝে এই নিয়ম শিথিল করে থাকে, কিন্তু স্থায়ী সমাধানের জন্য আপনাদের নিজেদের জন্ম নিবন্ধনটি আগে ডিজিটাল করে নেওয়া সবচেয়ে নিরাপদ।
+### 14. Glossary
+ * **বিডিআরআইএস (BDRIS):** Birth and Death Registration Information System; বাংলাদেশ সরকারের জন্ম ও মৃত্যু নিবন্ধনের কেন্দ্রীয় ডিজিটাল ডাটাবেজ।
+ * **হোল্ডিং ট্যাক্স (Holding Tax):** স্থানীয় সরকার বা পৌরসভাকে বাসগৃহ বা জমির মালিকানার বিপরীতে বার্ষিক যে কর প্রদান করা হয়, যা স্থায়ী ঠিকানার প্রমাণ হিসেবে ব্যবহৃত হয়।
+ * **১৭ ডিজিটের জন্ম নিবন্ধন নম্বর (17-Digit BRN):** ডিজিটাল ডাটাবেজে সংরক্ষিত প্রতিটি নাগরিকের অনন্য সনাক্তকরণ নম্বর, যা অনলাইন যাচাইকরণের জন্য বাধ্যতামূলক।
+## Document 2: National Identity Card — NID (জাতীয় পরিচয়পত্র)
+### 1. Legal Basis
+The issuance of the National Identity (NID) Card in Bangladesh is legally anchored in the National Identity Registration Act, 2010. Administrative and executive authority rests with the National Identity Registration Wing (NIDW) of the Bangladesh Election Commission.
+In September 2023, the previous administration passed the National Identity Registration Act, 2023, which sought to transfer the entire NID apparatus from the independent Election Commission to the Security Services Division of the Ministry of Home Affairs. This legislative shift faced opposition regarding voter data security and constitutional boundaries. Following sustained administrative friction and recommendations from advisory boards, the interim government officially repealed the National Identity Registration Act, 2023, in January 2025. This reinstatement returned the NID process back under the sole jurisdiction of the Election Commission, maintaining the operational linkages between the national voter registry and identity document issuance.
+### 2. Issuing Authority Matrix
+The NID ecosystem is managed centrally by the NID Wing in Dhaka, but decentralized execution is mapped across three tiers:
+```
+[NID Wing Headquarters, Dhaka] (Policy & Core Database)
+               │
+               ▼
+[Regional Election Offices] (Divisional Level Monitoring)
+               │
+               ▼
+[District Election Offices] (District Level Verifications)
+               │
+               ▼
+[Upazila / Thana Election Offices] (Local Level Biometrics & Operations)[span_244](start_span)[span_244](end_span)
+
+```
+New registrations, biometric capture, and physical card handovers are managed at the local Upazila or Thana Election Office. For metropolitan areas like Dhaka or Chittagong, the process is executed at the respective Thana Election Offices associated with the voter’s residential area.
+### 3. Eligibility & Timing
+ * **Age Criterion:** Any Bangladeshi citizen who has reached 16 years of age or older is eligible to apply for NID registration. (Note: Biometrics are captured at 16, and cards are issued, though inclusion on the active voter list occurs upon turning 18).
+ * **Timelines:** NID registration is an ongoing, continuous process. No financial penalties or late fees are charged for delayed first-time applications. However, delaying NID registration limits access to over 22 essential civic and commercial services, including opening bank accounts, purchasing land, registering SIM cards, and applying for passports.
+### 4. Complete Document Checklist
+Document requirements are structured according to the specific service category:
+#### New Registration (First-Time Voter)
+ * **17-Digit Online Verifiable Birth Certificate:** Primary age and birth location proof.
+ * **Secondary School Certificate (SSC) or Equivalent:** Compulsory age verification document if the applicant completed formal schooling.
+ * **Proof of Residential Address:** Copies of utility bills (electricity, water, gas), holding tax receipts, or a local citizenship certificate.
+ * **Parents' NID Card Copies:** Required to link lineage and prevent duplicate biometric entries in the national registry.
+#### Card Correction/Amendment
+ * **Standard Supporting Evidence (Minimum of 2):** Educational certificates (SSC/HSC), computerized birth registration, passport, driving license, or marriage certificate.
+ * **Parents' and Siblings' NID Cards:** Crucial for correcting parental names or resolving age discrepancies within the same family pool.
+#### Reissuance (Lost or Damaged Card)
+ * **Police General Diary (GD) Copy:** A formally registered GD from the local police station detailing the loss or theft of the NID.
+ * **Fee Payment Slip:** Proving payment of the duplicate processing fee via online mobile financial channels.
+#### Smart Card Conversion
+ * **Laminated Paper NID:** The original non-chip card.
+### 5. Form Field Annotation
+New applications use Form 2 (Ka), while corrections use Form 8, and transfers use Form 13, all downloadable from nidw.gov.bd. Online applications are managed through services.nidw.gov.bd.
+ * **১. পূর্ণ নাম (বাংলা ও ইংরেজি) (Full Name - Bangla & English):** Must match the spelling on the SSC certificate or digital birth certificate. *Common Mistake:* Including titles like "Md.", "Mst.", or "Late" in one language but omitting them in the other, which causes verification failures.
+ * **২. জন্ম তারিখ (Date of Birth):** Day, month, and year matching school documents exactly. *Common Mistake:* Entering a self-declared date that differs from the digital birth certificate or SSC database.
+ * **৩. রক্তের গ্রুপ (Blood Group):** Requires a certified clinical report from a pathology lab.
+ * **৪. পিতা ও মাতার তথ্য (Father & Mother Info):** Names and NID numbers must be entered exactly as they appear on the parents' official cards.
+ * **৫. বর্তমান ও স্থায়ী ঠিকানা (Present & Permanent Address):** Divisible by Division, District, Upazila, Ward, Mouza, and Holding Number. *Common Mistake:* Swapping present and permanent addresses, which leads to voter listing in the wrong electoral area.
+ * **৬. শিক্ষাগত যোগ্যতা (Educational Qualification):** Highest academic degree achieved, used to classify demographic records.
+### 6. Process Flowchart
+```
+[Account Registration on services.nidw.gov.bd]
+                     │
+                     ▼
+[Log in via NID Wallet F[span_269](start_span)[span_269](end_span)[span_293](start_span)[span_293](end_span)ace Verification][span_322](start_span)[span_322](end_span)
+                     │
+                     ▼
+[Fill Online Form & Upload Scanned Documents (SSC, Birth Cert)]
+                     │
+                     ▼
+[Pay Applicable Processing Fee via [span_270](start_span)[span_270](end_span)[span_294](start_span)[span_294](end_span)bKash/Rocket Pay Bill]
+                     │
+                     ▼
+[Schedule Appointment & Visit Local[span_271](start_span)[span_271](end_span)[span_295](start_span)[span_295](end_span) Upazila/Thana Election Office][span_333](start_span)[span_333](end_span)[span_335](start_span)[span_335](end_span)
+                     │
+                     ▼
+[Biometric Capture (10 Fingerprints, Iris Scan, Digital Signature, Photo)][span_337](start_span)[span_337](end_span)[span_341](start_span)[span_341](end_span)
+                     │
+                     ▼
+[System De-duplication Check at Central Database]
+                     │
+                     ▼
+[Application Approval by Upazila/District Officer]
+                     │
+                     ▼
+[Download Digital NID PDF or Collect Smart Card from Local Office[span_272](start_span)[span_272](end_span)[span_296](start_span)[span_296](end_span)]
+
+```
+### 7. Online vs. Offline Process
+ * **Online Capabilities (services.nidw.gov.bd):** Account setup, text field input, scanned document uploads, correction fees, and downloading the temporary digital NID copy can be completed online.
+ * **Mandatory Offline Steps:** Biometric capture (photo, iris scan, and fingerprint enrollment) requires a physical visit to the local Upazila or Thana Election Office.
+ * **Mobile App Integration:** The **NID Wallet** app (Google Play Store/iOS) is required for biometric face authentication during login, registration, and downloading of the card.
+### 8. Fees
+Fees are structured based on the service category and are paid via mobile financial services (bKash/Rocket) under Government Pay Bills:
+| Service Category | Government Fee (excluding VAT) | Paid Via | Source |
+|---|---|---|---|
+| **First-Time NID Card** | Free | N/A |  |
+| **NID Info Correction** | BDT 230 | bKash / Rocket |  |
+| **Other Info Correction** | BDT 115 | bKash / Rocket |  |
+| **Both Info Correction** | BDT 345 | bKash / Rocket |  |
+| **Reissue - Regular (Lost)** | BDT 345 | bKash / Rocket |  |
+| **Reissue - Urgent (Lost)** | BDT 575 | bKash / Rocket |  |
+### 9. Correction & Amendment Process
+NID corrections are classified into four administrative categories (A, B, C, D) based on complexity. Category A/B corrections (minor spelling adjustments) are authorized at the Upazila level and take 15 to 25 days. Category C/D corrections (major name or date of birth changes) require central approval by the District or Division Election Officer and can take 45 to 90 days.
+ * **Documents Needed:** SSC Certificate, Passport, Driving License, Digital Birth Certificate, or MPO Sheet/Service Book.
+ * **Procedure:** Log in to services.nidw.gov.bd, edit incorrect fields under the profile tab, pay the BDT 230 fee, upload supporting evidence, and submit online. Once approved via SMS notification, the revised digital card can be downloaded immediately.
+### 10. Common Problems & Failure Points
+ * **NID Wallet App Errors:** Face verification often fails in low light, with older mobile phone cameras, or due to significant physical changes in the applicant’s face, preventing access to the portal.
+ * **Lineage Mismatch (Parents' Names):** If parents have corrected their NIDs, the children's applications will remain pending under "Category C" until the entire family database is reconciled.
+ * **Electoral Area Lock:** If an applicant moves and does not file a formal transfer form (Form 13), their biometric data remains locked to their old Upazila.
+### 11. Fraud & Scam Warnings
+ * **Fake Websites:** Forged websites mimicking the Election Commission portal operate online to harvest personal identity data. Only use the secure, official URL: services.nidw.gov.bd.
+ * **"Speed-Up" Scams:** Touts claim they can bypass biometric queues or medical boards for age changes. Citizens must be informed that all biometrics are run through a central automated de-duplication system, and no third party can bypass this safety protocol.
+### 12. Interconnections with Other Documents
+```
+[17-Digit Birth Certificate] ──> [National Identity [span_338](start_span)[span_338](end_span)[span_342](start_span)[span_342](end_span)Card (NID)]
+                                                    │
+                 ┌──────────────────────────────────┼──────────────────────────────────┐
+                 ▼                                  ▼[span_238](start_span)[span_238](end_span)                                  ▼
+[E-Passport Application]         [TIN / Tax Registration]        [SIM Card Registration]
+
+```
+### 13. Sample LLM Conversations
+ * **ব্যবহারকারী:** আমার এনআইডি কার্ড হারিয়ে গেছে, এখন নতুন করে কীভাবে তুলবো?
+   **সহায়ক:** চিন্তার কিছু নেই, এনআইডি হারিয়ে গেলে আপনি সহজেই ডুপ্লিকেট কপির জন্য আবেদন করতে পারেন। প্রথমে আপনার নিকটস্থ থানায় গিয়ে একটি জিডি (সাধারণ ডায়েরি) করুন এবং জিডির কপির একটি ছবি তুলে রাখুন। এরপর services.nidw.gov.[span_239](start_span)[span_239](end_span)bd সাইটে গিয়ে একাউন্ট রেজিস্টার করে হারিয়ে যাওয়া কার্ড রিইস্যু করার অপশন সিলেক্ট করুন। এরপর বিকাশ বা রকেটের মাধ্যমে সরকারি ৩৪৫ টাকা ফি প্রদান করে জিডির কপি আপলোড করে সাবমিট করুন। আবেদনটি অনুমোদিত হলে আপনি ওয়েবসাইট থেকে সরাসরি আপনার নতুন কার্ডের পিডিএফ কপি ডাউনলোড করতে পারবেন।
+ * **ব্যবহারকারী:** আমি নতুন ভোটার হতে চাই। অনলাইনে আবেদন করার পর কী করতে হবে?
+   **সহায়ক:** অনলাইনে আবেদন সম্পন্ন করার পর আপনাকে আপনার এলাকার উপজেলা বা থানা নির্বাচন অফিসে স্বশরীরের যেতে হবে। অনলাইনে পূরণকৃত ফর্ম ২ (ক)-এর একটি প্রিন্ট কপি এবং সাথে আপনার ডিজিটাল জন্ম নিবন্ধন, এসএসসি সার্টিফিকেট (যদি থাকে), বিদ্যুৎ বিল বা ট্যাক্স রসিদ এবং পিতা-মাতার এনআইডি কার্ডের কপি নিয়ে যাবেন। সেখানে আপনার হাতের ১০ আঙুলের ছাপ, চোখের আইরিশ স্ক্যান এবং মুখের ছবি তোলা হবে। এই বায়োমেট্রিক কার্যক্রম সম্পন্ন করার পর আপনার তথ্য যাচাই শেষে কার্ডের অনুমোদন দেওয়া হবে।
+ * **ব্যবহারকারী:** আমার এনআইডি ওয়ালেট অ্যাপে ফেস ভেরিফিকেশন হচ্ছে না, "No Face Detected" দেখাচ্ছে। কী করবো?
+   **সহায়ক:** এনআইডি ওয়ালেট অ্যাপে ফেস ভেরিফিকেশনের সমস্যাটি বেশ সাধারণ। এটি সমাধানের জন্য কিছু বিষয় খেয়াল রাখুন: পর্যাপ্ত আলো আছে এমন জায়গায় গিয়ে ভেরিফিকেশন করুন। আপনার মোবাইল স্ক্রিনের উজ্জ্বলতা বাড়িয়ে দিন এবং ক্যামেরা লেন্সটি পরিষ্কার করে নিন। মুখমণ্ডল ক্যামেরার ফ্রেমে সোজাভাবে রাখুন এবং স্ক্রিনে নির্দেশিত উপায়ে একবার ডানে, একবার বামে এবং একবার সরাসরি তাকান। চোখের পলক ফেলুন। যদি আপনার নিজের ফোনে কাজ না করে, তবে অন্য কোনো ভালো ক্যামেরাযুক্ত ফোনে অ্যাপটি নামিয়ে একই অ্যাকাউন্ট লগইন করে চেষ্টা করতে পারেন।
+ * **ব্যবহারকারী:** আমার এনআইডিতে বাবার নামের বানান ভুল এসেছে। সংশোধনের জন্য কী কাগজ জমা দেবো?
+   **সহায়ক:** বাবার নামের বানান সংশোধনের জন্য আপনার কাছে যদি এসএসসি বা সমমানের সার্টিফিকেট থাকে, তবে সেটি সবচেয়ে বড় প্রমাণ। এছাড়া আপনার ডিজিটাল জন্ম নিবন্ধন এবং আপনার বাবার নিজের এনআইডি কার্ডের অনলাইন কপি প্রয়োজন হবে। আপনি আপনার অনলাইন প্রোফাইলে গিয়ে তথ্য সংশোধন ট্যাবে বাবার সঠিক বানানটি লিখে এই কাগজপত্রগুলো আপলোড করে ২৩৩ টাকা (ভ্যাটসহ) সংশোধন ফি বিকাশ বা রকেটের মাধ্যমে পরিশোধ করে সাবমিট করুন।
+ * **ব্যবহারকারী:** ভোটার এলাকা পরিবর্তনের জন্য আবেদন করতে চাই। কীভাবে করতে হবে?
+   **সহায়ক:** এক এলাকা থেকে অন্য এলাকায় ভোটার স্থানান্তরের জন্য আপনাকে এনআইডি ফর্ম ১৩ (Form 13) পূরণ করতে হবে। আপনি যে নতুন এলাকায় স্থানান্তর হতে চান, সেখানকার হোল্ডিং ট্যাক্স রসিদ, বিদ্যুৎ বিলের কপি বা বাড়ি ভাড়ার রসিদ এবং স্থানীয় চেয়ারম্যান বা মেয়রের নাগরিকত্ব সনদ প্রয়োজন হবে। এই প্রমাণপত্রগুলোসহ অনলাইনে বা সরাসরি নতুন এলাকার উপজেলা নির্বাচন অফিসে ফর্ম ১৩ পূরণ করে জমা দিন। স্থানান্তর সম্পন্ন হতে সাধারণত ২০ থেকে ৩০ দিন সময় লাগতে পারে।
+### 14. Glossary
+ * **বায়োমেট্রিক ভেরিফিকেশন (Biometric Verification):** আঙুলের ছাপ, চোখের আইরিশ এবং ফেসিয়াল ডাটা ব্যবহার করে কোনো ব্যক্তির পরিচয় ডিজিটালভাবে নিশ্চিত করার প্রক্রিয়া।
+ * **এনআইডি ওয়ালেট (NID Wallet):** বাংলাদেশ নির্বাচন কমিশন কর্তৃক তৈরি মোবাইল অ্যাপ যা ফেস ভেরিফিকেশনের মাধ্যমে অনলাইন প্রোফাইল সুরক্ষায় ব্যবহৃত হয়।
+ * **জিডি (General Diary):** থানা পুলিশ রেকর্ড বইতে কোনো নথিপত্র হারানো বা চুরির বিষয়ে আনুষ্ঠানিকভাবে দায়ের করা অভিযোগ বা তথ্যলিপি।
+## Document 3: Death Registration Certificate (মৃত্যু নিবন্ধন সনদ)
+### 1. Legal Basis
+Death registration is governed by the Birth and Death Registration Act, 2004, and its subsequent rules. The Local Government Division (LGD) of the Ministry of Local Government, Rural Development and Co-operatives holds statutory authority over the process. The implementation rules are grounded in regulatory S.R.O. Notifications (Nos. 206-Act/2006, 321-Act/2006, and 326-Act/2006) published in the Bangladesh Gazette, which formalized the decentralized recordkeeping of mortality data across the country.
+### 2. Issuing Authority Matrix
+Issuing authority is decentralized based on the deceased's last place of residence or death:
+ * **Rural Jurisdictions:** Union Parishad (ইউনিয়ন পরিষদ) Office, authorized by the UP Chairman.
+ * **Municipalities:** Pourashava (পৌরসভা) Office, authorized by the Pourashava Mayor.
+ * **Metropolitan Areas:** City Corporation (সিটি কর্পোরেশন) Ward Office.
+ * **Cantonment Zones:** Cantonment Board Registrar.
+ * **Outside Bangladesh:** Relevant Bangladeshi Foreign Embassy or Consulate.
+In practice, after a death is recorded, an inspector or field official may verify the circumstances prior to the Local Registrar's final computerized system approval and physical issuance of the certificate.
+### 3. Eligibility & Timing
+ * **Informant Eligibility:** Close family members (spouse, children, parents, siblings) or legal heirs are authorized to report the death.
+ * **Standard Window:** Registration must ideally be completed within 45 days of the death occurring.
+ * **Delayed Deadlines:** Registration is free of charge up to 2 years after death, except for nominal stamp costs. Registration after 2 years incurs late fees and requires supplementary verification by local administrative officers.
+### 4. Complete Document Checklist
+#### Standard Application
+ * **Medical Certificate of Death:** Signed by an MBBS doctor at the hospital where the deceased passed away or was declared dead.
+ * **Graveyard Caretaker Slip or Cremation Certificate:** In rural areas, a certificate from the local graveyard committee, cremation ghat, or the local Union Parishad member confirming burial is required.
+ * **Deceased's Original NID Card or Birth Certificate:** To link and retire the identity profile within the national database.
+ * **Applicant's NID Copy:** Required to establish the identity and relationship of the informant reporting the death.
+#### Exceptional Situations (Unnatural Deaths)
+ * **Post-Mortem & Police Inquest Report:** For accidental, suspicious, or homicidal deaths, the police department files the case, and the Forensic Medicine department issues the post-mortem report, which must be attached to the registration.
+### 5. Form Field Annotation
+The electronic application is initiated via the BDRIS portal using the Death Registration Form (Form-4).
+ * **১. মৃত ব্যক্তির নাম (বাংলা ও ইংরেজি) (Deceased's Name - Bangla & English):** Must match the deceased’s NID exactly. *Common Mistake:* Spelling the name differently from their registered NID, which creates issues during inheritance claims.
+ * **২. মৃত্যুর তারিখ (Date of Death):** Formatted as YYYY-MM-DD. *Common Mistake:* Discrepancies between the medical certificate date of death and the graveyard burial slip.
+ * **৩. মৃত্যুর স্থান (Place of Death):** Specific hospital name, home address, or accident location.
+ * **৪. লিঙ্গ (Gender):** Male, Female, or Other.
+ * **৫. পিতা ও মাতার নাম (Father's & Mother's Name):** Complete names along with their NIDs/BRNs.
+ * **৬. স্বামী বা স্ত্রীর নাম (Spouse's Name):** Applicable if the deceased was married; must match the spouse's NID.
+ * **৭. স্থায়ী ও বর্তমান ঠিকানা (Permanent & Present Address):** Verifies local jurisdiction.
+### 6. Process Flowchart
+```
+[Occurence [span_399](start_span)[span_399](end_span)of Death]
+        │
+        ▼
+[Obtain Medical Certificate of Death & Graveyard Caretaker Slip]
+        │
+        ▼
+[Submit Online Application on bdris.gov.bd]
+        │
+        ▼[span_17](start_span)[span_17](end_span)
+[Print Online App[span_378](start_span)[span_378](end_span)[span_386](start_span)[span_386](end_span)lication and attach Medical Slip, Deceased NID, and Informant NID][span_408](start_span)[span_408](end_span)[span_409](start_span)[span_409](end_span)
+        │
+        ▼
+[Submit Physi[span_18](start_span)[span_18](end_span)cal Dossier to Union Parishad, Pourashava, or City Corp Ward Office][span_410](start_span)[span_410](end_span)[span_412](start_span)[span_412](end_span)
+        │
+        ▼
+[Verification by Local Administrative Inspector]
+        │
+        ▼
+[Pay Processing Fee at Office Counter (Obtain Payment Receipt)]
+        │
+        ▼
+[Local Registrar Approves and Marks Deceased's Identity Profile as Deceased in BDRIS]
+        │
+        ▼
+[Collect Signed and Sealed Digital Death Certificate (English & Ben[span_19](start_span)[span_19](end_span)gali Copy)]
+
+```
+### 7. Online vs. Offline Process
+ * **Online Portal:** Initial applications are lodged via bdris.gov.bd. Online validation and verification checks can be performed at everify.bdris.gov.bd.
+ * **In-Person Steps:** The original signed medical certificates, graveyard/burial permits, and the deceased's physical NID card must be presented at the local government office counter for biometric and document matching.
+### 8. Fees
+ * **Up to 2 Years:** Free registration (except for certified copies).
+ * **Computerized Certificate Fee:** BDT 50 for Bengali and BDT 100 for English versions.
+ * **Corrections:** BDT 20 for system correction of erroneous fields.
+ * *Verification Source:* Local Government Division (LGD) rules.
+### 9. Correction & Amendment Process
+ * **Procedure:** Applications for correcting misspelt names, ages, or places of death are submitted online via the BDRIS correction portal.
+ * **Supporting Documents:** Requires submitting the official hospital discharge summary, original post-mortem report (if applicable), or the registered NID of the deceased prior to their passing. The corrected certificate is issued within 7 to 10 working days after the local registrar’s database update.
+### 10. Common Problems & Failure Points
+ * **Unregistered Home Deaths:** In remote rural areas, home deaths are often buried without obtaining a graveyard caretaker slip or a physician's declaration, making delayed registration complex.
+ * **Deceased Lacked Digital Birth/NID Records:** If the deceased did not have a digital birth registration or NID during their lifetime, the BDRIS software blocks direct death registration. The applicant must often first create a retroactive digital birth record for the deceased.
+### 11. Fraud & Scam Warnings
+ * **Burial Slip Rackets:** Unscrupulous local actors may charge inflated fees to issue burial slips or cremation reports for families in distress.
+ * **Authenticity Check:** Valid death certificates contain a unique QR code and a 17-digit registration number, which can be verified online at everify.bdris.gov.bd.
+### 12. Interconnections with Other Documents
+```
+[Deceased NID / [span_401](start_span)[span_401](end_span)[span_403](start_span)[span_403](end_span)Birth Cert] + [Medi[span_22](start_span)[span_22](end_span)cal/Buria[span_99](start_span)[span_99](end_span)l Certificate] ──> [Death Certificate (BDRIS)]
+                            [span_23](start_span)[span_23](end_span)                                          │
+                    ┌─────────────────────────────────────────[span_24](start_span)[span_24](end_span)────────┴──────────────[span_381](start_span)[span_381](end_span)[span_389](start_span)[span_389](end_span)───────────────────────────────────┐
+                    ▼                  [span_25](start_span)[span_25](end_span)                                                                                 ▼
+[Legal Heir / Succession Certificate (Court)]                          [span_161](start_span)[span_161](end_span)                                     [Bank Account Asset Closure][span_416](start_span)[span_416](end_span)
+
+```
+### 13. Sample LLM Conversations
+ * **ব্যবহারকারী:** আমার দাদা গতকাল মারা গেছেন। ওনার মৃত্যু নিবন্ধন সনদ কীভাবে পাবো?
+   **সহায়ক:** প্রথমে আপনার পরিবারের প্রতি গভীর সমবেদনা জানাই। দাদার মৃত্যু নিবন্ধন করার জন্য প্রথমে দুটি কাগজ সংগ্রহ করুন: hospital থেকে দেওয়া ডেথ সার্টিফিকেট (মৃত্যুর চিকিৎসাপত্র) এবং কবরস্থান বা শ্মশান কমিটির দেওয়া দাফন বা শেষকৃত্যের রসিদ। এরপর bdris.gov.bd ওয়েবসাইটে গিয়ে অনলাইনে আবেদন করুন এবং দাদার এনআইডি কার্ড ও যিনি আবেদন করছেন তার এনআইডি কার্ডের কপিসহ আবেদনপত্রটি প্রিন্ট করুন। এগুলো নিয়ে স্থানীয় ইউনিয়ন পরিষদ বা সিটি কর্পোরেশন অফিসে জমা দিলে ওনারা সরকারি নিয়ম অনুযায়ী সনদটি প্রিন্ট করে দেবেন।
+ * **ব্যবহারকারী:** আমার বাবা অনেক বছর আগে মারা গেছেন, ওনার কোনো ডিজিটাল মৃত্যু সনদ নেই। এখন সম্পত্তি ভাগাভাগির জন্য এটা লাগবে, কী করবো?
+   **সহায়ক:** এটি একটু জটিল হলেও সমাধান সম্ভব। একে আমরা বিলম্বিত মৃত্যু নিবন্ধন বলি। প্রথমত, আপনার বাবার যদি কোনো পুরানো কাগজের মৃত্যু সনদ বা দাফনের প্রমাণ থাকে, তবে তা খুঁজে বের করুন। যদি তা না থাকে, তবে স্থানীয় ইউনিয়ন পরিষদ মেম্বার বা সিটি কর্পোরেশনের কাউন্সিলরের কাছ থেকে ওনার মৃত্যুর তারিখ ও স্থান উল্লেখ করে একটি প্রত্যয়নপত্র নিন। এরপর অনলাইনে বিলম্বিত মৃত্যু নিবন্ধনের আবেদন করে স্থানীয় নির্বাচন অফিস বা স্থানীয় সরকার কার্যালয়ে যোগাযোগ করুন। ওনারা তদন্ত সাপেক্ষে ডাটাবেজে তথ্য যুক্ত করে ডিজিটাল মৃত্যু সনদ দেবেন।
+ * **ব্যবহারকারী:** এক্সিডেন্টে মারা গেলে কি সাধারণ মৃত্যু সনদের নিয়মেই আবেদন করা যাবে?
+   **সহায়ক:** সড়ক দুর্ঘটনা বা কোনো অস্বাভাবিক মৃত্যুর ক্ষেত্রে সাধারণ নিয়মের চেয়ে কিছু অতিরিক্ত কাগজপত্রের প্রয়োজন হয়। এই ক্ষেত্রে হাসপাতালে মৃত্যুর প্রমাণপত্রের পাশাপাশি থানার পুলিশ কর্তৃক এফআইআর (FIR), সুরতহাল (Inquest Report) এবং ময়নাতদন্তের (Post-Mortem) রিপোর্টের প্রত্যয়িত কপি আবেদনের সাথে যুক্ত করতে হবে। বাকি অনলাইন আবেদনের প্রক্রিয়া সাধারণ নিয়মের মতোই।
+ * **ব্যবহারকারী:** মৃত্যু নিবন্ধন করানোর সরকারি ফি কত? কেউ অতিরিক্ত টাকা দাবি করলে কী করবো?
+   **সহায়ক:** সরকারি নিয়ম অনুযায়ী, মৃত্যুর ৪৫ দিনের মধ্যে নিবন্ধন করা সম্পূর্ণ ফ্রি। পরবর্তীতে অনলাইন বা কম্পিউটারাইজড সনদের জন্য ফি মাত্র ৫০ টাকা (বাংলা) এবং ১০০ টাকা (ইংরেজি কপি)। যদি স্থানীয় কোনো দালাল বা কর্মচারী এর চেয়ে অতিরিক্ত টাকা দাবি করে, তবে কোনো অবস্থাতেই তা দেবেন না। প্রয়োজনে সরাসরি ইউনিয়ন পরিষদের চেয়ারম্যান, পৌরসভার মেয়র বা সিটি কর্পোরেশনের সহকারী স্বাস্থ্য কর্মকর্তার কাছে লিখিত বা মৌখিক অভিযোগ জানান।
+ * **ব্যবহারকারী:** আমার মায়ের মৃত্যু সনদে ওনার নাম ভুল এসেছে। এটি ঠিক করার উপায় কী?
+   **সহায়ক:** ভুল তথ্য সংশোধন করা সম্ভব। আপনি অনলাইনে জন্ম ও মৃত্যু নিবন্ধন পোর্টালে গিয়ে মৃত্যু তথ্য সংশোধনের জন্য আবেদন করুন। আপনার মায়ের সঠিক তথ্য প্রমাণের জন্য ওনার জাতীয় পরিচয়পত্র (NID) অথবা ওনার ডিজিটাল জন্ম নিবন্ধন সনদের কপি এবং আপনার নিজের এনআইডি কার্ডের কপি স্ক্যান করে আপলোড করুন। আবেদন সাবমিট করে স্থানীয় কার্যালয়ে গিয়ে ২০ টাকা সংশোধনী ফিসহ যোগাযোগ করলে ওনারা সংশোধন করে দেবেন।
+### 14. Glossary
+ * **ওয়ারিশান সনদ (Succession / Legal Heir Certificate):** মৃত ব্যক্তির আইনগত উত্তরাধিকারীদের তালিকা নিশ্চিত করে আদালত বা স্থানীয় সরকার প্রধান কর্তৃক ইস্যুকৃত আইনি সনদ।
+ * **সুরতহাল রিপোর্ট (Inquest Report):** কোনো অস্বাভাবিক বা আকস্মিক মৃত্যুর ক্ষেত্রে পুলিশ কর্মকর্তা কর্তৃক লাশের বাহ্যিক অবস্থার বিবরণ দিয়ে প্রস্তুতকৃত প্রাথমিক আইনি প্রতিবেদন।
+ * **দাফন সনদ (Burial Certificate):** কবরস্থান বা শ্মশান authority কর্তৃক মৃত ব্যক্তির শেষকৃত্য সম্পন্ন হওয়ার প্রমাণস্বরূপ দেওয়া লিখিত রসিদ বা স্লিপ।
+## Document 4: Muslim Marriage Registration (কাবিন নামা / বিবাহ নিবন্ধন)
+### 1. Legal Basis
+Muslim marriage registration is governed by the Muslim Marriages and Divorces (Registration) Act, 1974. It applies to all Muslim citizens of Bangladesh, regardless of their location. The act was updated by the Muslim Marriage and Divorce (Registration) Rules, 2009, which were amended in December 2022 to adjust the registration fee schedules and licensing structures.
+Under Section 3 of the Act, registration of every Muslim marriage is mandatory. The administrative authority is held by the Law and Justice Division of the Ministry of Law, Justice and Parliamentary Affairs. Non-registration is a punishable offense under Section 5(4), carrying up to two years of simple imprisonment, a fine of BDT 3,000, or both.
+### 2. Issuing Authority Matrix
+Marriages are registered by government-licensed Nikah Registrars, commonly known as **Kazis**.
+ * **Jurisdiction Mapping:** Government licenses are granted on a strict geographic basis: one authorized Kazi per ward in City Corporations, one per municipal ward in Pourashavas, and one per Union Parishad in rural zones.
+ * **Expatriates:** Citizens marrying abroad must register their union with local authorities and have it attested by the respective Bangladeshi Embassy, or register directly with a designated diplomatic officer under the Foreign Marriages Act.
+### 3. Eligibility & Timing
+ * **Age Limits:** The bride must be a minimum of 18 years of age, and the groom must be a minimum of 21 years of age.
+ * **Witnesses:** The presence and signatures of at least two adult Muslim male witnesses (or one male and two females) are legally required.
+ * **Dower (Mahr):** A legally agreed-upon monetary or asset dower must be specified in the contract.
+ * **Timeframes:** If the marriage is conducted by the Kazi, it must be registered immediately. If conducted by another religious authority (Imam), the groom must report it to the designated local Kazi within 30 days of the ceremony.
+### 4. Complete Document Checklist
+ * **Bride & Groom's Age Proof:** Verifiable NID, passport, or digital 17-digit birth certificate.
+ * **Witness IDs:** NID cards of the two adult witnesses.
+ * **Vakil ID (if applicable):** In cases where the bride is represented by an authorized representative (Vakil), their NID and proof of authorization are required.
+ * **Passport-Size Photographs:** Two color photographs of both the bride and groom.
+### 5. Form Field Annotation
+The standard marriage deed registration is executed using **Kabinnama Form No. 1601** (commonly referred to as the 25-column Nikahnama register).
+ * **Column 1:** Details of the ward, town, or village where the marriage was solemnized.
+ * **Column 2 to 6:** Complete names, ages, residential addresses, and NID details of the bridegroom and bride.
+ * **Column 13 & 14 (দেনমোহরের বিবরণ) (Dower Details):** Total Mahr value, specifying the amount paid prompt (*Mwajjal*) versus deferred (*Muwajjal*).
+ * **Column 18 (তালাক-ই-তফভিজ) (Delegated Right of Divorce):** Specifies if the husband has delegated the right of divorce to the wife, along with any conditions. *Common Mistake:* Leaving this column blank, which legally deprives the wife of the right to initiate divorce without going through extended judicial court proceedings.
+ * **Column 25:** Date of registration, signatures of bride, groom, witnesses, Vakil, and the official seal of the Kazi.
+### 6. Process Flowchart
+```
+[Verify Age of Bride (>=18) & Groom (>=21) via NID/Digital Birth Certificate][span_546](start_span)[span_546](end_span)[span_549](start_span)[span_549](end_span)
+                                     │
+                                     ▼
+[Identify Licensed Kazi for the Specific Jurisdiction (Ward/Union)]
+                            [span_531](start_span)[span_531](end_span)[span_538](start_span)[span_538](end_span)         │
+                                     ▼
+[Solemnization of Nikah (Marriage Vows) in Presence of 2 Male Witnesses]
+                                     │
+                                     ▼
+[Complete Entry of 25 Columns in Nikahnama Book[span_498](start_span)[span_498](end_span)[span_506](start_span)[span_506](end_span) 1601 by the Kazi][span_552](start_span)[span_552](end_span)[span_553](start_span)[span_553](end_span)
+                                     │
+                                     ▼
+[Signatures of Bride, Groom, Witnesses, Vakil, and Kazi in the Register]
+                                     │
+                                     ▼
+[Calculate Registration Fees Based on Promised Mahr Amount][span_554](start_span)[span_554](end_span)[span_560](start_span)[span_560](end_span)
+                                     │
+                                     ▼
+[Pay Official[span_476](start_span)[span_476](end_span)[span_482](start_span)[span_482](end_span) Fees to the Kazi and Obtain a Government Receipt]
+                                     │
+                                     ▼
+[Kazi Issu[span_526](start_span)[span_526](end_span)es Certified Attested Copies of the Kabinnama to Both Parties]
+
+```
+### 7. Online vs. Offline Process
+Currently, Muslim marriage registration in Bangladesh remains an **offline, paper-based registry process** kept in the Kazi's physical ledger (Sijil). There is no official public-facing online portal to execute the marriage registration digitally. However, citizens must ensure their Kazi is registered in the Ministry of Law's database to prevent forged documents.
+### 8. Fees
+Under the amended 2022 rules, fees are calculated based on the dower (Mahr) value:
+ * **Mahr up to BDT 5,00,000:** BDT 14 for every BDT 1,000 of dower (e.g., for BDT 1,00,000, fee is BDT 1,400).
+ * **Mahr above BDT 5,00,000:** An additional BDT 100 for every BDT 1,00,000 of dower above the 5 lakh threshold.
+ * **Minimum Legal Fee:** BDT 200, regardless of dower amount.
+ * **Attested Copy Fee:** BDT 50.
+ * *Verification Source:* Gazette notification of Law and Justice Division.
+### 9. Correction & Amendment Process
+If errors are found on a registered Kabinnama:
+ * The parties must file a joint petition with the registering Kazi to correct clerical spelling mistakes.
+ * If the Kazi refuses, or if major changes (such as Mahr adjustments) are requested, a suit must be filed in the local Family Court to obtain a declaratory decree for correction.
+### 10. Common Problems & Failure Points
+ * **Jurisdiction Violation:** Registering with a Kazi licensed for a different ward or Union Parishad. This makes the registration legally vulnerable and can lead to challenges in court or during visa processing.
+ * **Underage Registration Attempts:** Families attempting to bypass age checks by using fake affidavits or manual, non-digital birth records.
+ * **Omission of Column 18:** Leaving the delegated right of divorce blank without explaining its legal significance to the bride.
+### 11. Fraud & Scam Warnings
+ * **Kazi Overcharging:** Kazis frequently demand exorbitant flat fees (e.g., 10% of the dower) by falsely claiming that the entire fee goes to the government. Parties should calculate the fee using the BDT 14/1,000 rule and demand an official government receipt.
+ * **Fake Kazis:** Unlicensed individuals performing ceremonies and issuing forged Kabinnamas. Always verify the Kazi's official registration certificate issued by the Law Ministry.
+### 12. Interconnections with Other Documents
+```
+[Bride & Groom NID / Passport] ──> [Kabinnama (Muslim Marriage Certificate)]
+                                              │
+               ┌──────────────────────────────┴──────────────────────────────┐
+               ▼                                                             ▼
+[Wife's Passport Spouse Update]                         [Family Visa / Immigration Docs]
+
+```
+### 13. Sample LLM Conversations
+ * **ব্যবহারকারী:** দেনমোহর ৩ লাখ টাকা হলে কাজী অফিসে সরকারি রেজিস্ট্রেশন ফি কত টাকা দিতে হবে?
+   **সহায়ক:** সরকারি সংশোধিত নিয়ম অনুযায়ী, দেনমোহর ৫ লাখ টাকা পর্যন্ত হলে প্রতি ১ হাজার টাকায় ১৪ টাকা হারে রেজিস্ট্রেশন ফি দিতে হবে। আপনার দেনমোহর ৩ লাখ টাকা হলে হিসাবটি হবে: 3,00,000 \div 1,000 \times 14 = 4,200 টাকা। এছাড়া কাবিননামার সত্যায়িত কপির জন্য আরও ৫০ টাকা ফি দিতে হবে। সুতরাং, আপনার মোট সরকারি ফি হবে ৪,২৫০ টাকা। কাজী সাহেব এর অতিরিক্ত দাবি করলে সরকারি রসিদ বা রিসিট দাবি করবেন।
+ * **ব্যবহারকারী:** কাবিননামার ১৮ নম্বর কলাম বা "তালাক-ই-তফভিজ" কী? এটি খালি রাখলে কী সমস্যা হতে পারে?
+   **সহায়ক:** কাবিননামার ১৮ নম্বর কলামটি অত্যন্ত গুরুত্বপূর্ণ। এর মাধ্যমে স্বামী স্ত্রীকে তালাক প্রদানের ক্ষমতা বা অধিকার অর্পণ করেন। এটি যদি খালি রাখা হয় বা 'না' লেখা থাকে, তবে ভবিষ্যতে দাম্পত্য জীবন অসম্ভব হয়ে পড়লেও স্ত্রী নিজের ইচ্ছায় বিবাহ বিচ্ছেদ করতে পারবেন না; তাকে আদালতের মাধ্যমে দীর্ঘ আইনি প্রক্রিয়া এবং মামলা লড়ে বিচ্ছেদ করতে হবে। তাই এটিতে শর্তহীনভাবে অধিকার দেওয়া উচিত, যাতে কোনো আপদকালীন পরিস্থিতিতে স্ত্রী আইনিভাবে নিজের সুরক্ষায় সিদ্ধান্ত নিতে পারেন।
+ * **ব্যবহারকারী:** আমাদের বিয়ে এক বছর আগে হয়েছিল কিন্তু কোনো কাজী দিয়ে রেজিস্ট্রি করা হয়নি। এখন কীভাবে করবো?
+   **সহায়ক:** মুসলিম আইন অনুযায়ী বিবাহ রেজিস্ট্রি করা আইনি বাধ্যবাধকতা এবং না করা একটি দণ্ডনীয় অপরাধ। yourselves-এর বিয়ে যদি কাজী ছাড়া অন্য কারো মাধ্যমে হয়ে থাকে, তবে ৩০ দিনের মধ্যে তা কাজীকে জানানো উচিত ছিল। এখন দ্রুত আপনাদের বিয়ের সময় উপস্থিত থাকা দুই জন সাক্ষী এবং বর-কনের বয়স প্রমাণের কাগজপত্র (এনআইডি বা ডিজিটাল জন্ম নিবন্ধন) নিয়ে স্থানীয় কাজীর কাছে যান। কাজী সাহেব আপনাদের বিয়েটি পূর্ববর্তী তারিখ উল্লেখ করে রেজিস্ট্রি ফাইলে নথিভুক্ত করবেন এবং আপনাদের কাবিননামা প্রদান করবেন।
+ * **ব্যবহারকারী:** আমার বিয়ের কাবিননামা হারিয়ে গেছে। কীভাবে নতুন কপি তুলবো?
+   **সহায়ক:** কাবিননামা হারিয়ে গেলে ঘাবড়ানোর কিছু নেই। যে কাজী অফিসে আপনাদের বিয়ে রেজিস্ট্রি করা হয়েছিল, সেখানে যোগাযোগ করতে হবে। বিয়ের বছর ও তারিখ জানা থাকলে কাজী সাহেব তার বালাম বই বা রেজিস্টার ঘেঁটে তথ্য বের করতে পারবেন। সেখানে সরকারি ফি (সাধারণত ৫০ টাকা এবং কাজী অফিসের কিছু সার্ভিস চার্জ) দিয়ে আপনি মূল কাবিননামার একটি সত্যায়িত ডুপ্লিকেট কপি তুলতে পারবেন।
+ * **ব্যবহারকারী:** কাজী যদি সরকারি নির্ধারিত ফির চেয়ে বেশি টাকা দাবি করে, তবে কোথায় অভিযোগ করবো?
+   **সহায়ক:** কোনো কাজী নির্ধারিত ফির চেয়ে অতিরিক্ত অর্থ দাবি করলে বা রশিদ দিতে অস্বীকার করলে আপনি জেলা রেজিস্ট্রার (District Registrar) অফিস অথবা সরাসরি আইন ও বিচার মন্ত্রণালয়ের নিবন্ধন পরিদপ্তরে (Registration Directorate) লিখিত অভিযোগ দায়ের করতে পারেন। অভিযোগের প্রমাণ হিসেবে বিয়ের তারিখ এবং কাজীর নাম উল্লেখ করবেন।
+### 14. Glossary
+ * **দেনমোহর (Mahr):** বিবাহের সময় বা দাম্পত্য সম্পর্কের শুরুতে স্বামীর পক্ষ থেকে স্ত্রীকে বাধ্যতামূলকভাবে প্রদেয় অর্থ বা সম্পত্তি, যা স্ত্রীর নিরঙ্কুশ আইনি অধিকার।
+ * **তালাক-ই-তফভিজ (Talaq-e-Tafweez):** বিয়ের চুক্তিতে স্বামীকে প্রদত্ত তালাকের অধিকারের একটি অংশ স্ত্রীকে অর্পণ করা, যা কাবিননামার ১৮ নম্বর কলামে উল্লেখ থাকে।
+ * **বালাম বই (Balam Book / Sijil):** কাজী কর্তৃক বিয়ের যাবতীয় তথ্য ও স্বাক্ষর স্থায়ীভাবে সংরক্ষণ করার সরকারি রেজিস্টার বই।
+## Document 5: Hindu Marriage Registration (হিন্দু বিবাহ নিবন্ধন সনদ)
+### 1. Legal Basis
+The primary statutory authority is the Hindu Marriage Registration Act, 2012, complemented by the Hindu Marriage Registration Rules, 2013.
+A key legal distinction is that Hindu marriage registration in Bangladesh is **not mandatory**; it is an optional civil registration mechanism designed to provide legal protections for Hindu wives. Traditional Hindu marriages in Bangladesh are historically treated as indissoluble, with no statutory provisions for civil divorce available under Hindu personal law. Registration serves as legal evidence of the union to prevent disputes and facilitate civic transactions.
+### 2. Issuing Authority Matrix
+ * **Hindu Marriage Registrars:** The Law and Justice Division of the Ministry of Law, Justice and Parliamentary Affairs appoints specific Hindu Marriage Registrars across municipal and district administrative zones.
+ * **Rural & Urban Alignment:** Applications must be made to the designated Hindu Marriage Registrar of the area where the marriage was solemnized or where either party resides. The registrar maintains a dedicated marriage register book for Hindu unions.
+### 3. Eligibility & Timing
+ * **Age Limit:** The groom must have completed 21 years of age, and the bride must have completed 18 years of age.
+ * **Solemnization:** The marriage must have been solemnized first according to customary Hindu religious rites and ceremonies (such as *Saptapadi* or taking seven steps around the sacred fire).
+ * **Deadline:** Registration can be completed at any time post-solemnization. While the rules suggest registering within 15 days of the wedding ceremony, delayed registration is permitted without penalties, provided proof of customary solemnization is presented.
+### 4. Complete Document Checklist
+ * **Bride & Groom's NIDs, Passports, or Digital Birth Certificates:** To verify age and citizenship.
+ * **Purohit (Priest) Certificate:** A formal written declaration or certificate from the Purohit who performed the wedding rituals, confirming the marriage occurred.
+ * **Marriage Invitation Card or Local Councilor/UP Chairman's Certificate:** Auxiliary evidence of the public ceremony.
+ * **Witness NIDs:** At least two adult witnesses (who were present at the customary ceremony) must provide NID copies.
+ * **Passport-Size Photographs:** Colored photos of both parties.
+### 5. Form Field Annotation
+Registrations are executed in the Hindu Marriage Register Book as prescribed under Section 22(2) of the 2013 Rules.
+ * **১. বর ও কনের বিবরণ (Groom & Bride Details):** Names, fathers' names, occupations, and dates of birth.
+ * **২. বিবাহের তারিখ ও স্থান (Date & Place of Marriage):** The exact date of the customary ceremony and the venue.
+ * **৩. পুরোহিতের নাম ও ঠিকানা (Purohit's Name & Address):** Details of the officiating priest who conducted the rituals.
+ * **৪. সাক্ষীদের নাম ও স্বাক্ষর (Witness Details):** Names, addresses, and signatures of the witnesses.
+ * **৫. নিবন্ধন ফি ও স্বাক্ষর (Registration Fee & Signatures):** Signatures of the bride, groom, registrar, and the date of registration.
+### 6. Process Flowchart
+```
+[[span_614](start_span)[span_614](end_span)Customary Hindu Marriage Solemnized by Priest (Saptapadi)][span_626](start_span)[span_626](end_span)
+      [span_425](start_span)[span_425](end_span)                       │
+                             ▼
+[Obtain Written Certificate/Declaration from Officiating Purohit]
+                             │
+            [span_615](start_span)[span_615](end_span)                 ▼
+[Locate the Designated Hindu Marriage Registrar for the District/Zone]
+                             │
+                             ▼
+[Present NIDs, Photos, Priest Certificate, and Witness IDs][span_628](start_span)[span_628](end_span)[span_630](start_span)[span_630](end_span)
+                             │
+                             ▼
+[Fill the Prescribed Registry For[span_583](start_span)[span_583](end_span)m & Sign the Register Book]
+                             │
+                           [span_616](start_span)[span_616](end_span)  ▼
+[Pay the Flat Official Government Registration Fee of BDT 1,000]
+                             │
+                             ▼
+[Registrar Signs, Seals, and Issues the Hindu Marriage Registration Certificate]
+
+```
+### 7. Online vs. Offline Process
+The entire process is **offline**. No computerized database registration or public online forms are available for Hindu marriages. Registration must be recorded in the registrar's physical ledger, and a manual signed certificate is issued.
+### 8. Fees
+ * **Registration Fee:** BDT 1,000 flat rate for registering a Hindu marriage.
+ * *Verification Source:* Hindu Marriage Registration Rules, 2013.
+### 9. Correction & Amendment Process
+Corrections for spelling mistakes or clerical errors on a Hindu marriage certificate require filing a written application with the same registrar who issued the document. Parties must submit corroborating evidence such as NIDs or academic transcripts. The registrar will make a counter-signed notation in the register margins and issue an amended certificate.
+### 10. Common Problems & Failure Points
+ * **Purohit Document Neglect:** Priests often do not maintain written logs of the marriages they conduct, making it difficult for couples to obtain a written Purohit certificate years later.
+ * **Lack of Registrars:** Hindu marriage registrars are not present in every sub-district, forcing applicants from rural areas to travel to district headquarters to locate an authorized officer.
+### 11. Fraud & Scam Warnings
+ * **Unlicensed Pujaris:** Unlicensed temple priests may claim they are legally authorized registrars and issue "marriage certificates" on temple letterheads. These temple documents are religious records, not legally valid civil marriage registration certificates under the 2012 Act.
+### 12. Interconnections with Other Documents
+```
+[Purohit Marriage Certificate] ──> [Hindu Marriage Registration Certificate] ──> [Joint Passport / Visas]
+
+```
+### 13. Sample LLM Conversations
+ * **ব্যবহারকারী:** হিন্দু বিয়ে রেজিস্ট্রি করা কি বাধ্যতামূলক? না করলে কি কোনো শাস্তি আছে?
+   **সহায়ক:** না, হিন্দু বিবাহ রেজিস্ট্রেশন আইন ২০১২ অনুযায়ী এটি বাধ্যতামূলক নয়, এটি সম্পূর্ণ ঐচ্ছিক। তাই বিয়ে রেজিস্ট্রি না করলে কোনো আইনি শাস্তি বা জরিমানা নেই। তবে বিবাহিত নারীদের আইনি অধিকার রক্ষা, পাসপোর্ট তৈরি, যৌথ ব্যাংক অ্যাকাউন্ট খোলা বা বিদেশে যাওয়ার ভিসার আবেদনের ক্ষেত্রে এই সার্টিফিকেট অত্যন্ত প্রয়োজনীয় আইনি প্রমাণ হিসেবে কাজ করে।
+ * **ব্যবহারকারী:** আমাদের হিন্দু বিয়ে রেজিস্ট্রি করার সরকারি ফি কত টাকা?
+   **সহায়ক:** সরকারি নিয়ম অনুযায়ী হিন্দু বিয়ে নিবন্ধনের জন্য কোনো জটিল হিসাব নেই। এটি একটি নির্দিষ্ট বা ফ্ল্যাট ফি। হিন্দু ম্যারেজ রেজিস্ট্রেশন আইন অনুযায়ী বিয়ে প্রতি সরকারি রেজিস্ট্রেশন ফি ১,০০০ (এক হাজার) টাকা।
+ * **ব্যবহারকারী:** হিন্দু বিয়ে রেজিস্ট্রির জন্য পুরোহিতের প্রত্যয়নপত্র বা লিখিত কাগজ কি দরকার?
+   **সহায়ক:** হ্যাঁ, হিন্দু বিবাহ নিবন্ধনের আবেদনের জন্য বিয়ের পৌরোহিত্য করা পুরোহিতের প্রত্যয়নপত্র বা লিখিত ডিক্লারেশন একটি অন্যতম প্রধান প্রয়োজনীয় নথি। পুরোহিতের দেওয়া লিখিত প্যাডে বিয়ের তারিখ, বর-কনের নাম ও বিবাহের স্থান স্পষ্টভাবে উল্লেখ থাকতে হবে এবং পুরোহিতের স্বাক্ষর ও সিল থাকতে হবে।
+ * **ব্যবহারকারী:** আমাদের বিয়ে হিন্দু শাস্ত্র অনুযায়ী ৩ বছর আগে হয়েছে। আমরা কি এখন তা রেজিস্ট্রি করতে পারবো?
+   **সহায়ক:** অবশ্যই পারবেন। হিন্দু বিয়ে রেজিস্ট্রি করার কোনো নির্দিষ্ট সময়সীমা বা ডেডলাইন নেই। আপনারা বিয়ের তারিখ থেকে যেকোনো সময় আবেদন করতে পারেন। শুধু বিয়ের সচিত্র প্রমাণ, বর-কনের এনআইডি, বিয়ের নিমন্ত্রণপত্র এবং বিয়ের পুরোহিতের প্রত্যয়নপত্র সাথে নিয়ে স্থানীয় হিন্দু ম্যারেজ রেজিস্ট্রারের সাথে যোগাযোগ করতে হবে।
+ * **ব্যবহারকারী:** আমার এলাকায় কোনো হিন্দু বিবাহ রেজিস্ট্রার নেই। আমি কীভাবে বিয়ে রেজিস্ট্রি করাবো?
+   **সহায়ক:** যেহেতু সব উপজিলায় হিন্দু ম্যারেজ রেজিস্ট্রার নিয়োগ করা নেই, তাই আপনার নিকটস্থ জেলা শহরের জেলা রেজিস্ট্রার (District Registrar) কার্যালয়ে যোগাযোগ করুন। ওনারা আপনাকে আপনার এলাকার দায়িত্বপ্রাপ্ত রেজিস্ট্রারের সন্ধান দেবেন, যার অধীনে আপনি আপনার বিয়েটি রেজিস্ট্রি করতে পারবেন।
+### 14. Glossary
+ * **ঐচ্ছিক নিবন্ধন (Optional Registration):** আইন অনুযায়ী যা করা বাধ্যতামূলক নয়, তবে নাগরিক নিজের প্রয়োজনে করলে তা আইনি স্বীকৃতি লাভ করে।
+ * **সপ্তপদী (Saptapadi):** হিন্দু বিয়ের একটি প্রধান ধর্মীয় আচার যেখানে বর ও কনে পবিত্র অগ্নিকে প্রদক্ষিণ করে সাতটি প্রতিজ্ঞা সম্পন্ন করেন।
+ * **পুরোহিত প্রত্যয়নপত্র (Priest Certificate):** ধর্মীয় শাস্ত্র মতে বিয়ে সম্পন্ন করার পর সংশ্লিষ্ট যাজক বা ব্রাহ্মণ কর্তৃক দেওয়া বিয়ের প্রমাণপত্র।
+## Document 6: Civil Marriage Registration (Special Marriage Act) (বিশেষ বিবাহ নিবন্ধন)
+### 1. Legal Basis
+Civil marriages, which include interfaith unions and marriages where the parties do not wish to register under a specific personal law, are governed by the **Special Marriage Act, 1872**. The Ministry of Law, Justice and Parliamentary Affairs regulates the licensing of registrars under this Act.
+The Special Marriage Act allows individuals of different faiths, or those who declare they do not profess any of the listed religions (Hinduism, Islam, Christianity, Judaism, etc.), to marry legally.
+### 2. Issuing Authority Matrix
+Civil marriages are solemnized and registered by government-appointed **Special Marriage Registrars**. These registrars are licensed under Act III of 1872 for specific geographical districts. Unlike standard registrars, Special Marriage Registrars are fewer in number, and most operate in major urban centers such as Dhaka and Chittagong.
+### 3. Eligibility & Timing
+ * **Ages:** The groom must have completed 18 years of age, and the bride must have completed 14 years of age under the historical 1872 Act. However, in modern practice, registrars enforce the standard legal ages of **21 for grooms and 18 for brides** to align with child marriage restraint laws.
+ * **Consent:** If either party is under 21 years of age, the written consent of their father or legal guardian is required.
+ * **Previous Marriage:** Neither party must have a living husband or wife at the time of the wedding.
+ * **Notice Residency:** At least one of the marrying parties must have resided in the registrar's district for a minimum of 14 days before submitting the marriage notice.
+### 4. Complete Document Checklist
+ * **NID or Passport Copies:** To verify identities, ages, and addresses.
+ * **Affidavit of Single Status:** A certified non-judicial stamp paper affidavit stating that neither party has a living spouse.
+ * **Proof of 14-Day Local Residence:** Such as a utility bill, house deed, or local landlord's certificate.
+ * **Three Adult Witnesses:** NIDs of three adult witnesses who will sign the declaration.
+ * **Passport-Size Photos:** Four copies of recent color photographs of both the bride and groom.
+### 5. Form Field Annotation
+The forms are standardized under the Schedules of the Special Marriage Act, 1872:
+ * **Notice of Marriage (First Schedule):** Submitted by one of the parties to the Registrar. Fields include names, conditions, occupations, dwelling places, and length of residence.
+ * **Declaration by Parties (Second Schedule):** Signed by the bridegroom, bride, three witnesses, and the registrar. It includes a statement confirming that neither party is in a prohibited degree of relationship and a declaration of their religious status or non-religion.
+ * **Registrar's Certificate (Third Schedule):** The final issued marriage certificate recorded in the Marriage Certificate Book.
+### 6. Process Flowchart
+```
+[Verify Groom (>=21) & Bride (>=18) & Single Status]
+                         │
+                         ▼
+[Draft & Execute Single Status Affidavit on [span_640](start_span)[span_640](end_span)[span_642](start_span)[span_642](end_span)Non-Judicial Stamp]
+                         │
+                         ▼
+[Submit Written "Notice of Marriage" to Special Registrar (Must meet 14-day residency)]
+                         │
+                [span_427](start_span)[span_427](end_span)         ▼
+[Registra[span_667](start_span)[span_667](end_span)r Enters Notice into the "Marriage Notice Book" (Open to Public Inspect)]
+                         │
+                         ▼
+[Mandatory 30-Day Waiting Period (For Public Objections or Claims of Bigamy/[span_654](start_span)[span_654](end_span)Prohibited Degrees)][span_686](start_span)[span_686](end_span)[span_698](start_span)[span_698](end_span)
+                         │
+                         ▼
+[If No Valid Objectio[span_428](start_span)[span_428](end_span)ns Are Lodged After 30 Days]
+                         │
+                         ▼
+[Parties & 3 Adult Witnesses Sign Declarations in Presence of the Registrar]
+                         │
+                         ▼
+[Registrar Solemnizes Ci[span_548](start_span)[span_548](end_span)[span_551](start_span)[span_551](end_span)vil Union & Issues Mar[span_659](start_span)[span_659](end_span)[span_664](start_span)[span_664](end_span)riage Certificate (Form 3)]
+
+```
+### 7. Online vs. Offline Process
+The process is entirely **offline**. There are no online application portals, online tracking systems, or mobile apps for civil marriages under the 1872 Act. All notices must be hand-delivered to the registrar's office, and physical signatures are required in the register.
+### 8. Fees
+ * **Base Government Fee:** Regulated under Section 14, typically ranging between BDT 1,250 to BDT 1,500.
+ * **Non-Judicial Stamps:** Approximately BDT 300 to BDT 500.
+ * *Verification Source:* Section 14 of the Special Marriage Act, 1872.
+### 9. Correction & Amendment Process
+To correct an error on a civil marriage certificate, the parties must submit a written request to the registrar who issued the document, along with corrected NIDs or passports. Under the Special Marriage Act, 1872, complex disputes or fundamental status updates must be resolved by filing a suit in the District Court under the Divorce Act, 1869, which governs the dissolution and validity of special marriages.
+### 10. Common Problems & Failure Points
+ * **The 30-Day Delay:** Couples often expect immediate registration ("court marriage") and are unaware of the mandatory 30-day waiting period required by law after submitting the notice.
+ * **Prohibited Consanguinity:** Civil marriages can be declared void if the parties fall within prohibited degrees of relationship under their respective personal laws.
+ * **Social & Security Concerns:** Since the notice book is open to public inspection, interfaith couples may face safety risks if family members discover the intent to marry during the 30-day waiting period.
+### 11. Fraud & Scam Warnings
+ * **"Instant Court Marriage" Scams:** Notaries or lawyers near court premises often charge BDT 5,000 to BDT 20,000 to execute an immediate "court marriage" on a non-judicial stamp. These affidavits are merely declarations of intent and do *not* constitute a legally binding marriage certificate, which can only be issued by an authorized registrar after the 30-day notice period.
+### 12. Interconnections with Other Documents
+```
+[Single Status Affidavit] + [Notice under Act III] ──> [Civil Marriage Certificate] ──> [Divorce Act, 1869 Jurisdiction][span_715](start_span)[span_715](end_span)
+
+```
+### 13. Sample LLM Conversations
+ * **ব্যবহারকারী:** আমার ও আমার বান্ধবীর ধর্ম আলাদা। আমরা কি নিজেদের ধর্ম পরিবর্তন না করেই বিয়ে করতে পারবো?
+   **সহায়ক:** হ্যাঁ, আপনারা নিজেদের ধর্ম পরিবর্তন না করেই আইনি উপায়ে বিয়ে করতে পারবেন। ১৮৭২ সালের বিশেষ বিবাহ আইন (Special Marriage Act) অনুযায়ী এই সুযোগ রয়েছে। এই বিয়ের জন্য আপনাদের বিশেষ ম্যারেজ রেজিস্ট্রারের কাছে গিয়ে আবেদন করতে হবে। বিয়ের সময় আপনাদের দুই জনকেই নিজ নিজ ধর্ম বিশ্বাস পরিবর্তনের কোনো বাধ্যবাধকতা নেই, শুধু ঘোষণা করতে হবে যে আপনারা বিশেষ আইনের অধীনে বিয়ে করছেন।
+ * **ব্যবহারকারী:** বিশেষ বিবাহ বা কোর্ট ম্যারেজ করতে কত দিন সময় লাগে? আমরা কি আজই রেজিস্ট্রি করতে পারবো?
+   **সহায়ক:** আইনিভাবে আজই তাৎক্ষণিকভাবে বিশেষ বিয়ে রেজিস্ট্রি করা সম্ভব নয়। বিশেষ বিবাহ আইনের ৪ নম্বর ধারা অনুযায়ী, বর বা কনের মধ্যে যেকোনো একজনকে রেজিস্ট্রারের নির্বাচনী এলাকায় অন্তত ১৪ দিন বসবাস করতে হবে এবং বিয়ের ৩০ দিন আগে লিখিত নোটিশ জমা দিতে হবে। এই ৩০ দিনের নোটিশ পিরিয়ডে যদি কোনো আইনি আপত্তি না আসে, তবেই কেবল ৩০ দিন পর আপনাদের ৩ জন সাক্ষী নিয়ে রেজিস্ট্রারের সামনে বিয়ে সই করতে হবে।
+ * **ব্যবহারকারী:** কোর্টে গিয়ে হলফনামা (Affidavit) সই করলেই কি বিয়ে সম্পন্ন হয়ে যায়?
+   **সহায়ক:** এটি একটি অত্যন্ত প্রচলিত ভুল ধারণা। অনেকে মনে করেন নোটারি পাবলিকের সামনে ৩০০ টাকার নন-জুডিশিয়াল স্ট্যাম্পে হলফনামা বা ডিক্লারেশন সই করলেই বিয়ে হয়ে যায়। কিন্তু মনে রাখবেন, হলফনামা কোনো বিয়ের বিকল্প নয়, এটি কেবল বিয়ের একটি ঘোষণাপত্র মাত্র। বিশেষ বিবাহ রেজিস্ট্রারের মাধ্যমে আইন অনুযায়ী রেজিস্ট্রিভুক্ত না হলে সেই বিয়ের কোনো আইনি ভিত্তি নেই এবং তা বাতিল বলে গণ্য হতে পারে।
+ * **ব্যবহারকারী:** বিশেষ বিয়ে করতে আমাদের কয়জন সাক্ষী লাগবে এবং তাদের কী যোগ্যতা থাকতে হবে?
+   **সহায়ক:** বিশেষ বিবাহ আইন ১৮৭২-এর ১১ নম্বর ধারা অনুযায়ী, বিয়ের সময় বর ও কনে ছাড়াও কমপক্ষে ৩ জন প্রাপ্তবয়স্ক পুরুষ বা নারী সাক্ষী উপস্থিত থাকা বাধ্যতামূলক। সাক্ষীদের অবশ্যই ১৮ বছর বা তার বেশি বয়সী হতে হবে এবং তাদের জাতীয় পরিচয়পত্র বা পাসপোর্টের কপি রেজিস্ট্রারের কাছে জমা দিতে হবে।
+ * **ব্যবহারকারী:** বিশেষ ম্যারেজ রেজিস্ট্রারের খোঁজ কীভাবে পাবো?
+   **সহায়ক:** বিশেষ ম্যারেজ রেজিস্ট্রারদের সংখ্যা সীমিত এবং তারা সাধারণত বড় বড় জেলা শহরে বসেন। আপনি ঢাকা বা চট্রগ্রামের মতো বড় শহরে থাকলে জেলা জজ আদালত প্রাঙ্গণে বা স্থানীয় জেলা রেজিস্ট্রি অফিসে যোগাযোগ করে সরকার নির্ধারিত বিশেষ ম্যারেজ রেজিস্ট্রারের ঠিকানা ও ফোন নম্বর সংগ্রহ করতে পারেন।
+### 14. Glossary
+ * **বিশেষ বিবাহ নোটিশ (Marriage Notice):** বিশেষ বিবাহ আইন ১৮৭২-এর অধীনে বিয়ের উদ্দেশ্য ব্যক্ত করে রেজিস্ট্রারের কাছে ৩০ দিন পূর্বে দাখিলকৃত আনুষ্ঠানিক লিখিত পত্র।
+ * **হলফনামা (Affidavit):** ম্যাজিস্ট্রেট বা নোটারি পাবলিকের সম্মুখে কোনো সত্য ঘটনা বা অবস্থার বিষয়ে আইনসম্মতভাবে দেওয়া লিখিত শপথনামা।
+ * **নিষিদ্ধ নৈকট্য (Prohibited Degree of Consanguinity):** রক্ত সম্পর্ক বা বংশীয় সম্পর্কের এমন স্তর যেখানে আইনি বা ধর্মীয় বিধি অনুযায়ী বিবাহ বন্ধনে আবদ্ধ হওয়া সম্পূর্ণ অবৈধ।
+## Document 7: Divorce Registration — Muslim (তালাক নোটিশ ও রেজিস্ট্রেশন)
+### 1. Legal Basis
+Muslim divorce registration is governed by the Muslim Marriages and Divorces (Registration) Act, 1974, in tandem with Section 7 of the Muslim Family Laws Ordinance, 1961. The Ministry of Law, Justice and Parliamentary Affairs acts as the primary regulating agency.
+Under Section 6 of the 1974 Act, a licensed Nikah Registrar (Kazi) is empowered to register a divorce within their local jurisdiction upon receiving an oral or written application. For the divorce to be legally binding under the 1961 Ordinance, the initiator must serve a written notice of the divorce to both the spouse and the Chairman of the local Union Parishad or City Corporation Ward Councilor.
+### 2. Issuing Authority Matrix
+Divorce certificates are registered and issued by licensed Nikah Registrars (Kazis) within their assigned administrative areas:
+```
+[Pronouncement of Talaq]
+           │
+           ▼
+[Written Notice Sent to Spouse & Local Chairman/Councilor]
+           │
+           ▼
+[90-Day Cooling Period (Arbitration Committee Initiated)]
+           │
+           ▼
+[If Conciliation Fails: Expiration of 90 Days]
+           │
+           ▼
+[Visit Local Kazi Office (Where Marriage was registered or where Divorce occurred)]
+           │
+           ▼
+[Kazi Registers Divorce & Issues Talaqnama (Divorce Certificate)]
+
+```
+### 3. Eligibility & Timing
+ * **Husband:** Can initiate divorce through standard pronouncement and notice.
+ * **Wife:** Can initiate divorce only if she has been granted the delegated right of divorce (*Talaq-e-Tafweez*) under Column 18 of her Kabinnama, or through mutual consent (*Khula*), or by filing a suit in family court under the Dissolution of Muslim Marriages Act, 1939.
+ * **Timing:** The divorce notice must be served immediately after the pronouncement of Talaq. The divorce does not become effective until **90 days** have elapsed from the date the notice was delivered to the local Chairman/Councilor.
+ * **Exception:** If the wife is pregnant at the time of notice, the divorce does not take effect until the pregnancy ends.
+### 4. Complete Document Checklist
+ * **Copy of the Original Kabinnama (Marriage Deed):** To verify the marriage and the Kazi office of origin.
+ * **Written Talaq Notice with Postal Receipts:** Proof that the notice was sent to the spouse and the Chairman via registered post.
+ * **Informant and Spouse NID Copies:** For identification database entry.
+ * **Two Adult Male Witnesses:** To sign the divorce register book.
+ * **Original Registered Kabinnama Page:** Showing column 18 if the wife is initiating *Talaq-e-Tafweez*.
+### 5. Form Field Annotation
+Divorce entries are recorded in the Divorce Register Book using **Form No. 1605**.
+ * **১. পক্ষগণের বিবরণ (Parties' Details):** Names, fathers' names, NID numbers, and addresses of the husband and wife.
+ * **২. বিবাহের তথ্য (Marriage Information):** The registration date, book number, and page number of the original marriage deed.
+ * **৩. তালাকের প্রকার (Type of Talaq):** Specifying whether the divorce is *Talaq-e-Raji* (revocable), *Talaq-e-Bain* (irrevocable), *Talaq-e-Tafweez* (by wife via delegated power), or *Khula* (mutual consent).
+ * **৪. নোটিশ প্রাপ্তির তথ্য (Notice Details):** Dates when the written notices were sent and received by the spouse and the local Chairman/Councilor.
+ * **৫. সাক্ষীদের স্বাক্ষর (Witness Signatures):** Signatures of two adult witnesses and the registering Kazi.
+### 6. Process Flowchart
+```
+[Written Divorce Notice Sent to Spouse & Local Chairman via Registered Post]
+                                │
+                                ▼
+[90-Day Mandatory Statut[span_522](start_span)[span_522](end_span)ory Conciliation Period Begins]
+                                │
+                                ▼
+[Arbitration Council Attempts Reconciliation (If applicable)]
+                                │
+                                ▼
+[If No Reconciliation Occurs after 90[span_535](start_span)[span_535](end_span)[span_542](start_span)[span_542](end_span) Days (Or Ch[span_523](start_span)[span_523](end_span)ildbirth if pregnant)]
+                                │
+                                ▼
+[Present Postal Receipts and Notice Copies to the Local Kazi Office]
+                                │
+                                ▼
+[Kazi Verifies Notice Compliance and Register Entry]
+                                │
+                                ▼
+[Pay Official Government Divorce Registration Fee of BDT 1,000]
+                                │
+                                ▼
+[Signatures Entered in Register Book 1605 (Two Witnesses Present)][span_721](start_span)[span_721](end_span)[span_722](start_span)[span_722](end_span)
+                                │
+                                ▼
+[Kazi Issues Certified Divorce Certificate (Talaknama)]
+
+```
+### 7. Online vs. Offline Process
+The process is **offline**. Divorce registration must be recorded physically in the local Kazi's register book. No online system or digital filing is available for divorce procedures in Bangladesh.
+### 8. Fees
+ * **Registration Fee:** BDT 1,000 flat rate for registering a divorce. (Increased from BDT 500 under the 2022 amendment).
+ * *Verification Source:* Muslim Marriage and Divorce (Registration) Rules, 2009 (as amended in December 2022).
+### 9. Correction & Amendment Process
+Clerical errors on a divorce certificate can be corrected by submitting a written application to the registering Kazi with supporting documents (such as NIDs or court decrees). Major disputes regarding the validity of a divorce must be settled by filing a suit in the local Family Court.
+### 10. Common Problems & Failure Points
+ * **Skipping the Local Chairman's Notice:** Many citizens simply sign a paper in front of a Kazi or lawyer and assume they are divorced. If no written notice is sent to the local Chairman/Councilor, the divorce is legally invalid under Section 7 of the 1961 Ordinance, which can lead to bigamy charges if either party remarries.
+ * **Registering Before 90 Days:** Kazis registering a divorce before the mandatory 90-day waiting period has elapsed. This is a violation of the law and invalidates the certificate.
+### 11. Fraud & Scam Warnings
+ * **Fake Notices:** Fraudulent agents sending fake divorce notices without registered mail receipts. Always verify with the local Union Parishad or City Corporation ward office to ensure the notice was received and entered into their log.
+### 12. Interconnections with Other Documents
+```
+[Registered Kabinnama (1601)] ──> [Written Talaq Notice] ──> [90-Day Conciliation] ──> [Divorce Registration (1605)][span_723](start_span)[span_723](end_span)[span_724](start_span)[span_724](end_span)[span_725](start_span)[span_725](end_span)
+                                                                                              │
+                                                                                              ▼
+                                                                                    [Dower Recovery Suit][span_726](start_span)[span_726](end_span)[span_727](start_span)[span_727](end_span)
+
+```
+### 13. Sample LLM Conversations
+ * **ব্যবহারকারী:** আমি আমার স্ত্রীকে তালাক দিতে চাই। প্রথম আইনি পদক্ষেপ কী হবে?
+   **সহায়ক:** মুসলিম পারিবারিক আইন অধ্যাদেশ ১৯৬১ অনুযায়ী, তালাকের প্রথম আইনি ধাপ হলো লিখিত নোটিশ পাঠানো। আপনি তালাক উচ্চারণের পর দ্রুত একটি লিখিত তালাকের নোটিশ তৈরি করুন এবং তা রেজিস্ট্রি ডাকযোগে (Registered Post) আপনার স্ত্রীর বর্তমান ঠিকানায় এবং একটি কপি আপনার স্ত্রীর এলাকার স্থানীয় ইউনিয়ন পরিষদের চেয়ারম্যান বা সিটি কর্পোরেশনের ওয়ার্ড কাউন্সিলরের কার্যালয়ে পাঠান। ডাকঘরের রসিদগুলো নিজের কাছে যত্ন করে রাখুন, কারণ এগুলোই আপনার নোটিশ পাঠানোর মূল আইনি প্রমাণ।
+ * **ব্যবহারকারী:** তালাক নোটিশ দেওয়ার কত দিন পর তালাক কার্যকর হয়? এই সময়ে কি রেজিস্ট্রি করা যাবে?
+   **সহায়ক:** আইন অনুযায়ী, স্থানীয় চেয়ারম্যান বা কাউন্সিলর নোটিশটি গ্রহণ করার তারিখ থেকে ঠিক ৯০ দিন (৩ মাস) পর তালাক চূড়ান্তভাবে কার্যকর হবে। এই ৯০ দিনের আগে কোনোভাবেই তালাক কার্যকর হবে না এবং এই অন্তর্বর্তী সময়ে কোনো কাজী তালাক রেজিস্ট্রি করতে পারবেন না। যদি আপনার স্ত্রী গর্ভবতী হন, তবে সন্তান জন্ম নেওয়া পর্যন্ত তালাক স্থগিত থাকবে।
+ * **ব্যবহারকারী:** কোনো মেয়ে যদি স্বামীকে তালাক দিতে চায়, তবে তার কী অধিকার থাকতে হবে?
+   **সহায়ক:** একজন মুসলিম নারী কেবল তখনই স্বামীকে সরাসরি তালাক দিতে পারবেন যদি তার বিয়ের কাবিননামার ১৮ নম্বর কলামে স্বামী তাকে তালাক দেওয়ার ক্ষমতা অর্পণ করে থাকেন, যাকে "তালাক-ই-তফভিজ" বলা হয়। যদি ১৮ নম্বর কলামে এই অধিকার দেওয়া না থাকে, তবে স্ত্রীকে স্থানীয় পারিবারিক আদালতে মামলা দায়ের করে আদালতের ডিগ্রির মাধ্যমে বিবাহ বিচ্ছেদ সম্পন্ন করতে হবে।
+ * **ব্যবহারকারী:** তালাক রেজিস্ট্রি করার জন্য সরকারি ফি কত এবং কাকে দিতে হয়?
+   **সহায়ক:** সরকারি নিয়ম অনুযায়ী, মুসলিম তালাক নিবন্ধনের জন্য সরকারি ফি ১,০০০ (এক হাজার) টাকা। এই ফি আপনাকে সংশ্লিষ্ট কাজী অফিসে তালাক চূড়ান্ত হওয়ার পর (৯০ দিন পর) রেজিস্ট্রি করার সময় কাজীকে সরাসরি পরিশোধ করতে হবে এবং সরকারি রসিদ সংগ্রহ করতে হবে।
+ * **ব্যবহারকারী:** নোটিশ না পাঠিয়ে কেবল কাজীর কাছে গিয়ে বা কাগজে সই করে তালাক দিলে কি তা বৈধ হবে?
+   **সহায়ক:** না, নোটিশ না পাঠিয়ে কেবল কাজীর কাছে গিয়ে বা স্ট্যাম্পে সই করে তালাক দিলে তা আইনের চোখে কোনোভাবেই কার্যকর বা বৈধ হবে না। ১৯৬১ সালের মুসলিম পারিবারিক আইন অনুযায়ী নোটিশ পাঠানো এবং ৯০ দিনের অপেক্ষা করা বাধ্যতামূলক। নোটিশ না দিয়ে অন্য কোনোভাবে তালাক দিলে তা শাস্তিযোগ্য অপরাধ এবং পরবর্তীতে পুনরায় বিয়ে করলে তা বহুবিবাহ বা ব্যভিচার হিসেবে গণ্য হতে পারে।
+### 14. Glossary
+ * **ইদ্দতকাল (Iddat Period):** বিবাহ বিচ্ছেদের পর নারীর জন্য নির্ধারিত তিন মাস বা তিন ঋতুচক্রের সময়কাল, যে সময়ে তিনি অন্য কোনো বিবাহ বন্ধনে আবদ্ধ হতে পারেন না।
+ * **শালিসি পরিষদ (Arbitration Council):** তালাক নোটিশ পাওয়ার পর সমঝোতার উদ্দেশ্যে সংশ্লিষ্ট স্থানীয় ইউনিয়ন পরিষদ চেয়ারম্যান বা ওয়ার্ড কাউন্সিলর কর্তৃক গঠিত মধ্যস্থতাকারী কমিটি।
+ * **তালাক-ই-রাজী (Talaq-e-Raji):** প্রত্যাহারযোগ্য তালাক যেখানে ইদ্দতকালীন ৯০ দিনের মধ্যে যেকোনো সময়ে স্বামী-স্ত্রী সমঝোতায় পৌঁছালে বিবাহ বহাল রাখা যায়।
+## SECTION A — PROCESS COMPARISON TABLE
+A comprehensive visual analysis of the identity and civil status documents in Bangladesh:
+| Document Category | Prime Issuing Body | Online Application Portal | Typical Processing Timeline | Crucial System Prerequisite | Most Prevalent Failure Point |
+|---|---|---|---|---|---|
+| **Birth Certificate** | Local Government Units (UP / Pourashava / City Corp) | Yes (bdris.gov.bd/br/application) | 7 to 15 Working Days | Parents' digital 17-digit Birth Certificate | Spelling mismatches between Bengali and English profiles |
+| **National ID (NID)** | NID Wing, Bangladesh Election Commission | Yes (services.nidw.gov.bd) | 20 to 45 Days | 17-Digit Digital Birth Certificate | NID Wallet App face verification errors |
+| **Death Certificate** | Local Government Units (UP / Pourashava / City Corp) | Yes (bdris.gov.bd[span_432](start_span)[span_432](end_span)) | 5 to 10 Working Days | Deceased's NID/Birth Certificate | Absence of medical cause of death certificate |
+| **Muslim Marriage** | Licensed Nikah Registrars (Kazis) | No (Offline registry books) | Immediate / 1 to 3 Days | Valid age proof (Bride \ge 18, Groom \ge 21) | Registering with a Kazi outside their assigned jurisdiction |
+| **Hindu Marriage** | Government-appointed Hindu Registrars | No (Offline registry books) | 1 to 5 Days | Priest's certificate of customary ceremony | Locating authorized Hindu Registrars in rural areas |
+| **Civil Marriage** | Special Marriage Registrars | No (Offline records) | 35 to 45 Days (Includes 30-day notice) | Affidavit of Single Status | Social exposure or family objections during 30-day notice period |
+| **Muslim Divorce** | Licensed Nikah Registrars (Kazis) | No (Offline registry) | 95 Days (Includes 90-day wait) | Proof of Delivery of Talaq Notice | Failure to send notice to the local Chairman/Councilor |
+## SECTION B — CITIZEN JOURNEY MAP
+The bureaucratic lifecycle of a Bangladeshi citizen's personal identity documents is structured as a sequential dependency chain:
+```
+[Birth Event] 
+      │
+      ▼
+[Digital[span_648](start_span)[span_648](end_span)[span_650](start_span)[span_650](end_span) Birth Certificate (BDRIS - within 45 days)] ──> [School Admission]
+      │
+      ▼
+[National Identity Card ([span_622](start_span)[span_622](end_span)NID - at age 16+)] ──> [Utility/SIM/Bank Accounts]
+      │
+      ▼
+[Marriage Registration (Nikah / Special Marriage)] ──> [Spouse NID/Passport Updates]
+    [span_586](start_span)[span_586](end_span)  │
+      ▼
+[Consular Certifications / V[span_587](start_span)[span_587](end_span)isas for Expatriates][span_732](start_span)[span_732](end_span)[span_733](start_span)[span_733](end_span)
+      │
+      ▼
+[Death Event] ──> [Death Certificate] ──> [Legal Heir Certification] ──> [Property Transfer]
+
+```
+This sequence demonstrates that a failure in any single link disrupts subsequent processes. For instance, if a child's birth is not registered within the standard window, delayed registration requires a medical board age certificate and school transcripts. Without a 17-digit digital birth certificate, the citizen cannot register for an NID upon turning 16.
+Without an NID, they cannot legally register their marriage under civil or Muslim law, open bank accounts, or update passports.
+Finally, if a marriage or divorce is not legally registered with the appropriate notices, any subsequent inheritance or succession claims following the individual's death cannot be verified, which can lead to legal disputes over property distribution.
+---
+## SECTION C — TRAINING DATA GAPS
+During the synthesis of this administrative knowledge base, several areas were identified where online database records are incomplete, inconsistent, or lack detail. To refine the training models for a conversational LLM, the following details would need to be verified through direct field research:
+ * **Physical Office Visits:**
+   * Verifying the local "service charges" or hidden processing fees added by Union Parishad and City Corporation clerks to the official BDT 50/100 birth and death registration fees.
+   * Determining the precise daily capacity and average queue times for biometric capture at Upazila Election Offices.
+ * **Helpline Calls:**
+   * Confirming with the **105 NID Helpline** regarding the official handling of "Category C" correction cases where parents' NID records are unavailable or incomplete.
+   * Confirming with the **333 Citizen Helpline** on how the online birth registry system handles applications for orphans or street children without parental identity records.
+ * **Interviews with Legal Aid Workers (BLAST / ASK):**
+   * Documenting the practical steps interfaith couples take to ensure their safety during the mandatory 30-day public notice period under the Special Marriage Act, 1872.
+       *   Establishing standard legal strategies for wives seeking to recover dower (*Mahr*) when the registering Kazi has made clerical errors in Column 13 of the Kabinnama.
+ * **Right to Information (RTI) Requests:**
+   * Obtaining the official, complete list of active, licensed Hindu Marriage Registrars and Special Marriage Registrars across all 64 districts in Bangladesh.
+   * Obtaining internal statistics on NID correction rejection rates, broken down by administrative category, to identify systemic blockages.
+## SECTION D — SOURCE LIST
+The administrative data and legal frameworks referenced in this document are sourced from the following channels:
+| Portal / Document Source | Date Accessed | Description of Contained Data |
+|---|---|---|
+| **bris.lgd.gov.bd** | February 2026 | Government portal for birth and death registration applications. |
+| **everify.bdris.gov.bd** | February 2026 | National validation engine for checking the authenticity of 17-digit birth certificates. |
+| **services.nidw.gov.bd** | February 2026 | Election Commission citizen portal for NID registrations, corrections, and payment statuses. |
+| **bdlaws.minlaw.gov.bd** | February 2026 | Database for statutory laws, including the Birth and Death Registration Act, 2004, and the Special Marriage Act, 1872. |
+| **Ministry of Law, Justice and Parliamentary Affairs** | February 2026 | S.R.O. gazettes detailing the December 2022 amendments to Kazi license fees and marriage dower registration schedules. |
+| **Supreme Court Case Law & Family Court Guides** | February 2026 | Practical legal outlines for the execution of *Talaq* notices under Section 7 of the Muslim Family Laws Ordinance, 1961. |

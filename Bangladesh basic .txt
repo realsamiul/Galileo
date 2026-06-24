@@ -1,0 +1,612 @@
+# Master Infrastructure Map of Primary Data Sources for Bengali Civic and Legal Large Language Models
+## SECTION 1 — VERIFIED SOURCE REGISTRY
+Developing a localized, high-fidelity Bengali Large Language Model (LLM) designed to democratize access to administrative, civic, and legal workflows in Bangladesh requires a comprehensive audit of the primary digital data infrastructure. This registry evaluates each identified data repository across twelve specific operational and technical criteria. The sources are classified into logical categories to establish a clear pipeline for data collection and model training.
+### A. Government Administrative Portals
+#### 1. Bangladesh National Portal (bangladesh.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** Directory structures of over 53,000 government offices, citizen charters, local notices, circulars, and departmental links.
+ * **Language Composition:** Mixed; primarily Bengali, with secondary English translation toggles for major divisions.
+ * **Document Formats:** HTML, PDF, and scanned image PDFs.
+ * **Machine Readability:** High for structural HTML pages; low for localized administrative notices and citizens' charters, which are frequently uploaded as scanned images.
+ * **Estimated Volume:** Millions of dynamically linked pages across thousands of nested institutional sub-portals.
+ * **Update Frequency and Maintenance:** Actively maintained with daily administrative updates.
+ * **Extraction Methods (Bulk vs. Single):** Single-page browsing; bulk collection requires distributed web crawlers.
+ * **API or Structured Endpoints:** No public API or structured data export options.
+ * **LLM Training Value:** HIGH — Serves as the definitive directory for mapping government institutions, understanding department roles, and learning official Bengali administrative terminology.
+ * **Expected vs. Actual Gaps:** Frequent broken links to local government subdomains, and many local notices are uploaded as low-resolution, non-searchable image files.
+#### 2. Government Forms Portal (forms.portal.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** Official administrative forms, including passport applications, pension forms, driving licenses, and land mutation requests.
+ * **Language Composition:** Primarily Bengali, with occasional bilingual fields.
+ * **Document Formats:** PDF, DOC, and DOCX.
+ * **Machine Readability:** Mixed; standard federal forms are fillable PDFs, but older localized forms are scanned, image-only documents.
+ * **Estimated Volume:** Approximately 1,500 distinct administrative forms.
+ * **Update Frequency and Maintenance:** Actively maintained.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads; bulk extraction requires a custom crawler.
+ * **API or Structured Endpoints:** No public API.
+ * **LLM Training Value:** HIGH — Essential for teaching the model the exact fields and structural layouts of civic documents, helping it assist citizens with automated form-filling.
+ * **Expected vs. Actual Gaps:** Standardized schema definitions (such as JSON Schema or XML templates) are missing, requiring manual parsing of PDF layouts.
+#### 3. Bangladesh Forms and Publications Office (dpp.gov.bd/bfpo)
+ * **Current URL Accessibility:** Active, though the server experiences frequent timeouts.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** Historical registries, standard logbooks, and public sector guidelines.
+ * **Language Composition:** Bengali only.
+ * **Document Formats:** HTML and scanned PDF.
+ * **Machine Readability:** Low; the majority of publications are scanned, non-searchable image PDFs.
+ * **Estimated Volume:** Fewer than 500 cataloged digital publications.
+ * **Update Frequency and Maintenance:** Minimally maintained with infrequent updates.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads only.
+ * **API or Structured Endpoints:** No API available.
+ * **LLM Training Value:** MEDIUM — Contains valuable historical and legal terms, though data extraction requires a robust OCR pipeline.
+ * **Expected vs. Actual Gaps:** Many physical administrative templates are missing from the digital archive.
+#### 4. Ministry of Land Policy Portal (minland.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access for policy manuals and land laws.
+ * **Content Types:** Land policy papers, gazette notifications, citizens' charters, and departmental notices.
+ * **Language Composition:** Bengali primary, with some official policies available in English.
+ * **Document Formats:** HTML and PDF.
+ * **Machine Readability:** High for HTML text; mixed for downloadable policy PDFs.
+ * **Estimated Volume:** Hundreds of official policies and notifications.
+ * **Update Frequency and Maintenance:** Actively maintained.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads; programmatic scraping is required for bulk access.
+ * **API or Structured Endpoints:** No public API.
+ * **LLM Training Value:** HIGH — Critical for training the model on land policy, registration guidelines, and citizens' rights regarding property management.
+ * **Expected vs. Actual Gaps:** Lacks a structured database of land policies, with many older documents stored in poorly indexed directories.
+#### 5. Ministry of Land Portal (land.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** General information is public; land transactional modules require citizen verification via National Identity (NID) cards.
+ * **Content Types:** Mutation instructions, land tax details, land record circulars, and transaction portals.
+ * **Language Composition:** Bengali.
+ * **Document Formats:** HTML, PDF, and scanned PDF.
+ * **Machine Readability:** High for online instructions; low for individual scanned property deeds and cadastral maps.
+ * **Estimated Volume:** Thousands of advisory pages alongside millions of restricted transactional land records.
+ * **Update Frequency and Maintenance:** Highly active and updated regularly.
+ * **Extraction Methods (Bulk vs. Single):** Single-page queries; bulk scraping is restricted to protect citizen data privacy.
+ * **API or Structured Endpoints:** No public API is available for open integration.
+ * **LLM Training Value:** HIGH — Crucial for learning land transaction terminology, mutation steps, and explaining property rights in simple Bengali.
+ * **Expected vs. Actual Gaps:** Detailed transaction workflows are behind an authenticated login, making it difficult to scrape the system's interactive steps.
+#### 6. Directorate of Land Records and Surveys (dlrs.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Informational circulars are public; purchasing detailed cadastral maps and survey registers requires specific application fees.
+ * **Content Types:** Survey notifications, diara survey guidelines, surveyor manuals, and land record circulars.
+ * **Language Composition:** Bengali only.
+ * **Document Formats:** HTML, PDF, and image formats.
+ * **Machine Readability:** Mixed; guidelines are readable, but historical survey registers and maps are stored as scanned images.
+ * **Estimated Volume:** Hundreds of procedural documents and circulars.
+ * **Update Frequency and Maintenance:** Periodically updated.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads only.
+ * **API or Structured Endpoints:** No public API or open geospatial data access.
+ * **LLM Training Value:** HIGH — Essential for training the model on specialized land survey terminology, such as the differences between CS, RS, SA, and BS cadastral surveys.
+ * **Expected vs. Actual Gaps:** No vector-based boundary data or machine-readable spatial coordinates are publicly accessible.
+#### 7. Birth and Death Registration Portal (bris.lgd.gov.bd / bdris.gov.bd)
+ * **Current URL Accessibility:** Active; primary birth verification services are routed through everify.bdris.gov.bd.
+ * **Access Barriers:** Informational guides are open; individual verification checks require a 17-digit certificate number and date of birth.
+ * **Content Types:** Registration guidelines, application instructions, and online verification search engines.
+ * **Language Composition:** Bilingual (English and Bengali).
+ * **Document Formats:** HTML and dynamically generated PDFs.
+ * **Machine Readability:** High for online verification and guidelines; printable certificates are generated as digital PDFs.
+ * **Estimated Volume:** Over 100 million dynamic citizen records in the verification system.
+ * **Update Frequency and Maintenance:** Actively maintained by the Office of the Registrar General.
+ * **Extraction Methods (Bulk vs. Single):** Individual lookups only; bulk downloads are blocked for security.
+ * **API or Structured Endpoints:** Restricted API; access is limited to authorized government agencies and financial institutions.
+ * **LLM Training Value:** HIGH — Vital for training the model on birth certificate registration steps, correction procedures, and parent name update workflows.
+ * **Expected vs. Actual Gaps:** The portal is prone to frequent database connection timeouts and latency issues during high-volume periods.
+#### 8. NID Wing, Election Commission Portal (services.nidw.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Instructions are open; downloading personal identity profiles requires an SMS-based OTP and face-verification via mobile app.
+ * **Content Types:** NID correction guidelines, application steps, fee charts, and FAQs.
+ * **Language Composition:** Bengali and English.
+ * **Document Formats:** HTML and PDF.
+ * **Machine Readability:** High for online guidelines; standard PDF application forms are machine-readable.
+ * **Estimated Volume:** Dozens of structured instruction guides and FAQs.
+ * **Update Frequency and Maintenance:** Actively maintained.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads; programmatic scraping is allowed for public instructional pages.
+ * **API or Structured Endpoints:** Closed; security verification APIs are limited to vetted commercial partners.
+ * **LLM Training Value:** HIGH — NID corrections are a major source of civic queries; training on these guidelines helps the LLM provide accurate instructions for updating personal records.
+ * **Expected vs. Actual Gaps:** Lacks a structured schema of common correction rejection reasons or acceptable supporting document matrices.
+#### 9. Marriage Registration Portal (rsc.gov.bd / marriage.gov.bd)
+ * **Current URL Accessibility:** Active; the older rsc.gov.bd address has migrated to marriage.gov.bd.
+ * **Access Barriers:** Civil manual downloads are free; filing legal registrations requires credentials from a licensed Nikah Registrar.
+ * **Content Types:** Civil registration system manuals, registrar directories, and citizen registration instructions.
+ * **Language Composition:** Bengali primary, with English user manuals.
+ * **Document Formats:** HTML and PDF.
+ * **Machine Readability:** High; standard documentation is published as digital text.
+ * **Estimated Volume:** Under 100 structured procedural files and manuals.
+ * **Update Frequency and Maintenance:** Actively maintained under the national CRVS framework.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads only.
+ * **API or Structured Endpoints:** No public API.
+ * **LLM Training Value:** HIGH — Critical for training the model on family law, dowry rules, and the steps for legally registering a marriage or divorce in Bangladesh.
+ * **Expected vs. Actual Gaps:** Public access to statistical registries or localized registrar lists is unavailable.
+#### 10. Secondary and Higher Education Division Portal (dshe.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** Academic directives, institutional circulars, teacher recruitment notices, and statistics.
+ * **Language Composition:** Primarily Bengali, with occasional circulars in English.
+ * **Document Formats:** HTML and PDF.
+ * **Machine Readability:** Mixed; portal text is readable, but official administrative circulars are scanned, image-only PDFs.
+ * **Estimated Volume:** Over 10,000 historical notifications and documents.
+ * **Update Frequency and Maintenance:** Highly active with daily updates.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads; programmatic web scraping is needed for bulk collection.
+ * **API or Structured Endpoints:** No public API.
+ * **LLM Training Value:** MEDIUM — Helpful for understanding educational governance, but contains a high volume of scanned PDFs that require OCR.
+ * **Expected vs. Actual Gaps:** Built-in portal search features are unreliable, and older administrative notifications are often missing.
+#### 11. Directorate of Primary Education Portal (dpe.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** Primary teacher recruitment instructions, school grants, admission circulars, and directories.
+ * **Language Composition:** Bengali only.
+ * **Document Formats:** HTML and PDF.
+ * **Machine Readability:** Mixed; many notices are uploaded as scanned image PDFs.
+ * **Estimated Volume:** Thousands of circulars and administrative guidelines.
+ * **Update Frequency and Maintenance:** Highly active.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads; crawler required.
+ * **API or Structured Endpoints:** No public API.
+ * **LLM Training Value:** MEDIUM — Valuable for primary education queries, but requires significant OCR preprocessing to handle scanned documents.
+ * **Expected vs. Actual Gaps:** Lacks a centralized, machine-readable archive of past recruitment exam questions and syllabus guidelines.
+#### 12. Education Board Results Portal (educationboard.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access, but protected by simple mathematical captchas.
+ * **Content Types:** Database of SSC, HSC, JSC, and Dakhil board exam results.
+ * **Language Composition:** English.
+ * **Document Formats:** HTML.
+ * **Machine Readability:** High for individual queries.
+ * **Estimated Volume:** Millions of database entries.
+ * **Update Frequency and Maintenance:** Maintained and updated during national exam release cycles.
+ * **Extraction Methods (Bulk vs. Single):** Individual lookups only; automated querying is rate-limited.
+ * **API or Structured Endpoints:** No public API.
+ * **LLM Training Value:** LOW — This is a database lookup service, offering little descriptive or contextual text for training a language model.
+ * **Expected vs. Actual Gaps:** Does not provide statistics on board-wide grade distributions or detailed school performance metrics.
+#### 13. Secondary and Higher Education Division Portal (shed.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** Higher education policy guidelines, scholarship circulars, and departmental orders.
+ * **Language Composition:** Bengali primary, with select international guidelines in English.
+ * **Document Formats:** HTML and PDF.
+ * **Machine Readability:** Mixed; policy guidelines are readable, but administrative orders are frequently scanned PDFs.
+ * **Estimated Volume:** Thousands of documents.
+ * **Update Frequency and Maintenance:** Actively maintained.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads; scraping is required for bulk collection.
+ * **API or Structured Endpoints:** No public API.
+ * **LLM Training Value:** HIGH — Critical for training the model on educational benefits, scholarship application processes, and institutional guidelines.
+ * **Expected vs. Actual Gaps:** Scholarship application guides lack step-by-step descriptions, leaving many procedural steps undocumented.
+#### 14. Bangladesh Public Service Commission (bpsc.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access for circulars, syllabi, and results.
+ * **Content Types:** Civil service exam schedules, BCS syllabi, recruitment notices, and statistical reports.
+ * **Language Composition:** Bengali and English.
+ * **Document Formats:** HTML and PDF.
+ * **Machine Readability:** Mixed; exam syllabi are readable, but candidate selection notifications are scanned image PDFs.
+ * **Estimated Volume:** Thousands of documents.
+ * **Update Frequency and Maintenance:** Actively maintained with daily updates.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads; programmatic crawling is required for bulk access.
+ * **API or Structured Endpoints:** No public API.
+ * **LLM Training Value:** HIGH — Essential for providing guidance on public sector career processes, BCS exams, and civil service recruitment criteria.
+ * **Expected vs. Actual Gaps:** The portal lacks an interactive digital archive of past examination questions.
+#### 15. Teletalk Jobs Portal (teletalk.com.bd/job / alljobs.teletalk.com.bd)
+ * **Current URL Accessibility:** Active; the standard recruitment portals are hosted at alljobs.teletalk.com.bd.
+ * **Access Barriers:** Accessing circulars is free; applying for jobs requires registration and SMS-based payment via a Teletalk connection.
+ * **Content Types:** Job application forms, recruitment notices, exam card downloads, and fee calculators.
+ * **Language Composition:** Bengali and English.
+ * **Document Formats:** HTML and PDF.
+ * **Machine Readability:** High for portals; mixed for uploaded PDF job announcements.
+ * **Estimated Volume:** Dynamic database containing thousands of active job circulars.
+ * **Update Frequency and Maintenance:** Actively maintained with daily updates.
+ * **Extraction Methods (Bulk vs. Single):** Single-file access; scraper required for bulk extraction.
+ * **API or Structured Endpoints:** No public API.
+ * **LLM Training Value:** HIGH — Extremely valuable for teaching the model how to explain job application steps, fee payment methods, and qualification rules.
+ * **Expected vs. Actual Gaps:** Many job circulars are posted as unsearchable image files, making it hard to extract job description details automatically.
+#### 16. National Board of Revenue Portal (nbr.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Public access to manuals, acts, and tax forms is free.
+ * **Content Types:** Statutory Regulatory Orders (SROs), Income Tax Acts, customs tariffs, VAT guides, and tax return manuals.
+ * **Language Composition:** English and Bengali.
+ * **Document Formats:** HTML and PDF.
+ * **Machine Readability:** Mixed; Income Tax Acts are readable HTML, but SROs and VAT guidelines are frequently uploaded as scanned PDFs.
+ * **Estimated Volume:** Thousands of regulatory files.
+ * **Update Frequency and Maintenance:** Actively maintained.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads; programmatic scraping is required for bulk collection.
+ * **API or Structured Endpoints:** No public API.
+ * **LLM Training Value:** HIGH — Critical for training the model on tax compliance, VAT rates, and duties, helping to translate complex regulations into plain Bengali.
+ * **Expected vs. Actual Gaps:** No centralized, machine-readable repository of historical SROs, which are scattered across poorly indexed folders.
+#### 17. e-Tax Filing Portal (etaxnbr.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Instructional pages are open; filing taxes online requires registration with a TIN and a verified biometrically matched mobile number.
+ * **Content Types:** Online tax return forms, tax filing instructions, system guides, and calculator tools.
+ * **Language Composition:** English and Bengali.
+ * **Document Formats:** HTML and interactive PDF.
+ * **Machine Readability:** High; the system is designed to process machine-readable text inputs.
+ * **Estimated Volume:** Under 50 instructional files and digital systems.
+ * **Update Frequency and Maintenance:** Heavily maintained, especially during the annual tax season.
+ * **Extraction Methods (Bulk vs. Single):** Single-page browsing only.
+ * **API or Structured Endpoints:** Closed; no public API.
+ * **LLM Training Value:** HIGH — Critical for helping citizens navigate online tax returns and explaining dynamic tax calculator functions.
+ * **Expected vs. Actual Gaps:** No simulated sandbox environments are publicly accessible to test and map the form-filling process automatically.
+#### 18. e-Passport Portal (epassport.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Informational pages are public; submitting applications requires registration.
+ * **Content Types:** Step-by-step passport application instructions, fee matrices, payment rules, and FAQ lists.
+ * **Language Composition:** Bilingual (English and Bengali).
+ * **Document Formats:** HTML.
+ * **Machine Readability:** High; instructional pages are published as clean, selectable HTML text.
+ * **Estimated Volume:** Dozens of structured help pages.
+ * **Update Frequency and Maintenance:** Actively maintained.
+ * **Extraction Methods (Bulk vs. Single):** HTML scraping only.
+ * **API or Structured Endpoints:** No public API.
+ * **LLM Training Value:** HIGH — Provides highly structured guidance on a very popular public service, which can easily be converted into a conversational FAQ format.
+ * **Expected vs. Actual Gaps:** The exact application form fields are not exposed in an open-source schema (like JSON Schema).
+#### 19. Bangladesh Police Portal (police.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** Online General Diary (GD) instructions, police clearance guides, victim support contact lists, and administrative notices.
+ * **Language Composition:** English and Bengali.
+ * **Document Formats:** HTML and PDF.
+ * **Machine Readability:** High for HTML guidelines; low for police clearance circulars, which are often scanned PDFs.
+ * **Estimated Volume:** Hundreds of informational files.
+ * **Update Frequency and Maintenance:** Actively maintained.
+ * **Extraction Methods (Bulk vs. Single):** Single-page browsing; custom scraper required.
+ * **API or Structured Endpoints:** No public API.
+ * **LLM Training Value:** HIGH — Essential for training the model on legal processes, security procedures, and the steps for filing online GDs or police clearances.
+ * **Expected vs. Actual Gaps:** The online GD platform is hosted on a separate portal that lacks a public sandbox for system training.
+#### 20. Ministry of Home Affairs Portal (mha.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** Security policies, visa-on-arrival rules, administrative circulars, and departmental directives.
+ * **Language Composition:** Bengali and English.
+ * **Document Formats:** HTML and PDF.
+ * **Machine Readability:** Mixed; policy documents are readable, but urgent directives are frequently scanned image PDFs.
+ * **Estimated Volume:** Thousands of documents.
+ * **Update Frequency and Maintenance:** Actively maintained.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads only.
+ * **API or Structured Endpoints:** No public API.
+ * **LLM Training Value:** MEDIUM — Valuable for studying administrative language, but contains a high volume of scanned PDFs that require OCR.
+ * **Expected vs. Actual Gaps:** Lacks a centralized, machine-readable archive of visa policies and citizenship application steps.
+#### 21. Ministry of Commerce Portal (mincom.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** Import-export policies, trade regulations, company registration guidelines, and WTO circulars.
+ * **Language Composition:** Bengali and English.
+ * **Document Formats:** HTML and PDF.
+ * **Machine Readability:** Mixed; newer policies are machine-readable, but historical trade files are scanned PDFs.
+ * **Estimated Volume:** Thousands of regulations.
+ * **Update Frequency and Maintenance:** Actively maintained.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads only.
+ * **API or Structured Endpoints:** No public API.
+ * **LLM Training Value:** HIGH — Critical for training the model on business regulations, import-export compliance, and trade procedures.
+ * **Expected vs. Actual Gaps:** Lacks interactive guides for setting up new businesses, with most regulations written in formal English.
+#### 22. Directorate of National Consumer Rights Protection Portal (dncrp.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** Consumer complaint forms, dispute resolution steps, anti-hoarding rules, and hearing schedules.
+ * **Language Composition:** Bengali only.
+ * **Document Formats:** HTML and PDF.
+ * **Machine Readability:** Mixed; online guidelines are readable, but hearing schedules and dispute settlement decisions are uploaded as scanned image PDFs.
+ * **Estimated Volume:** Hundreds of documents.
+ * **Update Frequency and Maintenance:** Actively maintained.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads; scraper required.
+ * **API or Structured Endpoints:** No public API.
+ * **LLM Training Value:** HIGH — Critical for training the model to help citizens write consumer complaints and understand their legal protections against fraud.
+ * **Expected vs. Actual Gaps:** Resolved dispute files are published as un-OCR'd scanned reports, making programmatic analysis difficult.
+#### 23. Department of Labour Portal (dol.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** Labor acts, trade union guidelines, minimum wage structures, and dispute resolution workflows.
+ * **Language Composition:** Bengali primary, with select legal references in English.
+ * **Document Formats:** HTML and PDF.
+ * **Machine Readability:** Mixed; structural HTML is readable, but official wage circulars are scanned PDFs.
+ * **Estimated Volume:** Hundreds of documents.
+ * **Update Frequency and Maintenance:** Actively maintained.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads only.
+ * **API or Structured Endpoints:** No public API.
+ * **LLM Training Value:** HIGH — Essential for training the model on labor rights, helping workers and corporate staff understand minimum wage rules and safety regulations in simple Bengali.
+ * **Expected vs. Actual Gaps:** Lacks a structured database of minimum wage scales across different industrial sectors.
+### B. Legal & Judicial Databases
+#### 1. Bangladesh Laws Portal (bdlaws.minlaw.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** The complete Bangladesh Code, including Acts of Parliament, Ordinances, and President's Orders from 1799 to the present.
+ * **Language Composition:** Mixed; historically older laws are in English, while laws enacted after 1987 are primarily in Bengali.
+ * **Document Formats:** HTML.
+ * **Machine Readability:** High; the legislative code is presented as clean, structured HTML.
+ * **Estimated Volume:** 1,484 acts comprising over 35,000 individual sections.
+ * **Update Frequency and Maintenance:** Actively maintained by the Ministry of Law.
+ * **Extraction Methods (Bulk vs. Single):** Single-page view; bulk downloading is not natively supported and requires targeted web crawling.
+ * **API or Structured Endpoints:** No public API is available.
+ * **LLM Training Value:** HIGH — The foundational repository for primary statutory laws in Bangladesh.
+ * **Expected vs. Actual Gaps:** Lacks a built-in search system that understands synonyms or basic legal terms, and provides no structured format (like JSON or XML) for downloading the entire corpus.
+#### 2. BDLex (bdlex.com)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Paywalled; requires an active commercial subscription.
+ * **Content Types:** Case law precedents, Supreme Court judgments (Appellate and High Court Divisions), and statutory rules.
+ * **Language Composition:** Primarily English, with select modern judgments available in Bengali.
+ * **Document Formats:** HTML.
+ * **Machine Readability:** High; features advanced search indexing and clean text extraction.
+ * **Estimated Volume:** Over 100,000 judgment entries.
+ * **Update Frequency and Maintenance:** Maintained with daily legal updates.
+ * **Extraction Methods (Bulk vs. Single):** Single-file view; bulk downloads are strictly prohibited.
+ * **API or Structured Endpoints:** Closed; proprietary API only.
+ * **LLM Training Value:** HIGH — Invaluable for training the model on case law precedents, though accessing this data is difficult due to paywalls and anti-scraping policies.
+ * **Expected vs. Actual Gaps:** High subscription costs limit open-source integration.
+#### 3. Library of Congress Bangladesh Law Guide (guides.loc.gov/law-bangladesh)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** Bibliographies of legal resources, constitutional histories, and links to external legal databases.
+ * **Language Composition:** English.
+ * **Document Formats:** HTML.
+ * **Machine Readability:** High; fully machine-readable.
+ * **Estimated Volume:** A single, curated guide page with dozens of categorized resource links.
+ * **Update Frequency and Maintenance:** Periodically updated.
+ * **Extraction Methods (Bulk vs. Single):** HTML scraping only.
+ * **API or Structured Endpoints:** No API available.
+ * **LLM Training Value:** LOW — Serves as a secondary guide in English, with minimal raw Bengali legal text for LLM training.
+ * **Expected vs. Actual Gaps:** Contains links to dead or deprecated Bangladeshi government subdomains.
+### C. NGO & Legal Aid Resources
+#### 1. Bangladesh Legal Aid and Services Trust Portal (blast.org.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** Human rights reports, public interest litigation (PIL) case briefs, and citizen-facing legal help books.
+ * **Language Composition:** Bengali and English.
+ * **Document Formats:** HTML and PDF.
+ * **Machine Readability:** Mixed; online reports are readable, but downloadable legal awareness booklets are often scanned PDFs.
+ * **Estimated Volume:** Hundreds of legal manuals, briefs, and guides.
+ * **Update Frequency and Maintenance:** Actively maintained.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads; programmatic scraping is allowed.
+ * **API or Structured Endpoints:** No API.
+ * **LLM Training Value:** HIGH — BLAST’s booklets are written in plain, accessible Bengali to help marginalized communities, providing high-quality training material for a conversational LLM.
+ * **Expected vs. Actual Gaps:** Many valuable legal manuals are stored as low-resolution scanned PDFs that require OCR.
+#### 2. Ain o Salish Kendra Portal (askbd.org)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** Human rights reports, legal aid request flows, family law booklets, and gender rights guides.
+ * **Language Composition:** Bengali and English.
+ * **Document Formats:** HTML and PDF.
+ * **Machine Readability:** High for online reports; mixed for downloadable manuals.
+ * **Estimated Volume:** Over 1,000 reports and legal advocacy books.
+ * **Update Frequency and Maintenance:** Actively maintained.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads only.
+ * **API or Structured Endpoints:** No API.
+ * **LLM Training Value:** HIGH — Excellent for training the model to explain civil rights and family law rules in simplified, easy-to-understand Bengali.
+ * **Expected vs. Actual Gaps:** The physical legal aid registry is offline to protect citizen privacy.
+### D. Open Datasets & Academic Corpora
+#### 1. HuggingFace: Bangladesh-Legal-Acts-Dataset (sakhadib/Bangladesh-Legal-Acts-Dataset)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open-source; distributed under the CC-BY 4.0 license.
+ * **Content Types:** Structured legal acts scraped from the Ministry of Law, enriched with historical context and government leadership data.
+ * **Language Composition:** English, Bengali, and Mixed.
+ * **Document Formats:** JSON with structured metadata.
+ * **Machine Readability:** High; structured section-by-section and pre-tokenized.
+ * **Estimated Volume:** 1,484 acts comprising 35,633 sections and 14,523 footnotes.
+ * **Update Frequency and Maintenance:** Static; last updated approximately 11 months ago.
+ * **Extraction Methods (Bulk vs. Single):** Bulk download supported via HuggingFace Hub.
+ * **API or Structured Endpoints:** Yes; accessible via the HuggingFace API.
+ * **LLM Training Value:** HIGH — The most technically mature, structured open-source dataset for training foundational Bengali legal models.
+ * **Expected vs. Actual Gaps:** Lacks secondary rules, SROs, and administrative circulars.
+#### 2. HuggingFace: Bengali LLM Finetuning Collection (Mahadih534/bangla-datasets-for-llms-finetuning)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open-source; free public access.
+ * **Content Types:** Multi-domain conversational datasets, translation pairs, and QA pairs in Bengali.
+ * **Language Composition:** Bengali.
+ * **Document Formats:** JSON, Parquet, and CSV.
+ * **Machine Readability:** High; preprocessed and formatted for model training.
+ * **Estimated Volume:** Thousands of dialogue entries across multiple sub-collections.
+ * **Update Frequency and Maintenance:** Periodically updated.
+ * **Extraction Methods (Bulk vs. Single):** Bulk download via HuggingFace Hub.
+ * **API or Structured Endpoints:** Yes; accessible via the HuggingFace API.
+ * **LLM Training Value:** HIGH — Crucial for tuning the model's conversational tone, helping it transition away from stiff, literal translations.
+ * **Expected vs. Actual Gaps:** Very few samples focus specifically on legal or administrative domains.
+#### 3. Academic Corpus: BNLI (Bengali Natural Language Inference Dataset)
+ * **Current URL Accessibility:** Active via ResearchGate and academic hosting.
+ * **Access Barriers:** Open-source under the CC-BY 4.0 license.
+ * **Content Types:** Balanced sentence pairs labeled for logical inference (entailment, contradiction, and neutrality).
+ * **Language Composition:** Bengali.
+ * **Document Formats:** JSON and CSV.
+ * **Machine Readability:** High; verified for linguistic consistency.
+ * **Estimated Volume:** Thousands of validated sentence pairs.
+ * **Update Frequency and Maintenance:** Static academic release.
+ * **Extraction Methods (Bulk vs. Single):** Bulk download.
+ * **API or Structured Endpoints:** No API.
+ * **LLM Training Value:** HIGH — Critical for improving the logical reasoning of Bengali LLMs, which helps reduce model hallucinations in legal QA.
+ * **Expected vs. Actual Gaps:** Contains general sentences rather than specialized legal terminology.
+#### 4. Academic Corpus: NCTB Dataset for Bangla QA
+ * **Current URL Accessibility:** Active via academic GitHub repositories.
+ * **Access Barriers:** Open-source for research.
+ * **Content Types:** Context passages and SQuAD-style question-answer pairs curated from school textbooks.
+ * **Language Composition:** Bengali.
+ * **Document Formats:** CSV and JSON.
+ * **Machine Readability:** High; includes precise character-level answer spans.
+ * **Estimated Volume:** 2,258 validated question-answer pairs.
+ * **Update Frequency and Maintenance:** Static academic release.
+ * **Extraction Methods (Bulk vs. Single):** Bulk download.
+ * **API or Structured Endpoints:** No API.
+ * **LLM Training Value:** MEDIUM — Excellent SQuAD-style structure, but focused on school textbook content rather than adult civic or legal workflows.
+ * **Expected vs. Actual Gaps:** Small sample size limits its use for deep domain-specific fine-tuning.
+### E. Gazette & Official Publications
+#### 1. Bangladesh Government Press (bgpress.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** Weekly extraordinary gazettes, government bills, service rules, statutory notifications, and Presidential orders.
+ * **Language Composition:** Primarily Bengali, with select acts and rules available in English.
+ * **Document Formats:** Scanned image PDFs.
+ * **Machine Readability:** Low; gazettes are uploaded as scanned images with no embedded text layer.
+ * **Estimated Volume:** Tens of thousands of historical gazettes.
+ * **Update Frequency and Maintenance:** Actively updated weekly.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads; requires complex scraping to traverse publication dates.
+ * **API or Structured Endpoints:** No public API.
+ * **LLM Training Value:** HIGH — This is the ultimate, authoritative source for government directives, though extracting data requires a robust OCR preprocessing pipeline.
+ * **Expected vs. Actual Gaps:** Completely lacks structural text layers or search metadata; filenames are unstructured, making automated indexing difficult.
+### F. Newly Discovered Sources
+#### 1. Open Government Data Portal (data.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** National development datasets, literacy rates, population statistics, and import-export data.
+ * **Language Composition:** Mixed; Bengali and English.
+ * **Document Formats:** CSV and XLS.
+ * **Machine Readability:** High; structured tabular data.
+ * **Estimated Volume:** Over 100 public datasets across 35 ministries.
+ * **Update Frequency and Maintenance:** Stale; many datasets have not been updated since the portal's initial 2016 launch.
+ * **Extraction Methods (Bulk vs. Single):** Direct downloads of raw CSV files.
+ * **API or Structured Endpoints:** Yes; download APIs are available.
+ * **LLM Training Value:** MEDIUM — Highly useful for structured civic and economic figures, though it lacks the conversational, narrative text required for natural language training.
+ * **Expected vs. Actual Gaps:** Several listed datasets contain broken download URLs or outdated statistical models.
+#### 2. MyGov Platform (mygov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Public access to service descriptions is free; applying for services requires registration using a verified citizen profile.
+ * **Content Types:** Step-by-step guides for over 600 digitized government services, lists of required documents, fee structures, and application workflows.
+ * **Language Composition:** Bengali.
+ * **Document Formats:** HTML.
+ * **Machine Readability:** High; instructional copy is published as clean, selectable HTML text.
+ * **Estimated Volume:** Hundreds of service blueprints.
+ * **Update Frequency and Maintenance:** Actively maintained as part of national digital initiatives.
+ * **Extraction Methods (Bulk vs. Single):** Programmatic HTML scraping only.
+ * **API or Structured Endpoints:** No public API is available.
+ * **LLM Training Value:** HIGH — It is an excellent source of structured, step-by-step instructions for public services, which can be easily adapted to train a conversational civic help agent.
+ * **Inconsistencies and Missing Features:** The interactive forms themselves are behind a registration wall, which prevents automated parsing of the exact application steps.
+#### 3. National Policy Portal (policy.gov.bd)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Free public access.
+ * **Content Types:** Draft laws, approved sector-specific policies, national strategic plans, and white papers.
+ * **Language Composition:** Bengali and English.
+ * **Document Formats:** PDF (often scanned) and HTML.
+ * **Machine Readability:** Mixed; older policy uploads are scanned, image-only PDFs, while newer drafts are machine-readable.
+ * **Estimated Volume:** Several hundred national policy documents.
+ * **Update Frequency and Maintenance:** Periodically updated.
+ * **Extraction Methods (Bulk vs. Single):** Single-file downloads only.
+ * **API or Structured Endpoints:** No API.
+ * **LLM Training Value:** HIGH — This portal is valuable for training the model on formal administrative vocabulary and the long-term strategic plans of the government.
+ * **Inconsistencies and Missing Features:** Lack of structured indexing; many historical sectoral policies are missing from the repository.
+#### 4. Chancery Law Chronicles Case Database (clcbd.org)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Paywalled; requires a subscription fee to access full judgment texts.
+ * **Content Types:** Supreme Court judgments (Appellate and High Court Divisions) since 1972, with summaries, headnotes, and legal keywords.
+ * **Language Composition:** English (majority) and Bengali (for select modern cases).
+ * **Document Formats:** HTML.
+ * **Machine Readability:** High; the portal features clean, structured web text.
+ * **Estimated Volume:** Over 7,200 indexed Supreme Court judgments.
+ * **Update Frequency and Maintenance:** Periodically updated.
+ * **Extraction Methods (Bulk vs. Single):** Single-page view; bulk downloading is blocked.
+ * **API or Structured Endpoints:** No API available.
+ * **LLM Training Value:** HIGH — Extremely valuable for studying judicial decisions and legal terms in Bangladesh, though access is limited by a subscription paywall.
+ * **Expected vs. Actual Gaps:** Gated behind a subscription wall, making programmatic scraping difficult.
+#### 5. Public Interest Litigation Case Portal (bdpil.org)
+ * **Current URL Accessibility:** Active and accessible.
+ * **Access Barriers:** Open access; no registration or payment wall.
+ * **Content Types:** Case summaries, legal petition templates, and final judgments concerning fundamental constitutional rights.
+ * **Language Composition:** Bengali and English.
+ * **Document Formats:** HTML.
+ * **Machine Readability:** High; features clean, structured web text.
+ * **Estimated Volume:** Hundreds of curated legal case profiles.
+ * **Update Frequency and Maintenance:** Maintained periodically under community legal services projects.
+ * **Extraction Methods (Bulk vs. Single):** Web-scraping required; no native bulk export.
+ * **API or Structured Endpoints:** No API.
+ * **LLM Training Value:** HIGH — The portal contains clear, structured legal case files and summaries with searchable keywords, which are valuable for training models on human rights law.
+ * **Expected vs. Actual Gaps:** Limited historical coverage of cases prior to the project's launch.
+## SECTION 2 — MACHINE READABILITY MATRIX
+The following analytical matrix summarizes the technical readiness of each major data source, focusing on language composition, document formats, bulk access capabilities, and the need for OCR processing.
+| Source Name | Language Profile | Primary Format | Fully Machine-Readable? | Bulk Programmatic Access? | Bengali OCR Pipeline Needed? | Public API Available? |
+|---|---|---|---|---|---|---|
+| **bangladesh.gov.bd** | Bengali & English | HTML / PDF | Mixed (HTML: Yes, Notices: No) | No (Requires crawling) | Yes (For notices) | No |
+| **forms.portal.gov.bd** | Bengali | PDF / DOCX | Mixed (Fillable: Yes, Older: No) | No (Single files) | Yes (For scanned forms) | No |
+| **bdlaws.minlaw.gov.bd** | Bengali & English | HTML | Yes (Structured text) | No (Requires crawling) | No | No |
+| **land.gov.bd** | Bengali | HTML / PDF | Mixed (Guides: Yes, Records: No) | No (Single records) | Yes (For land khatians) | No |
+| **everify.bdris.gov.bd** | Bengali & English | HTML | Yes (Query results) | No (Strictly blocked) | No | No (Closed Gov API) |
+| **marriage.gov.bd** | Bengali & English | HTML / PDF | Yes (Manuals/Guides) | No (Single files) | No | No |
+| **alljobs.teletalk.com.bd** | Bengali & English | HTML / PDF | Yes (Portal text) | No (Single circulars) | Yes (For poster circulars) | No |
+| **nbr.gov.bd** | Bengali & English | HTML / PDF | Mixed (Acts: Yes, SROs: No) | No | Yes (For scanned SROs) | No |
+| **epassport.gov.bd** | Bengali & English | HTML | Yes | No | No | No |
+| **police.gov.bd** | Bengali & English | HTML / PDF | Mixed (HTML: Yes, SROs: No) | No | Yes (For official circulars) | No |
+| **bgpress.gov.bd** | Bengali | Scanned PDF | No (Image-only) | No (Search queries only) | Yes (High density OCR) | No |
+| **bdlex.com** | English & Bengali | HTML | Yes | No (Strict paywall/blocked) | No | No (Proprietary) |
+| **bldlegalized.com** | English & Bengali | HTML / PDF | Yes | No (Paywalled extraction) | No | No (Proprietary) |
+| **blast.org.bd** | Bengali & English | HTML / PDF | Mixed (Manuals often scanned) | No | Yes (For older manuals) | No |
+| **sakhadib/Bangladesh-Acts** | Bengali & English | JSON | Yes (Clean structured data) | Yes (HuggingFace Hub) | No | Yes (via HF Hub API) |
+| **data.gov.bd** | Bengali & English | CSV / JSON | Yes (Structured database) | Yes (Direct CSV download) | No | Yes |
+| **BNLI Dataset** | Bengali | JSON / CSV | Yes | Yes (Academic repo) | No | No |
+| **mygov.bd** | Bengali | HTML | Yes | No | No | No |
+| **policy.gov.bd** | Bengali & English | HTML / PDF | Mixed | No | Yes (For older policies) | No |
+## SECTION 3 — TRAINING VALUE RANKING
+A strategic assessment of these sources indicates that they do not offer equal value for training a civic-minded Bengali LLM. The ranking below prioritizes datasets based on how effectively they can teach a model to provide clear, helpful, and legally accurate instructions in Bengali.
+### Top 5 Strategic Foundations
+ 1. **HuggingFace: sakhadib/Bangladesh-Legal-Acts-Dataset**
+   * *Justification:* This dataset is the most valuable resource for training the model's core legal knowledge. It converts the messy, unindexed laws of the Bangladesh Laws portal into highly structured, machine-readable JSON files. It includes over 35,000 parsed sections with historical government metadata and standardized years, allowing the LLM to learn the legal relationships across different legislative eras. By using clean, structured text, it minimizes training noise, helping the model learn accurate legal terminology without the formatting errors and broken links common on government websites.
+ 2. **MyGov Platform (mygov.bd)**
+   * *Justification:* While the Legal Acts dataset teaches the model what the law says, MyGov teaches the model how the law is actually put into practice. This platform translates complex government regulations into clear, step-by-step instructions for over 600 public services. Training on this clean, conversational Bengali HTML text helps the LLM learn how to explain complicated administrative workflows in simple terms, which is essential for guiding citizens through their civic duties.
+ 3. **Government Forms Portal (forms.portal.gov.bd)**
+   * *Justification:* To assist citizens who struggle with complex paperwork, the LLM must first understand the structural layout and requirements of those forms. This portal provides the primary blueprints for almost every official administrative form in the country. By analyzing these documents, the model learns the relationship between the questions asked and the legal requirements behind them. This enables the LLM to explain why specific documents (such as NID or land deeds) are required for a given application, and guide users step-by-step through the process.
+ 4. **NGO Publications: BLAST & ASK (blast.org.bd / askbd.org)**
+   * *Justification:* These legal aid organizations excel at translating complex, formal Bengali laws into simple, everyday language for marginalized communities. Their educational guides, brochures, and paralegal handbooks are valuable for training the LLM's conversational style. Learning from this material allows the model to explain legal rights and procedures in a warm, accessible, and supportive tone, helping to ease the anxiety citizens often feel when dealing with bureaucratic systems.
+ 5. **Ministry of Land Portal (land.gov.bd)**
+   * *Justification:* Land management in Bangladesh relies on a complex, highly specialized vocabulary that mixes traditional Persian, Arabic, and old Bengali legal terms. This portal is the authoritative source for these specialized land administration terms. Training on this data ensures the LLM can accurately understand and explain complex terms like *Khatian* or *Jamabandi*, making it a reliable tool for helping citizens navigate land disputes and transactions.
+### Remaining Sources Ranked by Training Value
+ * **bdlaws.minlaw.gov.bd (HIGH):** The primary first-party source for the complete Bangladesh Code, essential for legal accuracy, though it requires custom web crawling to extract.
+ * **bldlegalized.com (HIGH):** Provides structured Supreme Court case summaries and authoritative headnotes, though access is limited by a subscription paywall.
+ * **marriage.gov.bd (HIGH):** Provides structured, step-by-step guidelines for civil status registrations, which are valuable for training the model on family law procedures.
+ * **epassport.gov.bd (HIGH):** An excellent source of clean, step-by-step user guides for a highly popular public service, perfect for conversational model training.
+ * **dncrp.gov.bd (HIGH):** Crucial for teaching the model how to help citizens draft official consumer complaints and understand their consumer protection rights.
+ * **alljobs.teletalk.com.bd (HIGH):** Valuable for training the model on career requirements and employment rules, though many circulars are stored as images.
+ * **etaxnbr.gov.bd / nbr.gov.bd (HIGH):** Crucial for training the model on tax compliance procedures, helping to translate complex financial rules into clear instructions.
+ * **police.gov.bd / mha.gov.bd (HIGH):** Essential for explaining law enforcement procedures, such as filing a General Diary or applying for security clearances.
+ * **dol.gov.bd (HIGH):** Critical for training the model on labor rights, minimum wage rules, and dispute resolution procedures under the Bangladesh Labour Act.
+ * **bgpress.gov.bd (HIGH):** The definitive source for official government gazettes, though it ranks lower than other high-value sources due to the difficulty of processing its scanned, image-only PDFs.
+ * **bdlex.com (MEDIUM):** A comprehensive legal database, but its high subscription cost and strict anti-scraping measures make it difficult to use for bulk training data.
+ * **everify.bdris.gov.bd (MEDIUM):** Highly reliable for validating birth registration workflows, but does not allow bulk data extraction due to privacy rules.
+ * **BNLI Academic Dataset (MEDIUM):** Highly useful for improving the logical reasoning and semantic processing of Bengali models, though it lacks domain-specific legal text.
+ * **data.gov.bd (MEDIUM):** Provides valuable statistical data, but lacks the conversational, descriptive Bengali prose required for natural language model training.
+ * **policy.gov.bd (MEDIUM):** Good for training the model on formal policy language, though many historical documents are scanned PDFs.
+ * **dshe.gov.bd / dpe.gov.bd / shed.gov.bd (MEDIUM):** Good for learning educational administration terminology, but contains a high proportion of scanned PDFs.
+ * **dlrs.gov.bd (MEDIUM):** Helpful for learning land survey terminology, but the actual cadastral maps are stored as unreadable image files.
+ * **dpp.gov.bd/bfpo (MEDIUM):** Useful for studying historical register formats, but many files are poor-quality scanned documents.
+ * **NCTB QA Dataset (MEDIUM):** Excellent SQuAD-style QA structure, but focuses on school textbook content rather than adult civic or legal workflows.
+ * **educationboard.gov.bd (LOW):** Designed for looking up individual test results, offering little conversational or instructional value for LLM training.
+ * **guides.loc.gov/law-bangladesh (LOW):** A secondary bibliographic resource in English, with minimal Bengali civic or legal text for direct training.
+## SECTION 4 — CRITICAL GAPS
+This research has identified several significant gaps in the public availability of digital civic and legal data in Bangladesh. These gaps represent major obstacles to training a high-fidelity model on public data alone.
+### Legal Decisions and Case Law Reports
+The digitization of Bangladeshi case law remains highly fragmented and largely locked behind private commercial walls:
+ * *Dhaka Law Reports (DLR):* The oldest and most authoritative legal journal in Bangladesh (established in 1949) is a private commercial venture. It is not officially digitized for free public use, and the publisher's business model relies on physical, paper-bound print editions. No public, open-access text database of DLR exists.
+ * *Bangladesh Legal Decisions (BLD):* The official legal reporting platform of the Bangladesh Bar Council has been digitized through its proprietary platform (bldlegalized.com). It contains over 40 years of Supreme Court judgments, summaries, and headnotes. However, this data is gated behind a payment subscription wall and is protected against automated data extraction.
+ * *Public Court Judgments:* There is no comprehensive, centralized, and free public database of lower court or district court judgments. The official Supreme Court website offers a basic case search tool, but its historical records are incomplete, and it lacks the advanced search features needed for deep legal research.
+### Statutory Land Management Manuals
+ * *Land Management Manual 1990:* This foundational guide outlines 15 key registers and 3 annual returns used by Union, Upazila, and District authorities to manage land records and revenue. However, it is not available as a comprehensive, structured digital publication from the government. Instead, only partial summaries, outlines, and analytical extracts of these 15 registers are available through third-party platforms (such as Scribd) and academic law journals.
+```
+  [Physical Registers] ----(Scanned/Incomplete)----> [Scribd / Law Journals]
+  (Union/Upazila Offices)                             (Fragmented Legal Summaries)
+
+```
+The absence of an official, machine-readable digital edition of the 1990 Manual makes it difficult to train an LLM on the precise rules of land administration.
+### Local Government Infrastructure and Forms
+ * *Union Parishad & City Corporation Forms:* There is no centralized database for localized administrative forms. While standard forms (such as birth registration applications) are hosted on the national forms portal, many specific local government templates remain offline. These forms must be physically collected from individual Union Parishad, Upazila, or City Corporation offices, as they are not digitized or centralized anywhere online.
+### National Open Data Frameworks
+ * While some countries maintain active, central open data initiatives (such as data.gov in the US), Bangladesh's equivalent portal (data.gov.bd) has stalled. Launched in 2016 by the Prime Minister's Office and a2i, the portal was designed to host open datasets from over 35 ministries. However, many of these datasets are static and have not been updated since their initial release, leaving developers without a reliable source of fresh civic or administrative data.
+## SECTION 5 — RECOMMENDED IMMEDIATE ACTIONS
+To build a reliable training pipeline for the Bengali LLM, immediate data extraction efforts should prioritize the following 10 sources. These recommendations are based on their training value, technical accessibility, and legal importance.
+### 1. HuggingFace: sakhadib/Bangladesh-Legal-Acts-Dataset
+ * **Action:** Direct API download and extraction of the complete JSON repository.
+ * **Reasoning:** This is the most technically mature legal dataset available. It contains 1,484 acts parsed into 35,633 sections, with historical context and standardized years. Downloading this dataset provides an immediate, clean foundation of Bangladesh's primary laws, bypassing the need for complex web scraping.
+### 2. Government Forms Portal (forms.portal.gov.bd)
+ * **Action:** Deploy web crawlers to download all PDF, DOC, and DOCX forms, followed by automated text layout parsing.
+ * **Reasoning:** It is the primary repository for public service forms. Extracting and mapping these forms allows the LLM to learn the structural fields and specific parameters of bureaucratic forms, which is essential for guiding citizens through administrative procedures.
+### 3. MyGov Portal (mygov.bd)
+ * **Action:** Programmatically scrape the HTML service guides for all 600+ digitized public services.
+ * **Reasoning:** This portal provides clean, step-by-step instructions for public services in Bengali. Training the model on this data helps it learn how to explain complex procedures in simple terms, which is crucial for a helpful, citizen-focused conversational assistant.
+### 4. Ministry of Law: Bangladesh Laws Portal (bdlaws.minlaw.gov.bd)
+ * **Action:** Develop custom web scrapers to crawl the HTML structure of the online Bangladesh Code.
+ * **Reasoning:** While the HuggingFace dataset is highly structured, crawling the live portal ensures the training corpus includes the latest amendments and newly passed acts. This provides the model with the most up-to-date, first-party legal text.
+### 5. NGO Publications: BLAST (blast.org.bd & bdpil.org)
+ * **Action:** Download BLAST's educational booklets, paralegal manuals, and public interest litigation archives.
+ * **Reasoning:** These guides translate complex legal concepts into simple, everyday Bengali. Training the model on this material is essential for teaching it to discuss legal rights in a warm, accessible, and supportive tone.
+### 6. Ministry of Land Portal (land.gov.bd)
+ * **Action:** Scrape the public land mutation guidelines, registration manuals, and land tax instructions.
+ * **Reasoning:** Explaining land records and transaction procedures is a major requirement for civic LLMs. This portal is the definitive source for specialized land administration terms (like *Khatian*, *Daag*, and *Mouza*), which are essential for resolving land-related queries.
+### 7. NGO Publications: Ain o Salish Kendra (askbd.org)
+ * **Action:** Programmatically download ASK's family law, labor rights, and gender protection handbooks.
+ * **Reasoning:** This resource provides high-quality, simplified explanations of civil and human rights laws in Bengali, which helps the LLM explain legal protections to citizens without using overly dense, academic jargon.
+### 8. Marriage & Divorce Registration Portal (marriage.gov.bd)
+ * **Action:** Extract the official CRVS user manuals and registration guides.
+ * **Reasoning:** This is a key civil registration process with clear, documented workflows. Training on these manuals helps the model learn to guide citizens through family and civil status registrations step-by-step.
+### 9. e-Passport Portal (epassport.gov.bd)
+ * **Action:** Scrape the complete set of HTML application guides, FAQ lists, and verification rules.
+ * **Reasoning:** The portal contains structured, clean instructions for one of the country's most widely used public services, providing excellent material for training conversational FAQ workflows.
+### 10. Bangladesh Government Press (bgpress.gov.bd)
+ * **Action:** Set up a targeted downloading pipeline for weekly extraordinary gazettes, focused on the most critical policy updates.
+ * **Reasoning:** Although these scanned PDFs require heavy OCR preprocessing, the gazettes are the ultimate authority on regulatory changes and new laws, making them essential for maintaining the model's legal accuracy over time.

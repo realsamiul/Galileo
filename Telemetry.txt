@@ -1,0 +1,1680 @@
+
+
+
+# WhatsApp vs Messenger: The Setup Decision
+
+## The Honest Comparison
+
+| Factor | WhatsApp Business API | Messenger (Meta Graph API) |
+|---|---|---|
+| **Where your users are** | Everyone in Bangladesh. Period. | Facebook users — same people, but they don't message businesses there first |
+| **AWS native integration** | AWS End User Messaging Social (managed, current) | No AWS-managed equivalent — you'd build a webhook yourself |
+| **Verification timeline** | WhatsApp Business Account approval: 1-7 days typical, can take weeks if flagged | Instant if you have a Facebook Page + App |
+| **Cost per conversation** | Meta charges per 24-hour conversation window (~$0.03-0.08 for Bangladesh, service conversations) | Free (no per-message fee from Meta) |
+| **Message types** | Text, voice notes, images, documents (PDF), location | Text, images, files (less clean for document return) |
+| **Voice notes** | Native, extremely common in BD | Exists but rarely used for business |
+| **Document sending** | Native PDF/DOCX attachment in chat | File attachment works but less elegant |
+| **User trust for business** | High — people already message businesses on WhatsApp in BD | Medium — feels more casual/personal |
+| **Setup complexity** | Medium-High (WABA registration, phone number, verification) | Medium (Facebook App, Page, webhook) |
+
+## My Recommendation
+
+**Start with WhatsApp.** Here's why:
+
+1. Proof Sheet's killer use case is voice note → PDF back in the same chat. WhatsApp voice notes are *the* communication mode in Bangladesh. Messenger voice exists but isn't habitual for business.
+
+2. Returning a PDF as a WhatsApp document attachment is clean — it appears inline, downloadable, shareable. This is the product experience.
+
+3. AWS End User Messaging Social exists specifically to manage this. It handles the Meta Cloud API complexity for you.
+
+4. Your target user (shop owner, student, freelancer in BD) already has business conversations happening on WhatsApp. You're inserting into existing behavior, not creating new behavior.
+
+**However** — there's a pragmatic sequencing option I'll flag at the end.
+
+---
+
+## The Setup Path (Clean, From Your Phone)
+
+### What You Need Before Touching AWS
+
+This is the part most tutorials skip, and it's where most people get stuck:
+
+#### Prerequisites Checklist
+
+```
+□ A Meta Business Account (business.facebook.com)
+  - If you don't have one: create with your business name
+  - If you have one: confirm it's verified or verify it
+
+□ A Facebook Page linked to that Meta Business Account
+  - Any page works. Can be your agency page.
+
+□ A phone number for WhatsApp Business
+  - CANNOT be a number currently registered on 
+    WhatsApp personal or WhatsApp Business app
+  - Options:
+    a) New SIM (cleanest — buy a ৳50 SIM tomorrow)
+    b) Existing number you remove from WhatsApp first
+  - Must be able to receive SMS or voice call for 
+    verification (one time only)
+
+□ A Meta App (developers.facebook.com)
+  - Type: Business
+  - With WhatsApp product added
+```
+
+#### The Critical Gotcha
+
+> **Your personal WhatsApp number will NOT work.** The moment you register a number with the Cloud API, it is removed from the WhatsApp app. Use a dedicated number. A ৳50 Grameenphone SIM that you only use for this is the correct move.
+
+---
+
+### Step-by-Step: Meta Side (Do This First)
+
+**Step 1: Meta Business Account**
+
+Go to `business.facebook.com`. If you already have one, confirm you see your business name at the top left. If not, create one — takes 5 minutes, needs your business name and your name.
+
+Business verification (the blue tick process) is NOT required to start. You can send up to 250 unique conversations/day without it. Verify later when volume justifies it.
+
+**Step 2: Create a Meta App**
+
+Go to `developers.facebook.com/apps`
+
+- Click "Create App"
+- Select "Other" for use case (or "Business" if prompted)
+- App type: "Business"
+- Name it something like "ProofSheet" or your agency name
+- Link it to your Meta Business Account when prompted
+
+**Step 3: Add WhatsApp Product**
+
+Inside your new app's dashboard:
+- Left sidebar → "Add Products"
+- Find "WhatsApp" → click "Set Up"
+- This creates a WhatsApp Business Account (WABA) linked to your Meta Business Account
+- Meta gives you a **test phone number** and **test recipient** for free — you can build your entire pipeline against this before registering your real number
+
+**This is important:** You do NOT need your own phone number yet to start building. Meta provides a test sender number. You can only send to numbers you add as test recipients (up to 5), but that's enough to build and verify the entire pipeline.
+
+**Step 4: Get Your Credentials**
+
+From the WhatsApp section of your app dashboard, you need:
+- **Phone Number ID** (the test number's ID)
+- **WhatsApp Business Account ID**
+- **Temporary Access Token** (valid 24 hours — fine for building)
+- Later: a **Permanent System User Token** (for production)
+
+**Step 5: Configure a Webhook**
+
+This is where AWS enters. Meta needs a URL to send incoming messages to. You'll provide an API Gateway URL (set up in the AWS steps below). For now, just know that in the WhatsApp settings there's a "Configuration" section where you paste a webhook URL and a verify token.
+
+---
+
+### Step-by-Step: AWS Side
+
+#### Option A: AWS End User Messaging Social (Managed)
+
+This is the "proper" path from your technical briefing. AWS manages the Meta connection for you.
+
+**Current status:** This service handles the webhook management, message receipt, and message sending through a managed interface. You configure your WABA in the AWS console, and messages arrive via SNS topics.
+
+Setup via AWS Console:
+1. Go to AWS End User Messaging (in the console, search "End User Messaging")
+2. Navigate to Social messaging
+3. Link your WhatsApp Business Account (requires the WABA ID from Meta)
+4. AWS creates an SNS topic that receives all inbound messages
+5. You subscribe a Lambda function to that topic
+
+**Advantage:** AWS handles webhook verification, token management, retry logic.
+**Disadvantage:** Slightly less control over the raw message format. Newer service, fewer Stack Overflow answers if you hit edge cases.
+
+#### Option B: Self-Managed Webhook (More Control, Also Fine)
+
+This is the path most developers actually take and what the `build-on-aws` sample repository uses:
+
+```
+Meta WhatsApp Cloud API 
+    → sends webhook POST to your API Gateway URL
+    → API Gateway triggers Lambda
+    → Lambda processes message
+    → Lambda calls WhatsApp API to reply
+```
+
+Setup:
+1. Create a Lambda function (Python 3.12 runtime)
+2. Create an API Gateway (HTTP API — simpler than REST API)
+3. Connect API Gateway → Lambda
+4. Take the API Gateway URL, paste it into Meta's webhook configuration
+5. Handle Meta's verification challenge (they send a GET with a token, you echo it back)
+
+**I recommend Option B for you right now.** Here's why:
+- The `building-gen-ai-whatsapp-assistant-with-amazon-bedrock-and-python` sample repo uses this exact pattern — you have reference code
+- You have full visibility into every message as raw JSON
+- Debugging is simpler (CloudWatch logs show you exactly what Meta sent)
+- You can add SQS between API Gateway and the processing Lambda later for throughput (the architecture in the briefing) without changing the Meta-facing endpoint
+
+---
+
+### The Lambda: What It Actually Does
+
+Here's the skeleton. This is the single function that receives a WhatsApp message and replies:
+
+```python
+import json
+import boto3
+import urllib3
+
+# Clients
+bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
+secrets = boto3.client('secretsmanager')
+
+WHATSAPP_TOKEN = "your-token"  # Move to Secrets Manager for prod
+PHONE_NUMBER_ID = "your-phone-number-id"
+
+def lambda_handler(event, context):
+    body = json.loads(event['body'])
+    
+    # Meta sends various webhook events — filter for actual messages
+    if body.get('object') != 'whatsapp_business_account':
+        return {'statusCode': 200}
+    
+    entries = body.get('entry', [])
+    for entry in entries:
+        changes = entry.get('changes', [])
+        for change in changes:
+            value = change.get('value', {})
+            messages = value.get('messages', [])
+            
+            for message in messages:
+                sender = message['from']  # User's phone number
+                msg_type = message['type']  # text, audio, image, document
+                
+                if msg_type == 'text':
+                    user_text = message['text']['body']
+                elif msg_type == 'audio':
+                    # Handle voice note — Phase 2
+                    audio_id = message['audio']['id']
+                    user_text = transcribe_voice(audio_id)
+                else:
+                    user_text = "[unsupported message type]"
+                
+                # Generate response via Bedrock
+                response = generate_response(sender, user_text)
+                
+                # Send reply
+                send_whatsapp_message(sender, response)
+    
+    return {'statusCode': 200}
+
+
+def generate_response(sender, user_text):
+    """Call Bedrock Claude with the user's message"""
+    
+    response = bedrock.invoke_model(
+        modelId='anthropic.claude-sonnet-4-20250514',
+        body=json.dumps({
+            "anthropic_version": "bedrock-2023-05-31",
+            "max_tokens": 1024,
+            "system": SYSTEM_PROMPT,
+            "messages": [
+                {"role": "user", "content": user_text}
+            ]
+        })
+    )
+    
+    result = json.loads(response['body'].read())
+    return result['content'][0]['text']
+
+
+def send_whatsapp_message(to, text):
+    """Send a text reply via WhatsApp Cloud API"""
+    
+    http = urllib3.PoolManager()
+    url = f"https://graph.facebook.com/v21.0/{PHONE_NUMBER_ID}/messages"
+    
+    payload = {
+        "messaging_product": "whatsapp",
+        "to": to,
+        "type": "text",
+        "text": {"body": text}
+    }
+    
+    http.request(
+        'POST', url,
+        body=json.dumps(payload),
+        headers={
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {WHATSAPP_TOKEN}'
+        }
+    )
+
+
+SYSTEM_PROMPT = """You are ProofSheet, a document assistant 
+available on WhatsApp. You help users create professional 
+documents by asking for the needed information conversationally.
+
+You handle: invoices, receipts, business letters, leave 
+applications, CVs, and more.
+
+CRITICAL RULES:
+- Always reply in the language the user wrote in
+- Handle Bangla, English, and code-mixed naturally
+- If you need more information to create the document, 
+  ask for it conversationally (max 2-3 questions)
+- When you have enough information, output a structured 
+  JSON block marked with [DOCUMENT_READY] that the system 
+  will render into a PDF
+
+Example output when ready:
+[DOCUMENT_READY]
+{"type": "invoice", "data": {"to": "...", "items": [...], ...}}
+"""
+```
+
+**The webhook verification handler** (Meta requires this when you first register the webhook):
+
+```python
+def lambda_handler(event, context):
+    # Meta sends GET for verification, POST for messages
+    http_method = event.get('requestContext', {}).get('http', {}).get('method', '')
+    
+    if http_method == 'GET':
+        # Webhook verification
+        params = event.get('queryStringParameters', {})
+        mode = params.get('hub.mode')
+        token = params.get('hub.verify_token')
+        challenge = params.get('hub.challenge')
+        
+        if mode == 'subscribe' and token == 'your-verify-token':
+            return {
+                'statusCode': 200,
+                'body': challenge
+            }
+        return {'statusCode': 403}
+    
+    # POST — actual message handling
+    # ... (the message handling code above)
+```
+
+---
+
+### What to Do Right Now (On Your Phone)
+
+**Today:**
+
+1. Go to `developers.facebook.com` on your phone browser
+2. Create the Meta App if you don't have one
+3. Add WhatsApp product
+4. Note your test Phone Number ID and the temporary token
+5. Add your own WhatsApp number as a test recipient
+
+**Tomorrow (when you can access AWS Console):**
+
+1. Create a Lambda function (Python 3.12)
+2. Paste the skeleton code above
+3. Create an HTTP API in API Gateway, route POST and GET to the Lambda
+4. Copy the API Gateway invoke URL
+5. Go back to Meta Developer dashboard → WhatsApp → Configuration
+6. Paste the URL as webhook, set your verify token
+7. Subscribe to the "messages" webhook field
+8. Send a test message from your WhatsApp to the test number
+
+**That's it.** When you send "hello" to the test number, your Lambda fires, calls Bedrock, and replies. The entire loop works. Everything after this is layering on capabilities (voice, PDF rendering, document templates, conversation memory).
+
+---
+
+### The Messenger Fallback Option
+
+If WhatsApp Business verification becomes slow or problematic, Messenger is your instant fallback:
+
+- Same Meta App, just add the "Messenger" product instead
+- Webhook structure is nearly identical (different JSON schema but same concept)
+- No phone number needed — messages come to your Facebook Page
+- Free (no per-conversation charge)
+- Works immediately with no verification wait
+
+You could genuinely build the entire pipeline against Messenger first (since it's instant), then swap the channel layer to WhatsApp once WABA is approved. The Bedrock logic, document rendering, conversation memory — all of it is channel-agnostic. Only the first Lambda (message parsing) and last Lambda (sending the reply) care which platform you're on.
+
+---
+
+### Cost Reality Check (Monthly)
+
+At 1,000 conversations/month (a reasonable early target):
+
+| Service | Cost |
+|---|---|
+| Meta conversation fees (WhatsApp) | ~$30-80 (service category, BD pricing) |
+| Lambda invocations | ~$0.50 |
+| Bedrock Claude Sonnet (avg 500 tokens/response × 2000 calls) | ~$8-15 |
+| API Gateway | ~$1 |
+| DynamoDB | ~$1-2 |
+| S3 (document storage) | ~$0.50 |
+| Transcribe (if 200 voice notes, avg 30sec) | ~$2.40 |
+| **Total** | **~$45-100/month** |
+
+If you're charging even ৳299/month to 50 users, that's ৳14,950 (~$125). Profitable from month one with a small user base.
+
+---
+
+### Your Next Message to Me
+
+Once you've done the Meta Developer setup (Steps 1-4 of the Meta side), tell me:
+- Whether you have the test Phone Number ID
+- Whether you hit any blocks (common ones: Meta asking for business verification before allowing API access, or the WhatsApp product not appearing)
+- Whether you want to go Option A (End User Messaging Social) or Option B (self-managed webhook)
+
+And I'll walk you through the AWS side step by step.
+
+
+
+
+
+
+
+
+# WhatsApp Setup: Troubleshooting Guide
+
+## Common Blocks You'll Hit (And How to Clear Them)
+
+### Block 1: "You need a Meta Business Account"
+
+If `developers.facebook.com` tells you that you need a Meta Business Account to create a Business type app:
+
+- Go to `business.facebook.com/overview` first
+- Create one there (business name, your name, your email)
+- Then return to developers.facebook.com and try again
+- The link between the two isn't always instant — give it 5 minutes, refresh
+
+### Block 2: WhatsApp Product Doesn't Appear in "Add Products"
+
+This occasionally happens if your Meta Business Account is very new or flagged for review.
+
+- Clear fix: make sure your app type is "Business" not "Consumer" or "Gaming"
+- If still missing: go to `developers.facebook.com/apps/YOUR_APP_ID/whatsapp-business/wa-dev-console` directly — sometimes the product is accessible via URL even when the button doesn't render
+- If truly blocked: your Meta Business Account may need email verification. Check Settings → Business Info on business.facebook.com
+
+### Block 3: "Two-Factor Authentication Required"
+
+Meta enforces 2FA for developer accounts in most regions now. If prompted:
+
+- Set it up immediately (authentication app, not SMS if possible)
+- Don't skip this — you'll be locked out of the webhook configuration later if you defer
+
+### Block 4: Test Number Setup Confusion
+
+When you add WhatsApp to your app, Meta gives you:
+
+- A **Meta test phone number** (something like +1 555 XXX XXXX) — this is the *bot's* number, the one that sends replies
+- You then add **your own real WhatsApp number** as a "To" recipient for testing
+- You must add your number in the API Setup panel under "To" field and send yourself a test template message first to confirm the connection
+
+**The confusing part:** you cannot just message the test number from your WhatsApp. You must first *send* a template message from the API/dashboard *to* your number, and *then* you can reply to it and trigger webhooks. This is Meta's 24-hour conversation window rule — the bot must initiate with an approved template, then freeform conversation opens for 24 hours.
+
+**For testing however:** Meta's test number has a pre-approved "hello_world" template. In the API Setup panel, there's a "Send Message" button that sends this template to your test recipient number. Click it. You'll get a WhatsApp message. Now you can reply to it and your webhook will receive that reply.
+
+### Block 5: Phone Number Verification Loop
+
+If you proceed to register your own number (not needed immediately — test number works first):
+
+- Meta sends a 6-digit code via SMS or voice call to verify ownership
+- If SMS doesn't arrive: switch to voice call option
+- If neither arrives: the number may still be registered on WhatsApp/WhatsApp Business app. You **must** delete the account from the app first (Settings → Account → Delete my account), wait 5 minutes, then retry verification
+- Grameenphone and Robi numbers in Bangladesh work fine. Banglalink occasionally has SMS delivery delays for short codes — voice call is more reliable
+
+### Block 6: Webhook Configuration Won't Verify
+
+This one you'll hit when you try to paste your API Gateway URL into Meta's webhook field. Meta sends a GET request with a challenge string and expects it echoed back. Common failures:
+
+- Your Lambda returns JSON instead of plain text — the challenge must be returned as raw text with status 200
+- Your API Gateway has CORS configured wrong — for webhook verification, it doesn't matter, but make sure you're not requiring an API key
+- Meta times out — your Lambda cold start took too long. If you're using Python with no layers, cold start is <1 second, you should be fine
+- **The verify token you entered in Meta must exactly match what your Lambda checks for** — copy-paste, don't retype
+
+### Block 7: "Business Verification Required" for Higher Messaging Limits
+
+You start with 250 unique conversations/day. That's fine for building and early users. Don't worry about business verification until you have traction. When you do need it:
+
+- Meta asks for a business document (trade license, utility bill with business name, or bank statement)
+- Bangladeshi trade licenses work. Upload a clear photo/scan.
+- Verification takes 2-10 business days
+- You can build and test everything in the 250/day limit
+
+### Block 8: Temporary Token Expires
+
+The token Meta gives you in the API Setup panel lasts 24 hours. For building over multiple days:
+
+- Option 1: Generate a new temporary token each session (fine for development)
+- Option 2: Create a System User in Business Settings → Users → System Users → generate a permanent token with `whatsapp_business_messaging` permission. Do this before going to production.
+
+---
+
+## Now: The Full AWS Build (Option B)
+
+What follows is everything you need to deploy the working pipeline. I'll structure it as discrete pieces you can deploy one at a time.
+
+---
+
+## Part 1: The Lambda Function (Complete, Production-Shaped)
+
+### IAM Role First
+
+Create a role for your Lambda. It needs these policies:
+
+**Trust policy** (allows Lambda to assume the role):
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {"Service": "lambda.amazonaws.com"},
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+```
+
+**Permissions** (attach as inline policy or managed policies):
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "bedrock:InvokeModel"
+      ],
+      "Resource": "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-sonnet-4-20250514"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "secretsmanager:GetSecretValue"
+      ],
+      "Resource": "arn:aws:secretsmanager:*:*:secret:proofsheet/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:Query"
+      ],
+      "Resource": "arn:aws:dynamodb:*:*:table/proofsheet_*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject"
+      ],
+      "Resource": "arn:aws:s3:::proofsheet-docs/*"
+    }
+  ]
+}
+```
+
+### DynamoDB Table
+
+Create one table now:
+
+- Table name: `proofsheet_conversations`
+- Partition key: `phone_number` (String)
+- Sort key: `timestamp` (String)
+- Billing: On-demand (pay per request — cheapest at low volume)
+
+### S3 Bucket
+
+- Bucket name: `proofsheet-docs-[your-account-id]` (must be globally unique)
+- Block all public access: ON
+- We'll use presigned URLs to share documents
+
+### Secrets Manager
+
+Store one secret now:
+
+- Secret name: `proofsheet/whatsapp`
+- Secret value (JSON):
+```json
+{
+  "access_token": "your-meta-token",
+  "phone_number_id": "your-phone-number-id",
+  "verify_token": "any-string-you-choose-as-webhook-verify"
+}
+```
+
+### The Lambda Code (Full — Deploy This)
+
+Create a Lambda function:
+- Runtime: Python 3.12
+- Architecture: arm64 (cheaper)
+- Memory: 512 MB
+- Timeout: 30 seconds
+- Role: the one you created above
+
+**lambda_function.py:**
+
+```python
+import json
+import boto3
+import urllib3
+import hashlib
+from datetime import datetime, timezone
+
+# --- AWS Clients ---
+bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
+dynamodb = boto3.resource('dynamodb')
+secrets_client = boto3.client('secretsmanager')
+s3 = boto3.client('s3')
+
+# --- Config ---
+CONVERSATION_TABLE = dynamodb.Table('proofsheet_conversations')
+DOCS_BUCKET = 'proofsheet-docs-REPLACE-WITH-YOURS'
+http = urllib3.PoolManager()
+
+# --- Load secrets (cached across warm invocations) ---
+_secrets_cache = None
+
+def get_secrets():
+    global _secrets_cache
+    if _secrets_cache is None:
+        resp = secrets_client.get_secret_value(SecretId='proofsheet/whatsapp')
+        _secrets_cache = json.loads(resp['SecretString'])
+    return _secrets_cache
+
+
+# --- Main Handler ---
+def lambda_handler(event, context):
+    method = event.get('requestContext', {}).get('http', {}).get('method', 'POST')
+    
+    # Webhook verification (GET)
+    if method == 'GET':
+        return handle_verification(event)
+    
+    # Message processing (POST)
+    try:
+        body = json.loads(event.get('body', '{}'))
+    except json.JSONDecodeError:
+        return {'statusCode': 200}
+    
+    if body.get('object') != 'whatsapp_business_account':
+        return {'statusCode': 200}
+    
+    for entry in body.get('entry', []):
+        for change in entry.get('changes', []):
+            value = change.get('value', {})
+            
+            # Skip status updates (delivered, read receipts)
+            if 'messages' not in value:
+                continue
+            
+            for message in value['messages']:
+                process_message(message)
+    
+    # Always return 200 quickly — Meta will retry on non-200
+    return {'statusCode': 200}
+
+
+def handle_verification(event):
+    params = event.get('queryStringParameters', {})
+    mode = params.get('hub.mode', '')
+    token = params.get('hub.verify_token', '')
+    challenge = params.get('hub.challenge', '')
+    
+    secrets = get_secrets()
+    
+    if mode == 'subscribe' and token == secrets['verify_token']:
+        return {
+            'statusCode': 200,
+            'headers': {'Content-Type': 'text/plain'},
+            'body': challenge
+        }
+    
+    return {'statusCode': 403, 'body': 'Forbidden'}
+
+
+# --- Message Processing ---
+def process_message(message):
+    sender = message['from']
+    msg_id = message['id']
+    msg_type = message['type']
+    timestamp = datetime.now(timezone.utc).isoformat()
+    
+    # Extract text based on message type
+    if msg_type == 'text':
+        user_text = message['text']['body']
+    elif msg_type == 'interactive':
+        # Button/list replies
+        interactive = message.get('interactive', {})
+        if 'button_reply' in interactive:
+            user_text = interactive['button_reply']['title']
+        elif 'list_reply' in interactive:
+            user_text = interactive['list_reply']['title']
+        else:
+            user_text = '[interactive message]'
+    else:
+        # For now, handle only text. Voice/image comes in Phase 2
+        send_reply(sender, "এখন শুধু text message support করি। "
+                          "Voice note আর image support শীঘ্রই আসছে! 🙏")
+        return
+    
+    # Load conversation history
+    history = get_conversation_history(sender)
+    
+    # Generate response via Bedrock
+    assistant_response = call_bedrock(user_text, history)
+    
+    # Check if response contains a document-ready signal
+    if '[DOCUMENT_READY]' in assistant_response:
+        handle_document_generation(sender, assistant_response)
+    else:
+        send_reply(sender, assistant_response)
+    
+    # Save to conversation history
+    save_message(sender, timestamp, 'user', user_text)
+    save_message(sender, timestamp + '_reply', 'assistant', assistant_response)
+
+
+# --- Bedrock ---
+SYSTEM_PROMPT = """You are ProofSheet (প্রুফশীট), a professional document assistant on WhatsApp serving users in Bangladesh. You create beautiful, properly formatted documents from conversational input.
+
+## YOUR CAPABILITIES (Phase 1):
+- Invoices & Receipts (চালান / রসিদ)
+- Business Letters (ব্যবসায়িক চিঠি)  
+- Leave Applications (ছুটির আবেদন)
+- Experience Certificates (অভিজ্ঞতা সনদ)
+- Simple Agreements (সাধারণ চুক্তিপত্র)
+- Formal Applications to authorities
+
+## LANGUAGE RULES:
+- Reply in whatever language the user writes in
+- Handle Bangla, English, and code-mixed (Banglish) naturally
+- If user writes "invoice banao" — reply in the same casual Bangla-English mix
+- If user writes formal Bangla, match that register
+- If user writes English, reply in English
+
+## CONVERSATION FLOW:
+1. Identify what document the user needs
+2. Ask for missing information — be conversational, not robotic
+3. Ask a MAXIMUM of 2-3 questions before generating
+4. Group your questions (don't ask one field at a time)
+5. Make smart assumptions for obvious things (today's date, standard formats)
+
+## WHEN YOU HAVE ENOUGH INFORMATION:
+Output your conversational reply to the user FIRST, then on a new line output:
+
+[DOCUMENT_READY]
+```json
+{document_json}
+```
+
+## DOCUMENT JSON SCHEMAS:
+
+### Invoice:
+{"type": "invoice", "data": {"from_name": "", "from_address": "", "from_phone": "", "to_name": "", "to_address": "", "items": [{"description": "", "quantity": 0, "unit": "", "rate": 0, "amount": 0}], "subtotal": 0, "delivery_charge": 0, "discount": 0, "total": 0, "paid": 0, "due": 0, "date": "", "invoice_number": "", "notes": ""}}
+
+### Business Letter:
+{"type": "letter", "data": {"from_name": "", "from_designation": "", "from_org": "", "from_address": "", "date": "", "to_name": "", "to_designation": "", "to_org": "", "to_address": "", "subject": "", "body": "", "closing": ""}}
+
+### Leave Application:
+{"type": "leave_application", "data": {"to_name": "", "to_designation": "", "org_name": "", "applicant_name": "", "applicant_designation": "", "applicant_department": "", "leave_type": "", "from_date": "", "to_date": "", "days": 0, "reason": "", "date": ""}}
+
+### Experience Certificate:
+{"type": "experience_certificate", "data": {"org_name": "", "org_address": "", "employee_name": "", "designation": "", "department": "", "joining_date": "", "leaving_date": "", "responsibilities": "", "remarks": "", "issue_date": "", "signatory_name": "", "signatory_designation": ""}}
+
+## ASSUMPTIONS YOU SHOULD MAKE:
+- Date is today unless specified
+- Currency is BDT (৳) unless specified
+- Invoice numbers: ask if they have a series, otherwise use date-based
+- If user says "amar company" — ask the company name once, remember it
+- For letters: use standard Bangladeshi formal conventions
+
+## TONE:
+- Friendly, efficient, slightly warm
+- Not robotic, not overly chatty
+- Like a competent assistant who respects the user's time
+- Use appropriate emoji sparingly (✅ for confirmations, 📄 for documents)
+
+## WHAT YOU CANNOT DO (be honest):
+- You cannot edit existing PDFs yet (coming soon)
+- You cannot process images or voice yet (coming soon)
+- If someone asks for something outside your scope, acknowledge it warmly and say it's coming"""
+
+
+def call_bedrock(user_text, history):
+    # Build messages array from history
+    messages = []
+    for msg in history[-10:]:  # Last 10 messages for context
+        messages.append({
+            "role": msg['role'],
+            "content": msg['content']
+        })
+    messages.append({"role": "user", "content": user_text})
+    
+    response = bedrock.invoke_model(
+        modelId='anthropic.claude-sonnet-4-20250514',
+        body=json.dumps({
+            "anthropic_version": "bedrock-2023-05-31",
+            "max_tokens": 2048,
+            "system": SYSTEM_PROMPT,
+            "messages": messages
+        })
+    )
+    
+    result = json.loads(response['body'].read())
+    return result['content'][0]['text']
+
+
+# --- Document Generation ---
+def handle_document_generation(sender, response):
+    # Split response into conversational part and JSON
+    parts = response.split('[DOCUMENT_READY]')
+    conversational_reply = parts[0].strip()
+    
+    # Extract JSON from the document part
+    json_part = parts[1].strip()
+    # Remove markdown code fences if present
+    json_part = json_part.replace('```json', '').replace('```', '').strip()
+    
+    try:
+        doc_data = json.loads(json_part)
+    except json.JSONDecodeError:
+        send_reply(sender, conversational_reply + 
+                   "\n\n⚠️ Document generation এ একটু সমস্যা হয়েছে। "
+                   "আবার try করুন।")
+        return
+    
+    # Generate HTML from template
+    doc_type = doc_data['type']
+    html_content = render_document(doc_type, doc_data['data'])
+    
+    # Convert to PDF
+    # For Phase 1 without WeasyPrint layer: generate HTML and send as document
+    # Full PDF generation covered in the renderer section below
+    
+    # For now: send the conversational reply
+    send_reply(sender, conversational_reply + 
+               "\n\n📄 আপনার document তৈরি হচ্ছে...")
+    
+    # Generate and send PDF
+    pdf_bytes = generate_pdf(html_content)
+    
+    if pdf_bytes:
+        # Upload to S3
+        doc_key = f"{sender}/{doc_type}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.pdf"
+        s3.put_object(
+            Bucket=DOCS_BUCKET,
+            Key=doc_key,
+            Body=pdf_bytes,
+            ContentType='application/pdf'
+        )
+        
+        # Send document via WhatsApp
+        send_document(sender, pdf_bytes, f"{doc_type}.pdf")
+    else:
+        send_reply(sender, "⚠️ PDF generation এ সমস্যা হয়েছে। "
+                          "আবার চেষ্টা করুন।")
+
+
+# --- Document Templates ---
+def render_document(doc_type, data):
+    templates = {
+        'invoice': render_invoice,
+        'letter': render_letter,
+        'leave_application': render_leave_application,
+        'experience_certificate': render_experience_certificate,
+    }
+    
+    renderer = templates.get(doc_type)
+    if renderer:
+        return renderer(data)
+    return f"<html><body><p>Unsupported document type: {doc_type}</p></body></html>"
+
+
+def render_invoice(data):
+    items_rows = ""
+    for i, item in enumerate(data.get('items', []), 1):
+        items_rows += f"""
+        <tr>
+            <td style="padding: 10px; border-bottom: 1px solid #eee;">{i}</td>
+            <td style="padding: 10px; border-bottom: 1px solid #eee;">{item['description']}</td>
+            <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: center;">{item.get('quantity', '')} {item.get('unit', '')}</td>
+            <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">৳{item.get('rate', 0):,.0f}</td>
+            <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">৳{item.get('amount', 0):,.0f}</td>
+        </tr>"""
+    
+    return f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        body {{ 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            color: #2d3748; 
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }}
+        .header {{ 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-start;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #4a90d9;
+        }}
+        .invoice-title {{ 
+            font-size: 36px; 
+            font-weight: 700; 
+            color: #4a90d9; 
+            letter-spacing: -1px;
+        }}
+        .invoice-meta {{ text-align: right; font-size: 14px; color: #718096; }}
+        .invoice-meta strong {{ color: #2d3748; }}
+        .parties {{ 
+            display: flex; 
+            justify-content: space-between; 
+            margin-bottom: 30px; 
+        }}
+        .party {{ max-width: 45%; }}
+        .party-label {{ 
+            font-size: 11px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            color: #a0aec0; 
+            margin-bottom: 5px; 
+        }}
+        .party-name {{ font-size: 16px; font-weight: 600; margin-bottom: 3px; }}
+        .party-detail {{ font-size: 13px; color: #718096; }}
+        table {{ width: 100%; border-collapse: collapse; margin-bottom: 20px; }}
+        thead {{ background: #f7fafc; }}
+        thead th {{ 
+            padding: 12px 10px; 
+            text-align: left; 
+            font-size: 11px; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+            color: #a0aec0;
+            border-bottom: 2px solid #e2e8f0;
+        }}
+        .totals {{ 
+            float: right; 
+            width: 280px; 
+            margin-top: 10px;
+        }}
+        .total-row {{ 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 8px 0; 
+            font-size: 14px;
+        }}
+        .total-row.final {{ 
+            border-top: 2px solid #4a90d9; 
+            margin-top: 8px; 
+            padding-top: 12px; 
+            font-size: 18px; 
+            font-weight: 700; 
+            color: #4a90d9;
+        }}
+        .total-row.due {{ 
+            color: #e53e3e; 
+            font-weight: 600; 
+        }}
+        .notes {{ 
+            clear: both;
+            margin-top: 60px; 
+            padding-top: 20px; 
+            border-top: 1px solid #e2e8f0; 
+            font-size: 12px; 
+            color: #a0aec0; 
+        }}
+        .footer {{
+            margin-top: 40px;
+            text-align: center;
+            font-size: 11px;
+            color: #cbd5e0;
+        }}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <div class="invoice-title">INVOICE</div>
+        </div>
+        <div class="invoice-meta">
+            <div><strong>Invoice #:</strong> {data.get('invoice_number', 'INV-001')}</div>
+            <div><strong>Date:</strong> {data.get('date', datetime.now().strftime('%d %B %Y'))}</div>
+        </div>
+    </div>
+    
+    <div class="parties">
+        <div class="party">
+            <div class="party-label">From</div>
+            <div class="party-name">{data.get('from_name', '')}</div>
+            <div class="party-detail">{data.get('from_address', '')}</div>
+            <div class="party-detail">{data.get('from_phone', '')}</div>
+        </div>
+        <div class="party">
+            <div class="party-label">To</div>
+            <div class="party-name">{data.get('to_name', '')}</div>
+            <div class="party-detail">{data.get('to_address', '')}</div>
+        </div>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 40px;">#</th>
+                <th>Description</th>
+                <th style="text-align: center;">Qty</th>
+                <th style="text-align: right;">Rate</th>
+                <th style="text-align: right;">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {items_rows}
+        </tbody>
+    </table>
+    
+    <div class="totals">
+        <div class="total-row">
+            <span>Subtotal</span>
+            <span>৳{data.get('subtotal', data.get('total', 0)):,.0f}</span>
+        </div>
+        {'<div class="total-row"><span>Delivery</span><span>৳' + f"{data.get('delivery_charge', 0):,.0f}" + '</span></div>' if data.get('delivery_charge') else ''}
+        {'<div class="total-row"><span>Discount</span><span>-৳' + f"{data.get('discount', 0):,.0f}" + '</span></div>' if data.get('discount') else ''}
+        <div class="total-row final">
+            <span>Total</span>
+            <span>৳{data.get('total', 0):,.0f}</span>
+        </div>
+        {'<div class="total-row"><span>Paid</span><span>৳' + f"{data.get('paid', 0):,.0f}" + '</span></div>' if data.get('paid') else ''}
+        {'<div class="total-row due"><span>Amount Due</span><span>৳' + f"{data.get('due', 0):,.0f}" + '</span></div>' if data.get('due') else ''}
+    </div>
+    
+    <div class="notes">
+        {f"<strong>Notes:</strong> {data.get('notes', '')}" if data.get('notes') else "Thank you for your business."}
+    </div>
+    
+    <div class="footer">
+        Generated by ProofSheet · প্রুফশীট
+    </div>
+</body>
+</html>"""
+
+
+def render_letter(data):
+    return f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {{ 
+            font-family: 'Georgia', serif; 
+            color: #1a202c; 
+            padding: 60px;
+            max-width: 750px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }}
+        .sender {{ margin-bottom: 30px; font-size: 14px; }}
+        .sender-name {{ font-weight: 700; font-size: 16px; }}
+        .date {{ margin-bottom: 30px; font-size: 14px; color: #4a5568; }}
+        .recipient {{ margin-bottom: 30px; font-size: 14px; }}
+        .subject {{ 
+            margin-bottom: 25px; 
+            font-weight: 700; 
+            font-size: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }}
+        .body-text {{ 
+            font-size: 14px; 
+            margin-bottom: 30px; 
+            text-align: justify;
+        }}
+        .body-text p {{ margin-bottom: 12px; }}
+        .closing {{ margin-top: 40px; font-size: 14px; }}
+        .signature {{ margin-top: 40px; }}
+        .signature-name {{ font-weight: 700; }}
+        .signature-detail {{ font-size: 13px; color: #718096; }}
+        .footer {{
+            margin-top: 60px;
+            text-align: center;
+            font-size: 10px;
+            color: #cbd5e0;
+            font-family: sans-serif;
+        }}
+    </style>
+</head>
+<body>
+    <div class="sender">
+        <div class="sender-name">{data.get('from_name', '')}</div>
+        <div>{data.get('from_designation', '')}</div>
+        <div>{data.get('from_org', '')}</div>
+        <div>{data.get('from_address', '')}</div>
+    </div>
+    
+    <div class="date">{data.get('date', datetime.now().strftime('%d %B %Y'))}</div>
+    
+    <div class="recipient">
+        <div><strong>{data.get('to_name', '')}</strong></div>
+        <div>{data.get('to_designation', '')}</div>
+        <div>{data.get('to_org', '')}</div>
+        <div>{data.get('to_address', '')}</div>
+    </div>
+    
+    <div class="subject">Subject: {data.get('subject', '')}</div>
+    
+    <div class="body-text">
+        {''.join(f'<p>{para}</p>' for para in data.get('body', '').split(chr(10)) if para.strip())}
+    </div>
+    
+    <div class="closing">{data.get('closing', 'Yours sincerely,')}</div>
+    
+    <div class="signature">
+        <div class="signature-name">{data.get('from_name', '')}</div>
+        <div class="signature-detail">{data.get('from_designation', '')}</div>
+        <div class="signature-detail">{data.get('from_org', '')}</div>
+    </div>
+    
+    <div class="footer">Generated by ProofSheet · প্রুফশীট</div>
+</body>
+</html>"""
+
+
+def render_leave_application(data):
+    return f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {{ 
+            font-family: 'Segoe UI', sans-serif; 
+            color: #1a202c; 
+            padding: 50px;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }}
+        .date {{ text-align: right; margin-bottom: 30px; color: #4a5568; }}
+        .to {{ margin-bottom: 25px; }}
+        .to-name {{ font-weight: 600; }}
+        .subject {{ 
+            font-weight: 700; 
+            text-align: center; 
+            margin: 25px 0;
+            text-decoration: underline;
+            font-size: 15px;
+        }}
+        .salutation {{ margin-bottom: 15px; }}
+        .body-text {{ 
+            text-align: justify; 
+            margin-bottom: 25px;
+            font-size: 14px;
+        }}
+        .sign-off {{ margin-top: 50px; }}
+        .applicant-name {{ font-weight: 600; margin-top: 30px; }}
+        .applicant-detail {{ font-size: 13px; color: #718096; }}
+        .footer {{
+            margin-top: 60px;
+            text-align: center;
+            font-size: 10px;
+            color: #cbd5e0;
+        }}
+    </style>
+</head>
+<body>
+    <div class="date">{data.get('date', datetime.now().strftime('%d %B %Y'))}</div>
+    
+    <div class="to">
+        <div class="to-name">{data.get('to_name', 'The Manager')}</div>
+        <div>{data.get('to_designation', '')}</div>
+        <div>{data.get('org_name', '')}</div>
+    </div>
+    
+    <div class="subject">Application for {data.get('leave_type', 'Leave')}</div>
+    
+    <div class="salutation">Dear Sir/Madam,</div>
+    
+    <div class="body-text">
+        I am writing to request {data.get('leave_type', 'leave').lower()} for a period of 
+        <strong>{data.get('days', '')} day(s)</strong>, from 
+        <strong>{data.get('from_date', '')}</strong> to 
+        <strong>{data.get('to_date', '')}</strong> (inclusive).
+        
+        <br><br>
+        
+        Reason: {data.get('reason', '')}
+        
+        <br><br>
+        
+        I have ensured that my pending work is up to date and have made necessary arrangements 
+        for the period of my absence. I shall be grateful if you kindly grant me the requested leave.
+    </div>
+    
+    <div class="sign-off">
+        Yours faithfully,
+        <div class="applicant-name">{data.get('applicant_name', '')}</div>
+        <div class="applicant-detail">{data.get('applicant_designation', '')}</div>
+        <div class="applicant-detail">{data.get('applicant_department', '')}</div>
+    </div>
+    
+    <div class="footer">Generated by ProofSheet · প্রুফশীট</div>
+</body>
+</html>"""
+
+
+def render_experience_certificate(data):
+    return f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {{ 
+            font-family: 'Georgia', serif; 
+            color: #1a202c; 
+            padding: 60px;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }}
+        .letterhead {{ 
+            text-align: center; 
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #2d3748;
+        }}
+        .org-name {{ 
+            font-size: 22px; 
+            font-weight: 700; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }}
+        .org-address {{ font-size: 12px; color: #718096; margin-top: 5px; }}
+        .title {{ 
+            text-align: center; 
+            font-size: 18px; 
+            font-weight: 700;
+            text-decoration: underline;
+            margin: 30px 0;
+        }}
+        .date-ref {{ 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 13px; 
+            color: #4a5568;
+            margin-bottom: 25px;
+        }}
+        .body-text {{ font-size: 14px; text-align: justify; }}
+        .body-text p {{ margin-bottom: 15px; }}
+        .signature-block {{ 
+            margin-top: 60px; 
+        }}
+        .sig-name {{ font-weight: 700; margin-top: 40px; }}
+        .sig-detail {{ font-size: 13px; color: #718096; }}
+        .footer {{
+            margin-top: 60px;
+            text-align: center;
+            font-size: 10px;
+            color: #cbd5e0;
+            font-family: sans-serif;
+        }}
+    </style>
+</head>
+<body>
+    <div class="letterhead">
+        <div class="org-name">{data.get('org_name', '')}</div>
+        <div class="org-address">{data.get('org_address', '')}</div>
+    </div>
+    
+    <div class="date-ref">
+        <span>Ref: EXP/{datetime.now().strftime('%Y/%m')}/001</span>
+        <span>Date: {data.get('issue_date', datetime.now().strftime('%d %B %Y'))}</span>
+    </div>
+    
+    <div class="title">EXPERIENCE CERTIFICATE</div>
+    
+    <div class="body-text">
+        <p>This is to certify that <strong>{data.get('employee_name', '')}</strong> 
+        was employed with <strong>{data.get('org_name', '')}</strong> as 
+        <strong>{data.get('designation', '')}</strong> in the 
+        {data.get('department', '')} department from 
+        <strong>{data.get('joining_date', '')}</strong> to 
+        <strong>{data.get('leaving_date', '')}</strong>.</p>
+        
+        <p>During this period, their responsibilities included: {data.get('responsibilities', 'performing duties associated with the role efficiently and professionally')}.</p>
+        
+        <p>{data.get('remarks', 'We found them to be sincere, hardworking, and dedicated to their responsibilities. Their conduct during the tenure was exemplary.')}</p>
+        
+        <p>We wish them all the best in their future endeavors.</p>
+    </div>
+    
+    <div class="signature-block">
+        <div>Authorized Signatory</div>
+        <div class="sig-name">{data.get('signatory_name', '')}</div>
+        <div class="sig-detail">{data.get('signatory_designation', '')}</div>
+        <div class="sig-detail">{data.get('org_name', '')}</div>
+    </div>
+    
+    <div class="footer">Generated by ProofSheet · প্রুফশীট</div>
+</body>
+</html>"""
+
+
+# --- PDF Generation ---
+def generate_pdf(html_content):
+    """
+    Phase 1 approach: Use a Lambda layer with WeasyPrint or 
+    wkhtmltopdf. See deployment notes below.
+    
+    Simplest Phase 1 alternative: return HTML as a file 
+    (still looks professional when opened in browser/viewer)
+    """
+    # For immediate deployment without a PDF layer,
+    # we can send the HTML as a document and it renders beautifully.
+    # For proper PDF, see the Lambda Layer section below.
+    return html_content.encode('utf-8')
+
+
+# --- Conversation Memory ---
+def get_conversation_history(phone_number):
+    """Get last N messages for this user"""
+    try:
+        response = CONVERSATION_TABLE.query(
+            KeyConditionExpression=boto3.dynamodb.conditions.Key('phone_number').eq(phone_number),
+            ScanIndexForward=False,  # newest first
+            Limit=20
+        )
+        items = response.get('Items', [])
+        # Reverse to chronological order
+        items.reverse()
+        return [{'role': item['role'], 'content': item['content']} for item in items]
+    except Exception:
+        return []
+
+
+def save_message(phone_number, timestamp, role, content):
+    """Save a message to conversation history"""
+    try:
+        CONVERSATION_TABLE.put_item(Item={
+            'phone_number': phone_number,
+            'timestamp': timestamp,
+            'role': role,
+            'content': content[:5000]  # Truncate very long messages
+        })
+    except Exception:
+        pass  # Non-critical — don't fail the response
+
+
+# --- WhatsApp API ---
+def send_reply(to, text):
+    """Send a text message via WhatsApp Cloud API"""
+    secrets = get_secrets()
+    url = f"https://graph.facebook.com/v21.0/{secrets['phone_number_id']}/messages"
+    
+    # WhatsApp has a 4096 character limit per message
+    if len(text) > 4000:
+        # Split into chunks
+        chunks = [text[i:i+4000] for i in range(0, len(text), 4000)]
+        for chunk in chunks:
+            _send_text(url, secrets['access_token'], to, chunk)
+    else:
+        _send_text(url, secrets['access_token'], to, text)
+
+
+def _send_text(url, token, to, text):
+    payload = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": to,
+        "type": "text",
+        "text": {"preview_url": False, "body": text}
+    }
+    
+    http.request(
+        'POST', url,
+        body=json.dumps(payload),
+        headers={
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {token}'
+        }
+    )
+
+
+def send_document(to, file_bytes, filename):
+    """
+    Send a document (PDF/HTML) via WhatsApp Cloud API.
+    
+    WhatsApp requires documents to be uploaded to their media 
+    endpoint first, then referenced by media_id in the message.
+    """
+    secrets = get_secrets()
+    
+    # Step 1: Upload media
+    upload_url = f"https://graph.facebook.com/v21.0/{secrets['phone_number_id']}/media"
+    
+    # multipart/form-data upload
+    # Using urllib3's request with fields
+    resp = http.request(
+        'POST', upload_url,
+        fields={
+            'file': (filename, file_bytes, 'application/pdf'),
+            'messaging_product': 'whatsapp',
+            'type': 'application/pdf'
+        },
+        headers={
+            'Authorization': f'Bearer {secrets["access_token"]}'
+        }
+    )
+    
+    upload_result = json.loads(resp.data)
+    media_id = upload_result.get('id')
+    
+    if not media_id:
+        # Fallback: send as text
+        send_reply(to, "⚠️ Document upload failed. Please try again.")
+        return
+    
+    # Step 2: Send document message
+    msg_url = f"https://graph.facebook.com/v21.0/{secrets['phone_number_id']}/messages"
+    payload = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": to,
+        "type": "document",
+        "document": {
+            "id": media_id,
+            "filename": filename
+        }
+    }
+    
+    http.request(
+        'POST', msg_url,
+        body=json.dumps(payload),
+        headers={
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {secrets["access_token"]}'
+        }
+    )
+```
+
+---
+
+## Part 2: API Gateway Setup
+
+In the AWS Console:
+
+1. Go to **API Gateway**
+2. Choose **HTTP API** (not REST API — simpler, cheaper)
+3. Click "Build"
+4. Integration: Lambda → select your function
+5. API name: `proofsheet-webhook`
+6. Routes:
+   - `GET /webhook` → your Lambda
+   - `POST /webhook` → your Lambda
+7. Stage: `$default` (auto-deploy)
+8. Create
+
+You'll get an invoke URL like:
+```
+https://abc123xyz.execute-api.us-east-1.amazonaws.com/webhook
+```
+
+**This is the URL you paste into Meta's webhook configuration.**
+
+In Meta Developer Dashboard:
+- WhatsApp → Configuration → Webhook
+- Callback URL: `https://abc123xyz.execute-api.us-east-1.amazonaws.com/webhook`
+- Verify token: the same string you stored in Secrets Manager
+- Subscribe to webhook field: `messages`
+
+---
+
+## Part 3: PDF Generation (The Rendering Layer)
+
+The HTML templates above produce beautiful documents when opened in any browser. But for WhatsApp, you want to send actual PDFs. Here are your options, ordered by implementation ease:
+
+### Option 1: HTML File as Document (Ship Tomorrow)
+
+Send the HTML file directly as a WhatsApp document with a `.html` extension. When the user opens it on their phone, it renders in the browser — looks perfect. Not ideal (users expect PDF) but lets you ship and get feedback immediately while you set up proper PDF generation.
+
+Change `send_document` call to use `text/html` and filename `invoice.html`.
+
+### Option 2: Lambda Layer with wkhtmltopdf (Ship in 2-3 Days)
+
+There's a well-maintained Lambda Layer for `wkhtmltopdf`:
+
+- Layer ARN (check for your region): `arn:aws:lambda:us-east-1:764866452798:layer:chrome-aws-lambda:xx`
+- Or build your own layer with the `wkhtmltopdf` binary for Amazon Linux 2023
+
+The PDF generation function becomes:
+
+```python
+import subprocess
+import tempfile
+
+def generate_pdf(html_content):
+    """Convert HTML to PDF using wkhtmltopdf in Lambda layer"""
+    with tempfile.NamedTemporaryFile(suffix='.html', delete=False) as html_file:
+        html_file.write(html_content.encode('utf-8'))
+        html_path = html_file.name
+    
+    pdf_path = html_path.replace('.html', '.pdf')
+    
+    subprocess.run([
+        '/opt/bin/wkhtmltopdf',
+        '--page-size', 'A4',
+        '--margin-top', '10mm',
+        '--margin-bottom', '10mm',
+        '--margin-left', '10mm',
+        '--margin-right', '10mm',
+        '--encoding', 'UTF-8',
+        html_path,
+        pdf_path
+    ], check=True, capture_output=True)
+    
+    with open(pdf_path, 'rb') as f:
+        return f.read()
+```
+
+### Option 3: Separate Renderer Lambda with Container Image (Most Robust)
+
+Package WeasyPrint (better CSS support, better typography) in a Lambda container image:
+
+```dockerfile
+FROM public.ecr.aws/lambda/python:3.12
+
+RUN yum install -y pango cairo gdk-pixbuf2 libffi-devel
+RUN pip install weasyprint
+
+COPY lambda_renderer.py ${LAMBDA_TASK_ROOT}/
+CMD ["lambda_renderer.lambda_handler"]
+```
+
+This is the production path. WeasyPrint handles:
+- Proper fonts (including Bengali fonts — install Noto Sans Bengali in the container)
+- CSS flexbox/grid properly
+- Page breaks correctly
+- Print-quality PDF output
+
+**My recommendation:** Ship with Option 1 (HTML) today, move to Option 2 (wkhtmltopdf layer) within the first week, and move to Option 3 (WeasyPrint container) when you have paying users and want Bengali-text PDFs to look perfect.
+
+---
+
+## Part 4: Testing Checklist
+
+Once everything is deployed, test these scenarios:
+
+```
+□ Send "hi" — should get a greeting explaining capabilities
+□ Send "invoice banao" — should start asking questions
+□ Send all invoice details in one message — should generate immediately  
+□ Send in Bangla: "একটা চিঠি লিখতে হবে" — should reply in Bangla
+□ Send code-mixed: "leave application lagbe boss ke" — should handle naturally
+□ Send an incomplete request, answer follow-ups, get document
+□ Send a modification request after receiving document
+□ Send gibberish — should handle gracefully
+□ Send nothing for 25 hours, then message again — should still work (new conversation window)
+```
+
+---
+
+## Technical Brief: Advanced Features (Phase 2-3)
+
+### Voice Notes (Phase 2, Week 3-4)
+
+```
+Architecture:
+WhatsApp voice note (.ogg) 
+  → Lambda downloads via Media API 
+  → Upload to S3 
+  → Amazon Transcribe (language: bn-IN or en-US, auto-detect)
+  → Transcribed text → same Bedrock pipeline as text messages
+
+Key decisions:
+- Transcribe supports Bengali (bn-IN) — confirmed
+- Use StartTranscriptionJob (async) for notes >15 seconds
+- Use streaming for shorter notes if latency matters
+- Store transcription in DynamoDB alongside the message
+- Reply should acknowledge: "আপনার voice note থেকে বুঝলাম: [summary]. Document বানাচ্ছি..."
+
+Cost: $0.024/minute. Negligible.
+
+Lambda addition to process_message():
+  elif msg_type == 'audio':
+      media_id = message['audio']['id']
+      audio_url = get_media_url(media_id)  # Call WhatsApp media endpoint
+      audio_bytes = download_media(audio_url)
+      # Upload to S3, trigger Transcribe, wait for result
+      user_text = transcribe_audio(audio_bytes)
+```
+
+### Image/Document Input (Phase 2)
+
+```
+Architecture:
+User sends photo of a form / existing document
+  → Lambda downloads image
+  → Amazon Textract (DetectDocumentText or AnalyzeDocument)
+  → Extracted text → Bedrock interprets what the user wants
+  → Generates new/modified document
+
+Use cases:
+- "এই form টা fill up করো" + photo of blank form
+- Photo of handwritten notes → typed document
+- Photo of old invoice → regenerate cleanly
+- Photo of a reference letter → "এরকম একটা বানাও আমার জন্য"
+
+Textract supports: printed text in any Latin/Bengali script
+AnalyzeDocument: detects tables, forms (key-value pairs)
+```
+
+### User Profiles & Stored Templates (Phase 2)
+
+```
+DynamoDB table: proofsheet_users
+
+PK: phone_number
+Attributes:
+  - name: "Rashid Ahmed"
+  - business_name: "Rashid Textiles"
+  - business_address: "12 Gulshan Avenue, Dhaka"
+  - phone: "+8801XXXXXXXXX"
+  - logo_s3_key: "users/+880.../logo.png"
+  - invoice_series: "RT-" (auto-increment: RT-001, RT-002...)
+  - letterhead_template: "formal_blue"
+  - preferred_language: "mixed" | "bn" | "en"
+
+Impact:
+- Second invoice onwards: "Rahim Textiles ke invoice, 
+  same items as last time but quantity 600"
+  → Bot already knows from_name, from_address, series number
+  → Only asks for what's different
+  
+- "Amar usual letterhead e ekta letter likho"
+  → Uses stored template preference
+```
+
+### Scheduled/Recurring Documents (Phase 3)
+
+```
+Architecture:
+EventBridge Scheduler → Lambda → Generate → Send via WhatsApp
+
+Use case:
+- Monthly rent receipts (same details, new date)
+- Weekly inventory summary
+- Monthly salary slips for a small business with 5-10 staff
+
+User sets up once: "every month 1 tarikhe Rahim er rent receipt 
+pathao — amount 25000, flat 4B"
+
+EventBridge rule fires monthly → generates → sends to user 
+(who forwards to tenant)
+```
+
+### Multi-Page Documents (Phase 3)
+
+```
+For longer documents (agreements, proposals):
+- WeasyPrint handles page breaks natively via CSS
+- @page rules for headers/footers/page numbers
+- Table of contents generation for 5+ page docs
+
+CSS addition:
+  @page { 
+    margin: 2cm; 
+    @bottom-center { content: "Page " counter(page) " of " counter(pages); }
+  }
+  h2 { page-break-before: always; }
+```
+
+### Analytics Dashboard (Phase 3 — Optional)
+
+```
+What you'd track:
+- Documents generated per user per week
+- Most common document types
+- Average conversation turns before generation
+- Voice vs text input ratio
+- Language distribution
+- Drop-off points (started but didn't complete)
+
+Stack: DynamoDB streams → Lambda → S3 (aggregated) → QuickSight
+Or simpler: weekly Lambda that queries DynamoDB, generates a 
+summary, emails you.
+```
+
+---
+
+## Deployment Summary
+
+What you're deploying today:
+
+| Component | AWS Service | Status |
+|---|---|---|
+| Webhook endpoint | API Gateway (HTTP API) | Create after Meta setup |
+| Message handler | Lambda (Python 3.12) | Code above — deploy as-is |
+| AI brain | Bedrock (Claude Sonnet) | Already have access |
+| Conversation memory | DynamoDB | One table, on-demand billing |
+| Document storage | S3 | One bucket |
+| Secrets | Secrets Manager | One secret (WhatsApp credentials) |
+| PDF rendering | Lambda Layer (wkhtmltopdf) or HTML initially | Ship HTML first, upgrade in week 1 |
+
+**Total monthly cost at zero usage:** ~$0.40 (Secrets Manager) + $0 (everything else is pay-per-use)
+
+**Total monthly cost at 100 users, 500 documents:** ~$15-25 AWS + $30-50 Meta conversation fees
+
+Go set up the Meta side. When you're back with the Phone Number ID and token, we'll wire it live.
